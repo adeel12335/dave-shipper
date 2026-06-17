@@ -1,0 +1,136 @@
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0F1C2E;font-family:Arial,sans-serif;color:#fff;}
+.wrap{max-width:780px;margin:0 auto;padding:24px 16px 60px;}
+.top{background:#0A1525;padding:12px 20px;border-bottom:1px solid #C9A96E33;margin-bottom:24px;}
+.logo{font-size:18px;font-weight:900;color:#fff;letter-spacing:2px;}
+.logo span{color:#C9A96E;}
+.card{background:#0A1525;border:1px solid #C9A96E33;border-radius:8px;padding:20px;margin-bottom:20px;}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #C9A96E22;}
+.num{width:32px;height:32px;border-radius:50%;background:#C9A96E;color:#0F1C2E;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.title{font-size:15px;font-weight:700;color:#fff;}
+.sub{font-size:10px;color:#C9A96E;letter-spacing:2px;}
+.g{margin-bottom:14px;}
+.g label{display:block;font-size:10px;color:#C9A96E;letter-spacing:1px;margin-bottom:5px;font-weight:700;}
+.g select{width:100%;background:#0F1C2E;border:1px solid #C9A96E33;border-radius:3px;padding:8px 10px;color:#fff;font-size:12px;}
+.g select option{background:#0F1C2E;}
+.g input[type=text]{width:100%;background:#0F1C2E;border:1px solid #C9A96E33;border-radius:3px;padding:8px 10px;color:#fff;font-size:12px;}
+.gtxt{width:100%;background:#0F1C2E;border:1px solid #C9A96E33;border-radius:3px;padding:8px 10px;color:#fff;font-size:12px;height:65px;resize:vertical;display:block;}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;}
+.ci{display:flex;align-items:center;gap:6px;}
+.ci input{width:13px;height:13px;accent-color:#C9A96E;flex-shrink:0;}
+.ci span{font-size:12px;color:#A0B4C8;}
+.rg{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+.ri{display:flex;align-items:center;gap:6px;}
+.ri input{width:13px;height:13px;accent-color:#C9A96E;flex-shrink:0;}
+.ri span{font-size:12px;color:#A0B4C8;}
+.btn{background:#C9A96E;color:#0F1C2E;font-size:15px;font-weight:900;padding:14px;border-radius:4px;border:none;cursor:pointer;width:100%;}
+.note{font-size:11px;color:#5A7A9A;text-align:center;margin-top:10px;}
+.foot{background:#060E18;padding:20px;text-align:center;border-top:1px solid #C9A96E22;margin-top:24px;}
+.foot p{font-size:11px;color:#5A7A9A;margin-top:4px;}
+</style>
+
+<div class="top"><div class="logo">CAMION<span>RECRUTE</span>.COM — Company Form · Sections 9 to 12</div></div>
+
+<div class="wrap">
+
+<!-- 9 -->
+<div class="card">
+  <div class="head"><div class="num">9</div><div><div class="title">Challenges & History</div><div class="sub">YOUR CURRENT SITUATION</div></div></div>
+  <div class="g"><label>WHY ARE YOU LOOKING FOR A DRIVER?</label><select><option>Expansion — new position</option><option>Replacement — voluntary departure</option><option>Replacement — termination</option><option>Sick / maternity leave</option><option>High turnover</option><option>Other</option></select></div>
+  <div class="row">
+    <div class="g"><label>ANNUAL TURNOVER RATE</label><select><option>Low — less than 10%</option><option>Average — 10-25%</option><option>High — 25-50%</option><option>Very high — 50%+</option></select></div>
+    <div class="g"><label>USED AN AGENCY BEFORE?</label><select><option>No — first time</option><option>Yes — good experience</option><option>Yes — bad experience</option></select></div>
+  </div>
+  <div class="g"><label>MAIN REASONS FOR PAST DEPARTURES</label><textarea class="gtxt" placeholder="Ex: salary, schedule, distance, behavioral issues..."></textarea></div>
+  <div class="g"><label>WHAT DIDN'T WORK WITH PREVIOUS DRIVERS?</label><textarea class="gtxt" placeholder="Be honest — it helps us find the right match..."></textarea></div>
+  <div class="g"><label>YOUR BIGGEST RECRUITMENT CHALLENGES</label><textarea class="gtxt" placeholder="Ex: lack of qualified candidates, high turnover..."></textarea></div>
+</div>
+
+<!-- 10 -->
+<div class="card">
+  <div class="head"><div class="num">10</div><div><div class="title">The Perfect Match</div><div class="sub">YOUR IDEAL DRIVER</div></div></div>
+  <div class="g"><label>DESCRIBE YOUR IDEAL DRIVER</label><textarea class="gtxt" placeholder="Experience, personality, values, work attitude..."></textarea></div>
+  <div class="g"><label>MOST IMPORTANT HUMAN QUALITIES</label>
+    <div class="cg">
+      <div class="ci"><input type="checkbox"/><span>Punctuality</span></div>
+      <div class="ci"><input type="checkbox"/><span>Autonomy</span></div>
+      <div class="ci"><input type="checkbox"/><span>Communication</span></div>
+      <div class="ci"><input type="checkbox"/><span>Reliability</span></div>
+      <div class="ci"><input type="checkbox"/><span>Respect for deadlines</span></div>
+      <div class="ci"><input type="checkbox"/><span>Care for the vehicle</span></div>
+      <div class="ci"><input type="checkbox"/><span>Team spirit</span></div>
+      <div class="ci"><input type="checkbox"/><span>Flexibility</span></div>
+      <div class="ci"><input type="checkbox"/><span>Respect for rules</span></div>
+      <div class="ci"><input type="checkbox"/><span>Vehicle cleanliness</span></div>
+    </div>
+  </div>
+  <div class="g"><label>DEAL BREAKERS</label><textarea class="gtxt" placeholder="Ex: points on license, lack of specific experience..."></textarea></div>
+  <div class="g"><label>WILLING TO TRAIN A LESS EXPERIENCED CANDIDATE?</label>
+    <div class="rg">
+      <div class="ri"><input type="radio" name="train"/><span>Yes — if good potential</span></div>
+      <div class="ri"><input type="radio" name="train"/><span>No — experience required</span></div>
+      <div class="ri"><input type="radio" name="train"/><span>Depends on the candidate</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="card">
+  <div class="head"><div class="num">11</div><div><div class="title">Why Choose Your Company</div><div class="sub">YOUR VALUE AS AN EMPLOYER</div></div></div>
+  <div class="g"><label>WHY SHOULD A DRIVER CHOOSE YOU?</label><textarea class="gtxt" placeholder="What sets you apart as an employer, your strengths..."></textarea></div>
+  <div class="g"><label>WHAT MAKES YOU DIFFERENT FROM OTHER EMPLOYERS?</label><textarea class="gtxt" placeholder="Recent equipment, good routes, atmosphere, competitive salary..."></textarea></div>
+  <div class="g"><label>CERTIFICATIONS / RECOGNITIONS</label><input type="text" placeholder="Ex: CVOR, ISO certifications, industry awards..."/></div>
+  <div class="row">
+    <div class="g"><label>TESTIMONIALS FROM SATISFIED DRIVERS?</label>
+      <div class="rg">
+        <div class="ri"><input type="radio" name="tm"/><span>Yes</span></div>
+        <div class="ri"><input type="radio" name="tm"/><span>No</span></div>
+      </div>
+    </div>
+    <div class="g"><label>MEMBER OF A TRANSPORT ASSOCIATION?</label>
+      <div class="rg">
+        <div class="ri"><input type="radio" name="assoc"/><span>Yes</span></div>
+        <div class="ri"><input type="radio" name="assoc"/><span>No</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="g"><label>IF YES, WHICH ONE?</label><input type="text" placeholder="Ex: CTA, OTA, PMCA..."/></div>
+</div>
+
+<!-- 12 -->
+<div class="card">
+  <div class="head"><div class="num">12</div><div><div class="title">Process & Follow-up</div><div class="sub">HOW WE WORK TOGETHER</div></div></div>
+  <div class="g"><label>YOUR INTERVIEW PROCESS</label>
+    <div class="cg">
+      <div class="ci"><input type="checkbox"/><span>Phone interview</span></div>
+      <div class="ci"><input type="checkbox"/><span>In-person interview</span></div>
+      <div class="ci"><input type="checkbox"/><span>Driving test</span></div>
+      <div class="ci"><input type="checkbox"/><span>Reference check</span></div>
+      <div class="ci"><input type="checkbox"/><span>Drug testing</span></div>
+      <div class="ci"><input type="checkbox"/><span>Record verification</span></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="g"><label>DECISION TIMELINE AFTER INTERVIEW</label><select><option>24-48 hours</option><option>1 week</option><option>2 weeks</option><option>Variable</option></select></div>
+    <div class="g"><label>PREFERRED CONTACT METHOD</label><select><option>Phone</option><option>Email</option><option>Text</option><option>No preference</option></select></div>
+  </div>
+  <div class="row">
+    <div class="g"><label>BEST TIME TO REACH YOU</label><input type="text" placeholder="Ex: Mon-Fri, 8am-5pm"/></div>
+    <div class="g"><label>FOLLOW-UP CONTACT PERSON</label><input type="text" placeholder="Name and title"/></div>
+  </div>
+  <div class="g"><label>HOW DID YOU HEAR ABOUT US?</label><select><option>Google search</option><option>Social media</option><option>Word of mouth</option><option>Online advertising</option><option>Other</option></select></div>
+  <div class="g"><label>ADDITIONAL INFORMATION</label><textarea class="gtxt" placeholder="Anything that could help us find the perfect candidate..."></textarea></div>
+</div>
+
+<button class="btn">Submit My Request</button>
+<p class="note">Our team will contact you within 24 hours. No charge if we don't find your candidate. 30-day guarantee included.</p>
+
+</div>
+
+<div class="foot">
+  <div class="logo">CAMION<span>RECRUTE</span>.COM</div>
+  <p>© 2026 CamionRecrute.com — All rights reserved</p>
+  <p>The right drivers. The right opportunities.</p>
+</div>

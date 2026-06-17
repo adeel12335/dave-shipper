@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no,email=no">
+<title>CamionRecrute.com — Trouvez votre prochaine opportunité de conduite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; background: #ECECEE; color: #1a1a1a; }
+  ::selection { background: #d4a03c; color: #0a1420; }
+  a { color: inherit; }
+
+  .btn-gold { background: #d4a03c; color: #0a1420; text-decoration: none; transition: background .14s ease-out, transform .14s ease-out; }
+  .btn-gold:hover { background: #e5b454; }
+  .btn-gold-lift:hover { background: #e5b454; transform: translateY(-2px); }
+
+  .social { transition: background .14s ease-out, color .14s ease-out; }
+  .social:hover { background: #d4a03c; color: #0a1420; }
+
+  /* HERO */
+  .hero { position: relative; background: #0a1420; overflow: hidden; }
+  .hero-sky { position: absolute; inset: 0; background:
+      radial-gradient(120% 90% at 78% 38%, rgba(245,178,70,0.55) 0%, rgba(212,140,46,0.30) 26%, rgba(20,32,48,0) 58%),
+      linear-gradient(180deg, #1a2c3f 0%, #14222f 42%, #0a1420 100%); }
+  .hero-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(180deg, rgba(8,16,26,0) 0%, rgba(8,16,26,0.85) 70%, #08101a 100%); }
+  .hero-mtn { position: absolute; left: 0; bottom: 38%; width: 46%; height: 30%; background: linear-gradient(180deg, rgba(8,14,22,0) 0%, rgba(8,14,22,0.6) 100%); clip-path: polygon(0 100%, 8% 55%, 18% 78%, 30% 40%, 44% 72%, 58% 30%, 72% 68%, 100% 48%, 100% 100%); opacity: .7; }
+  .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  nav.topnav { display: flex; align-items: center; justify-content: space-between; padding: 24px 0; }
+  .logo-mark { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #d4a03c; display: flex; align-items: center; justify-content: center; }
+
+  .hero-content { text-align: center; padding: 70px 0 130px; }
+  .hero-content h1 { font-size: 64px; font-weight: 800; line-height: 1.08; color: #fff; letter-spacing: -1.5px; text-shadow: 0 2px 24px rgba(0,0,0,.45); }
+  .hero-content p { max-width: 540px; margin: 32px auto 0; font-size: 19px; line-height: 1.6; color: rgba(255,255,255,.88); }
+
+  section { padding: 90px 40px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  .eyebrow { font-size: 16px; font-weight: 700; letter-spacing: 1px; color: #d4a03c; margin-top: 14px; }
+  .underline { width: 48px; height: 3px; background: #d4a03c; margin: 16px auto 0; border-radius: 2px; }
+
+  /* STEPS */
+  .steps { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 60px; }
+  .step { flex: 1; max-width: 240px; }
+  .step-circle { position: relative; width: 96px; height: 96px; margin: 0 auto; background: #d4a03c; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .step-num { position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; background: #14222f; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; }
+  .step h3 { font-size: 19px; font-weight: 700; color: #14222f; margin-top: 24px; }
+  .step p { font-size: 15px; line-height: 1.6; color: #555; margin-top: 12px; }
+  .arrow { padding-top: 44px; flex: 0 0 60px; }
+
+  /* WHY */
+  .why { background: #0a1420; }
+  .why h2 { color: #fff; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .card { background: rgba(255,255,255,.025); border: 1px solid rgba(212,160,60,.2); border-radius: 12px; padding: 40px 28px; text-align: center; }
+  .card-icon { width: 76px; height: 76px; margin: 0 auto; border: 2px solid #d4a03c; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .card h3 { font-size: 21px; font-weight: 700; color: #fff; margin-top: 24px; }
+  .card p { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.65); margin-top: 14px; }
+
+  /* FOOTER */
+  footer { background: #0a1420; padding: 60px 40px 40px; }
+  .foot-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; align-items: start; }
+  .foot-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,.55); margin-bottom: 18px; }
+  .foot-row { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.85); font-size: 15px; }
+  .social { width: 44px; height: 44px; border: 2px solid #d4a03c; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4a03c; text-decoration: none; }
+  .foot-bottom { max-width: 1000px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.1); text-align: center; font-size: 14px; color: rgba(255,255,255,.5); }
+
+  @media (max-width: 860px) {
+    .hero-content h1 { font-size: 42px; }
+    .steps { flex-direction: column; align-items: center; gap: 40px; }
+    .arrow { display: none; }
+    .step { max-width: 340px; text-align: center; }
+    .cards { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+    nav.topnav { flex-direction: column; gap: 20px; }
+    section { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-sky"></div>
+    <div class="hero-ground"></div>
+    <div class="hero-mtn"></div>
+
+    <div class="hero-inner">
+      <nav class="topnav">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="logo-mark"><span style="font-weight:900;font-size:22px;color:#fff;letter-spacing:-1px;">C<span style="color:#d4a03c;">R</span></span></div>
+          <div>
+            <div style="font-weight:900;font-size:20px;color:#fff;letter-spacing:-.5px;line-height:1;">CAMION<span style="color:#d4a03c;">RECRUTE</span><span style="font-size:12px;vertical-align:text-top;color:#d4a03c;">.COM</span></div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.7);margin-top:4px;">LES BONS CHAUFFEURS. LES BONNES OPPORTUNITÉS.</div>
+          </div>
+        </div>
+        <a href="#postuler" class="btn-gold" style="font-weight:700;font-size:15px;padding:16px 28px;border-radius:6px;">Postuler maintenant</a>
+      </nav>
+
+      <div class="hero-content">
+        <h1>Trouvez votre<br><span style="color:#d4a03c;">prochaine opportunité</span><br>de conduite</h1>
+        <p>CamionRecrute.com connecte les meilleurs chauffeurs professionnels aux meilleures entreprises du Québec.</p>
+        <a href="#postuler" class="btn-gold btn-gold-lift" style="display:inline-flex;align-items:center;gap:12px;margin-top:40px;font-weight:700;font-size:18px;padding:20px 40px;border-radius:8px;box-shadow:0 8px 28px rgba(212,160,60,.35);">
+          Déposer ma candidature
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section>
+    <div class="wrap" style="text-align:center;">
+      <h2 style="font-size:42px;font-weight:800;color:#14222f;letter-spacing:-1px;">Comment ça fonctionne?</h2>
+      <div class="eyebrow">3 ÉTAPES SIMPLES</div>
+      <div class="underline"></div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-circle">
+            <div class="step-num">1</div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#14222f" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><circle cx="10" cy="13" r="2"></circle><path d="M8 18c0-1.5 1-2.5 2-2.5s2 1 2 2.5"></path></svg>
+          </div>
+          <h3>Remplissez le formulaire</h3>
+          <p>Partagez votre expérience, votre classe de permis et vos préférences de poste.</p>
+        </div>
+        <div class="arrow">
+          <svg width="60" height="24" viewBox="0 0 60 24" fill="none" stroke="#d4a03c" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="12" x2="46" y2="12" stroke-dasharray="6 7"></line><polyline points="44 6 54 12 44 18"></polyline></svg>
+        </div>
+        <div class="step">
+          <div class="step-circle">
+            <div class="step-num">2</div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#14222f" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="8" r="4"></circle><path d="M5 21v-1a6 6 0 0 1 9-5.2"></path><circle cx="17" cy="17" r="3"></circle><line x1="19.5" y1="19.5" x2="22" y2="22"></line></svg>
+          </div>
+          <h3>On analyse votre profil</h3>
+          <p>Notre équipe évalue votre candidature et identifie les meilleures opportunités pour vous.</p>
+        </div>
+        <div class="arrow">
+          <svg width="60" height="24" viewBox="0 0 60 24" fill="none" stroke="#d4a03c" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="12" x2="46" y2="12" stroke-dasharray="6 7"></line><polyline points="44 6 54 12 44 18"></polyline></svg>
+        </div>
+        <div class="step">
+          <div class="step-circle">
+            <div class="step-num">3</div>
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#14222f" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l3-3 3 3M9 11l3 3 3-3 3 3"></path><path d="M21 13l-4 4-2-2"></path></svg>
+          </div>
+          <h3>On vous place</h3>
+          <p>Nous vous mettons en contact avec les entreprises qui correspondent à votre profil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY CHOOSE US ===== -->
+  <section class="why">
+    <div class="wrap" style="text-align:center;">
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-.8px;">Pourquoi choisir CamionRecrute.com?</h2>
+      <div class="eyebrow" style="font-size:15px;">NOTRE DIFFÉRENCE</div>
+      <div class="underline"></div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d4a03c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h11v9H1z"></path><path d="M12 10h5l3 3v3h-8z"></path><circle cx="5" cy="18" r="1.6"></circle><circle cx="16" cy="18" r="1.6"></circle></svg>
+          </div>
+          <h3>Spécialisé transport</h3>
+          <p>100% dédié au recrutement de chauffeurs. Classe 1, 3, livraison, longue distance — on connaît votre métier.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d4a03c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
+          <h3>Rapide et efficace</h3>
+          <p>Processus simplifié. Remplissez le formulaire en 5 minutes et notre équipe vous contacte rapidement.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d4a03c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <h3>Confidentiel</h3>
+          <p>Votre candidature est traitée avec discrétion. Vos informations ne sont jamais partagées sans votre consentement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPLY CTA ===== -->
+  <section id="postuler" style="text-align:center;">
+    <div style="max-width:720px;margin:0 auto;">
+      <h2 style="font-size:40px;font-weight:800;color:#14222f;letter-spacing:-.8px;">Postulez maintenant</h2>
+      <div style="font-size:17px;font-weight:700;letter-spacing:.5px;color:#d4a03c;margin-top:14px;">C'EST GRATUIT ET SANS ENGAGEMENT</div>
+      <p style="font-size:17px;line-height:1.6;color:#444;margin-top:28px;">Remplissez le formulaire ci-dessous. Notre équipe vous contactera dans les 24-48 heures.</p>
+      <a href="#" class="btn-gold btn-gold-lift" style="display:inline-flex;align-items:center;gap:14px;margin-top:36px;font-weight:700;font-size:19px;padding:22px 44px;border-radius:8px;box-shadow:0 8px 28px rgba(212,160,60,.3);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        Accéder au formulaire de candidature
+      </a>
+      <p style="font-size:13px;line-height:1.6;color:#888;margin:36px auto 0;max-width:560px;">En soumettant votre candidature, vous acceptez que CamionRecrute.com traite vos informations dans le cadre de votre recherche d'emploi.</p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="foot-grid">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="logo-mark"><span style="font-weight:900;font-size:22px;color:#fff;letter-spacing:-1px;">C<span style="color:#d4a03c;">R</span></span></div>
+        <div>
+          <div style="font-weight:900;font-size:19px;color:#fff;letter-spacing:-.5px;line-height:1;">CAMION<span style="color:#d4a03c;">RECRUTE</span><span style="font-size:11px;vertical-align:text-top;color:#d4a03c;">.COM</span></div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5;">LES BONS CHAUFFEURS.<br>LES BONNES OPPORTUNITÉS.</div>
+        </div>
+      </div>
+      <div>
+        <div class="foot-label">CONTACT</div>
+        <div class="foot-row" style="margin-bottom:12px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a03c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          514 265-4285
+        </div>
+        <div class="foot-row">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a03c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>
+          <a href="/cdn-cgi/l/email-protection#224b4c444d6241434f4b4d4c504741505756470c414d4f" style="color:rgba(255,255,255,.85);text-decoration:none;"><span class="__cf_email__" data-cfemail="bed7d0d8d1fedddfd3d7d1d0ccdbddcccbcadb90ddd1d3">[email&#160;protected]</span></a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-label">SUIVEZ-NOUS</div>
+        <div style="display:flex;gap:14px;">
+          <a href="#" class="social"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+          <a href="#" class="social"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v13H.2zM8 8h4.41v1.78h.06c.61-1.16 2.1-2.38 4.33-2.38 4.63 0 5.49 3.05 5.49 7.01V21h-4.6v-5.7c0-1.36-.02-3.1-1.89-3.1-1.89 0-2.18 1.48-2.18 3v5.8H8z"></path></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2024 CamionRecrute — Tous droits réservés.</div>
+  </footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
