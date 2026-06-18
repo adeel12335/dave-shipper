@@ -1,37 +1,19 @@
 /* ============================================================
    CamionRecrute.com — landing page behaviour
-   loader · language · scroll reveal · contact info · lead form
+   loader · scroll reveal · lead form submission
+   (header/footer/mobile-menu/i18n handled by layout.js)
    ============================================================ */
 
 (function () {
-  // ---- language ----
-  if (window.CR && window.CR.applyLang) window.CR.applyLang(window.CR.getLang());
-
-  // ---- contact info from config ----
-  document.addEventListener("DOMContentLoaded", function () {
-    var cfg = window.CR_CONFIG || {};
-    var phoneEl = document.getElementById("footPhone");
-    var emailEl = document.getElementById("footEmail");
-    if (phoneEl && cfg.CONTACT_PHONE) {
-      phoneEl.textContent = cfg.CONTACT_PHONE;
-      phoneEl.href = "tel:" + cfg.CONTACT_PHONE.replace(/[^\d+]/g, "");
-    }
-    if (emailEl && cfg.CONTACT_EMAIL) {
-      emailEl.textContent = cfg.CONTACT_EMAIL;
-      emailEl.href = "mailto:" + cfg.CONTACT_EMAIL;
-    }
-    var yr = document.getElementById("year");
-    if (yr) yr.textContent = new Date().getFullYear();
-
-    initReveal();
-    initLeadForm();
-    initMobileMenu();
-  });
-
   // ---- loader hide ----
   window.addEventListener("load", function () {
     var loader = document.getElementById("cr-loader");
     if (loader) setTimeout(function () { loader.classList.add("hide"); }, 450);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initReveal();
+    initLeadForm();
   });
 
   // ---- scroll reveal ----
@@ -47,23 +29,6 @@
       });
     }, { threshold: 0.12 });
     els.forEach(function (e) { io.observe(e); });
-  }
-
-  // ---- mobile menu ----
-  function initMobileMenu() {
-    var toggle = document.getElementById("menuToggle");
-    var menu = document.getElementById("mobileMenu");
-    var overlay = document.getElementById("mobileOverlay");
-    var close = document.getElementById("menuClose");
-    if (!toggle || !menu) return;
-
-    function open() { menu.classList.add("open"); document.body.style.overflow = "hidden"; }
-    function shut() { menu.classList.remove("open"); document.body.style.overflow = ""; }
-
-    toggle.addEventListener("click", open);
-    if (close) close.addEventListener("click", shut);
-    if (overlay) overlay.addEventListener("click", shut);
-    menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", shut); });
   }
 
   // ---- company lead form -> Supabase ----
@@ -122,7 +87,6 @@
             return res;
           });
       }
-      // Not configured yet — don't lose the lead silently.
       return Promise.reject(new Error("Supabase not configured (js/config.js)."));
     }
   }

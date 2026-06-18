@@ -12,37 +12,7 @@
 </head>
 <body class="form-page">
 
-  <!-- NAV -->
-  <header class="topbar on-light">
-    <div class="wrap nav">
-      <a class="brand" href="../index.html"><img src="../images/logo.png" alt="CamionRecrute.com" /></a>
-      <div class="nav-links">
-        <a href="../index.html" data-i18n="nav.home">Home</a>
-        <a href="driver-form.html" class="active" data-i18n="nav.driverForm">Driver Form</a>
-        <a href="company-form-fr.html" data-i18n="nav.companyForm">Company Form</a>
-      </div>
-      <div class="nav-actions">
-        <button class="lang-btn" data-lang-toggle onclick="CR.toggleLang(); CRForm.relabel();">EN</button>
-        <a class="btn btn-sm" href="../index.html" data-i18n="nav.apply">Apply now</a>
-        <button class="hamburger" id="menuToggle" aria-label="Menu">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-    <div class="mobile-panel">
-      <button class="mobile-close" id="menuClose" aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <a href="../index.html" data-i18n="nav.home">Home</a>
-      <a href="driver-form.html" class="active" data-i18n="nav.driverForm">Driver Form</a>
-      <a href="company-form-fr.html" data-i18n="nav.companyForm">Company Form</a>
-    </div>
-  </div>
+  <div id="site-header"></div>
 
   <!-- PROGRESS -->
   <div class="progress">
@@ -62,26 +32,16 @@
     <div id="crform-root"></div>
   </div>
 
+  <div id="site-footer"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/config.js"></script>
   <script src="../js/i18n.js"></script>
   <script src="../js/supabase-client.js"></script>
+  <script src="../js/layout.js"></script>
   <script src="../js/form-renderer.js"></script>
   <script>
   CR.applyLang(CR.getLang());
-
-  // mobile menu
-  (function(){
-    var toggle=document.getElementById("menuToggle"),menu=document.getElementById("mobileMenu"),
-        overlay=document.getElementById("mobileOverlay"),close=document.getElementById("menuClose");
-    if(!toggle||!menu)return;
-    function open(){menu.classList.add("open");document.body.style.overflow="hidden"}
-    function shut(){menu.classList.remove("open");document.body.style.overflow=""}
-    toggle.addEventListener("click",open);
-    if(close)close.addEventListener("click",shut);
-    if(overlay)overlay.addEventListener("click",shut);
-    menu.querySelectorAll("a").forEach(function(a){a.addEventListener("click",shut)});
-  })();
 
   var EQUIP = [
     {label:{fr:"Dry Van",en:"Dry Van"}},{label:{fr:"Reefer",en:"Reefer"}},{label:{fr:"Flatbed",en:"Flatbed"}},

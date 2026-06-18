@@ -1,371 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no,email=no" />
+<title>CamionRecrute.com — Formulaire Entreprise</title>
+<link rel="icon" href="../images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css" />
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:#0F1C2E;font-family:Arial,sans-serif;color:#fff;}
-.nav{background:#0A1525;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #C9A96E33;}
-.nav-logo{font-size:22px;font-weight:900;letter-spacing:2px;color:#fff;}
-.nav-logo span{color:#C9A96E;}
-.nav-tagline{font-size:11px;color:#C9A96E;letter-spacing:2px;}
-.hero{padding:50px 40px;text-align:center;border-bottom:1px solid #C9A96E22;background:#0A1525;}
-.hero h1{font-size:32px;font-weight:900;color:#fff;margin-bottom:12px;}
-.hero h1 span{color:#C9A96E;}
-.hero p{font-size:15px;color:#A0B4C8;max-width:600px;margin:0 auto;}
-.form-container{max-width:800px;margin:40px auto;padding:0 20px 60px;}
-.section-card{background:#0A1525;border:1px solid #C9A96E33;border-radius:12px;padding:32px;margin-bottom:24px;}
-.section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #C9A96E22;}
-.section-num{width:36px;height:36px;border-radius:50%;background:#C9A96E;color:#0F1C2E;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.section-title{font-size:17px;font-weight:700;color:#fff;}
-.section-sub{font-size:11px;color:#C9A96E;letter-spacing:2px;margin-top:2px;}
-.form-group{margin-bottom:18px;}
-.form-group label{display:block;font-size:12px;color:#C9A96E;letter-spacing:1px;margin-bottom:8px;font-weight:700;}
-.form-group input,.form-group select,.form-group textarea{width:100%;background:#0F1C2E;border:1px solid #C9A96E33;border-radius:4px;padding:11px 14px;color:#fff;font-size:14px;transition:border 0.2s;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#C9A96E;}
-.form-group textarea{height:90px;resize:vertical;}
-.form-group select option{background:#0F1C2E;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-.checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.checkbox-item{display:flex;align-items:center;gap:8px;cursor:pointer;}
-.checkbox-item input[type=checkbox]{width:16px;height:16px;accent-color:#C9A96E;cursor:pointer;}
-.checkbox-item label{font-size:13px;color:#A0B4C8;cursor:pointer;letter-spacing:0;}
-.radio-group{display:flex;flex-wrap:wrap;gap:12px;}
-.radio-item{display:flex;align-items:center;gap:8px;cursor:pointer;}
-.radio-item input[type=radio]{width:16px;height:16px;accent-color:#C9A96E;cursor:pointer;}
-.radio-item label{font-size:13px;color:#A0B4C8;cursor:pointer;letter-spacing:0;}
-.submit-section{text-align:center;margin-top:32px;}
-.cta-btn{background:#C9A96E;color:#0F1C2E;font-size:16px;font-weight:900;padding:16px 48px;border-radius:4px;border:none;cursor:pointer;letter-spacing:1px;width:100%;}
-.cta-btn:hover{background:#B8945A;}
-.form-note{font-size:12px;color:#5A7A9A;margin-top:16px;}
-.footer{background:#060E18;padding:30px 40px;text-align:center;border-top:1px solid #C9A96E22;}
-.footer p{font-size:13px;color:#5A7A9A;margin-top:6px;}
-.progress{background:#0A1525;padding:12px 40px;border-bottom:1px solid #C9A96E22;position:sticky;top:0;z-index:10;}
-.progress-bar{height:4px;background:#C9A96E22;border-radius:2px;}
-.progress-fill{height:4px;background:#C9A96E;border-radius:2px;width:0%;transition:width 0.3s;}
-.progress-text{font-size:11px;color:#C9A96E;text-align:right;margin-top:4px;letter-spacing:1px;}
+/* ---- Company form page overrides (scoped to .cf-page) ---- */
+.cf-page .cf-hero { padding: 50px 40px; text-align: center; background: #0A1525; border-bottom: 1px solid rgba(201,169,110,.13); }
+.cf-page .cf-hero h1 { font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+.cf-page .cf-hero h1 span { color: #d4a03c; }
+.cf-page .cf-hero p { font-size: 15px; color: #A0B4C8; max-width: 600px; margin: 0 auto; }
+
+.cf-page .form-container { max-width: 800px; margin: 40px auto; padding: 0 20px 60px; }
+
+.cf-page .section-card { background: #0A1525; border: 1px solid rgba(212,160,60,.2); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+.cf-page .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(212,160,60,.13); }
+.cf-page .section-num { width: 36px; height: 36px; border-radius: 50%; background: #d4a03c; color: #0F1C2E; font-size: 15px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cf-page .section-title { font-size: 17px; font-weight: 700; color: #fff; }
+.cf-page .section-sub { font-size: 11px; color: #d4a03c; letter-spacing: 2px; margin-top: 2px; }
+
+.cf-page .form-group { margin-bottom: 18px; }
+.cf-page .form-group > label:first-child { display: block; font-size: 12px; color: #d4a03c; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
+.cf-page .form-group input,
+.cf-page .form-group select,
+.cf-page .form-group textarea { width: 100%; background: #0F1C2E; border: 1px solid rgba(212,160,60,.2); border-radius: 4px; padding: 11px 14px; color: #fff; font-size: 14px; font-family: inherit; transition: border .2s; }
+.cf-page .form-group input:focus,
+.cf-page .form-group select:focus,
+.cf-page .form-group textarea:focus { outline: none; border-color: #d4a03c; }
+.cf-page .form-group textarea { height: 90px; resize: vertical; }
+.cf-page .form-group select option { background: #0F1C2E; }
+
+.cf-page .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cf-page .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.cf-page .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.cf-page .checkbox-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.cf-page .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #d4a03c; cursor: pointer; flex-shrink: 0; }
+.cf-page .checkbox-item label { font-size: 13px; color: #A0B4C8; cursor: pointer; letter-spacing: 0; font-weight: 400; }
+.cf-page .radio-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.cf-page .radio-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.cf-page .radio-item input[type="radio"] { width: 16px; height: 16px; accent-color: #d4a03c; cursor: pointer; }
+.cf-page .radio-item label { font-size: 13px; color: #A0B4C8; cursor: pointer; letter-spacing: 0; font-weight: 400; }
+
+.cf-page .submit-section { text-align: center; margin-top: 32px; }
+.cf-page .form-note { font-size: 13px; color: #5A7A9A; margin-top: 16px; line-height: 1.6; }
+
+@media (max-width: 680px) {
+  .cf-page .form-row,
+  .cf-page .form-row-3,
+  .cf-page .checkbox-group { grid-template-columns: 1fr; }
+  .cf-page .cf-hero { padding: 36px 20px; }
+  .cf-page .cf-hero h1 { font-size: 24px; }
+}
 </style>
+</head>
+<body class="form-page cf-page">
 
-<div class="nav">
-  <div>
-    <div class="nav-logo">CAMION<span>RECRUTE</span>.COM</div>
-    <div class="nav-tagline">THE RIGHT DRIVERS. THE RIGHT OPPORTUNITIES.</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <a href="../index.html" style="color:rgba(255,255,255,.8);font-size:14px;font-weight:600;transition:color .15s" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Home</a>
-    <a href="driver-form.html" style="color:rgba(255,255,255,.8);font-size:14px;font-weight:600;transition:color .15s" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Driver Form</a>
-    <span style="color:#C9A96E;font-size:14px;font-weight:700">Company Form</span>
-  </div>
-</div>
+  <div id="site-header"></div>
 
-<div class="progress">
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="progress-text" id="progressText">SECTION 1 / 12</div>
-</div>
-
-<div class="hero">
-  <h1>Formulaire <span>Entreprise</span></h1>
-  <p>Remplissez ce formulaire en détail pour nous permettre de trouver le chauffeur qui correspond parfaitement à vos besoins. Plus vous êtes précis, meilleur sera le match.</p>
-</div>
-
-<div class="form-container">
-
-<!-- SECTION 1 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">1</div>
-    <div><div class="section-title">Informations de l'entreprise</div><div class="section-sub">VOS COORDONNÉES</div></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>NOM DE L'ENTREPRISE *</label><input type="text" placeholder="Transport ABC Inc."/></div>
-    <div class="form-group"><label>NOM DU CONTACT *</label><input type="text" placeholder="Jean Tremblay"/></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>TITRE / POSTE</label><input type="text" placeholder="Directeur des opérations"/></div>
-    <div class="form-group"><label>TÉLÉPHONE *</label><input type="tel" placeholder="(514) 555-1234"/></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>COURRIEL *</label><input type="email" placeholder="jean@transportabc.ca"/></div>
-    <div class="form-group"><label>SITE WEB</label><input type="text" placeholder="www.transportabc.ca"/></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>ADRESSE DU TERMINAL</label><input type="text" placeholder="123 rue Industrielle, Montréal"/></div>
-    <div class="form-group"><label>VILLE / RÉGION *</label><input type="text" placeholder="Montréal, QC"/></div>
-  </div>
-  <div class="form-row-3">
-    <div class="form-group"><label>NOMBRE D'EMPLOYÉS</label><select><option>1-10</option><option>11-25</option><option>26-50</option><option>51-100</option><option>100+</option></select></div>
-    <div class="form-group"><label>NOMBRE DE CAMIONS</label><input type="number" placeholder="Ex: 15"/></div>
-    <div class="form-group"><label>ANNÉES EN AFFAIRES</label><input type="number" placeholder="Ex: 10"/></div>
-  </div>
-</div>
-
-<!-- SECTION 2 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">2</div>
-    <div><div class="section-title">Le poste recherché</div><div class="section-sub">DÉTAILS DU POSTE</div></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>TYPE DE POSTE *</label><select><option>Classe 1 — Longue distance</option><option>Classe 1 — Local/Régional</option><option>Classe 3</option><option>Shunteur</option><option>Livreur</option><option>Manutentionnaire-chauffeur</option><option>Autre</option></select></div>
-    <div class="form-group"><label>NOMBRE DE CHAUFFEURS *</label><select><option>1</option><option>2-3</option><option>4-5</option><option>6-10</option><option>10+</option></select></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>TYPE D'EMPLOI</label><select><option>Temps plein permanent</option><option>Temps plein temporaire</option><option>Temps partiel</option><option>Saisonnier</option><option>Sur appel</option></select></div>
-    <div class="form-group"><label>URGENCE DU BESOIN</label><select><option>Immédiat</option><option>Dans 2 semaines</option><option>Dans 1 mois</option><option>Dans 2-3 mois</option><option>Planification future</option></select></div>
-  </div>
-  <div class="form-group"><label>HORAIRE RECHERCHÉ</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="h1"/><label for="h1">Jour</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="h2"/><label for="h2">Soir</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="h3"/><label for="h3">Nuit</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="h4"/><label for="h4">Fin de semaine</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="h5"/><label for="h5">Rotation</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="h6"/><label for="h6">Flexible</label></div>
+  <!-- PROGRESS -->
+  <div class="progress">
+    <div class="wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">SECTION 1 / 12</div>
     </div>
   </div>
-  <div class="form-group"><label>DATE DE DÉBUT SOUHAITÉE</label><input type="date"/></div>
-</div>
 
-<!-- SECTION 3 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">3</div>
-    <div><div class="section-title">Exigences obligatoires</div><div class="section-sub">CRITÈRES DU CANDIDAT</div></div>
+  <!-- HERO -->
+  <div class="cf-hero">
+    <h1>Formulaire <span>Entreprise</span></h1>
+    <p>Remplissez ce formulaire en détail pour nous permettre de trouver le chauffeur qui correspond parfaitement à vos besoins. Plus vous êtes précis, meilleur sera le match.</p>
   </div>
-  <div class="form-row">
-    <div class="form-group"><label>CLASSE DE PERMIS REQUISE</label><select><option>Classe 1</option><option>Classe 1 avec air</option><option>Classe 3</option><option>Classe 4</option><option>Classe 5</option></select></div>
-    <div class="form-group"><label>ANNÉES D'EXPÉRIENCE MINIMUM</label><select><option>Aucune (débutant accepté)</option><option>6 mois</option><option>1 an</option><option>2 ans</option><option>3 ans</option><option>5 ans+</option></select></div>
-  </div>
-  <div class="form-group"><label>TYPE D'ÉQUIPEMENT MAÎTRISÉ</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="e1"/><label for="e1">Dry Van</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e2"/><label for="e2">Reefer</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e3"/><label for="e3">Flatbed</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e4"/><label for="e4">Dompeur</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e5"/><label for="e5">Citerne</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e6"/><label for="e6">Benne</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e7"/><label for="e7">Lowboy</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="e8"/><label for="e8">Porteur</label></div>
+
+  <div class="form-container">
+
+    <!-- SECTION 1 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div><div class="section-title">Informations de l'entreprise</div><div class="section-sub">VOS COORDONNÉES</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>NOM DE L'ENTREPRISE *</label><input type="text" name="company_name" required placeholder="Transport ABC Inc." /></div>
+        <div class="form-group"><label>NOM DU CONTACT *</label><input type="text" name="contact_name" required placeholder="Jean Tremblay" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>TITRE / POSTE</label><input type="text" name="contact_title" placeholder="Directeur des opérations" /></div>
+        <div class="form-group"><label>TÉLÉPHONE *</label><input type="tel" name="phone" required placeholder="(514) 555-1234" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>COURRIEL *</label><input type="email" name="email" required placeholder="jean@transportabc.ca" /></div>
+        <div class="form-group"><label>SITE WEB</label><input type="text" name="website" placeholder="www.transportabc.ca" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>ADRESSE DU TERMINAL</label><input type="text" name="terminal_address" placeholder="123 rue Industrielle, Montréal" /></div>
+        <div class="form-group"><label>VILLE / RÉGION *</label><input type="text" name="city_region" required placeholder="Montréal, QC" /></div>
+      </div>
+      <div class="form-row-3">
+        <div class="form-group"><label>NOMBRE D'EMPLOYÉS</label><select name="employee_count"><option>1-10</option><option>11-25</option><option>26-50</option><option>51-100</option><option>100+</option></select></div>
+        <div class="form-group"><label>NOMBRE DE CAMIONS</label><input type="number" name="truck_count" placeholder="Ex: 15" /></div>
+        <div class="form-group"><label>ANNÉES EN AFFAIRES</label><input type="number" name="years_in_business" placeholder="Ex: 10" /></div>
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>MANUTENTION REQUISE</label><select><option>Non</option><option>Oui</option><option>Selon les livraisons</option></select></div>
-    <div class="form-group"><label>LANGUE REQUISE</label><select><option>Français seulement</option><option>Anglais seulement</option><option>Bilingue obligatoire</option><option>Bilingue un atout</option></select></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>DOSSIER DE CONDUITE MAXIMUM</label><select><option>Vierge (0 point)</option><option>2 points max</option><option>4 points max</option><option>À discuter</option></select></div>
-    <div class="form-group"><label>CASIER JUDICIAIRE VIERGE</label><select><option>Obligatoire</option><option>Selon le type d'infraction</option><option>Non requis</option></select></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>FAST CARD REQUISE</label><select><option>Non</option><option>Oui — obligatoire</option><option>Un atout</option></select></div>
-    <div class="form-group"><label>TEST DE DÉPISTAGE</label><select><option>Non requis</option><option>Oui — avant embauche</option><option>Oui — aléatoire</option></select></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>PASSEPORT REQUIS</label><select><option>Non</option><option>Oui</option></select></div>
-    <div class="form-group"><label>DIABLE/TRANSPALETTE</label><select><option>Non requis</option><option>Requis</option><option>Un atout</option></select></div>
-  </div>
-</div>
 
-<!-- SECTION 4 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">4</div>
-    <div><div class="section-title">Type de marchandise</div><div class="section-sub">CE QUI EST TRANSPORTÉ</div></div>
-  </div>
-  <div class="form-group"><label>TYPE DE MARCHANDISE PRINCIPALE</label><input type="text" placeholder="Ex: produits alimentaires, matériaux de construction, etc."/></div>
-  <div class="form-row">
-    <div class="form-group"><label>MARCHANDISES DANGEREUSES (TMD)</label><select><option>Non</option><option>Oui — certificat requis</option><option>Parfois</option></select></div>
-    <div class="form-group"><label>ALIMENTAIRE / PHARMACEUTIQUE</label><select><option>Non</option><option>Oui — exigences HACCP</option><option>Oui — autres exigences</option></select></div>
-  </div>
-  <div class="form-group"><label>EXIGENCES SPÉCIALES LIÉES À LA MARCHANDISE</label><textarea placeholder="Températures contrôlées, manipulation spéciale, certifications requises..."/></div>
-</div>
-
-<!-- SECTION 5 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">5</div>
-    <div><div class="section-title">Les routes</div><div class="section-sub">TERRITOIRES ET DESTINATIONS</div></div>
-  </div>
-  <div class="form-group"><label>TYPE DE TRANSPORT</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="t1"/><label for="t1">Local</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="t2"/><label for="t2">Régional</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="t3"/><label for="t3">Longue Distance Canada</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="t4"/><label for="t4">Longue Distance USA</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="t5"/><label for="t5">Cross-border</label></div>
+    <!-- SECTION 2 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div><div class="section-title">Le poste recherché</div><div class="section-sub">DÉTAILS DU POSTE</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>TYPE DE POSTE *</label><select name="position_type" required><option>Classe 1 — Longue distance</option><option>Classe 1 — Local/Régional</option><option>Classe 3</option><option>Shunteur</option><option>Livreur</option><option>Manutentionnaire-chauffeur</option><option>Autre</option></select></div>
+        <div class="form-group"><label>NOMBRE DE CHAUFFEURS *</label><select name="drivers_count" required><option>1</option><option>2-3</option><option>4-5</option><option>6-10</option><option>10+</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>TYPE D'EMPLOI</label><select name="employment_type"><option>Temps plein permanent</option><option>Temps plein temporaire</option><option>Temps partiel</option><option>Saisonnier</option><option>Sur appel</option></select></div>
+        <div class="form-group"><label>URGENCE DU BESOIN</label><select name="urgency"><option>Immédiat</option><option>Dans 2 semaines</option><option>Dans 1 mois</option><option>Dans 2-3 mois</option><option>Planification future</option></select></div>
+      </div>
+      <div class="form-group"><label>HORAIRE RECHERCHÉ</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="h1" name="schedule[]" value="Jour" /><label for="h1">Jour</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="h2" name="schedule[]" value="Soir" /><label for="h2">Soir</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="h3" name="schedule[]" value="Nuit" /><label for="h3">Nuit</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="h4" name="schedule[]" value="Fin de semaine" /><label for="h4">Fin de semaine</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="h5" name="schedule[]" value="Rotation" /><label for="h5">Rotation</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="h6" name="schedule[]" value="Flexible" /><label for="h6">Flexible</label></div>
+        </div>
+      </div>
+      <div class="form-group"><label>DATE DE DÉBUT SOUHAITÉE</label><input type="date" name="start_date" /></div>
     </div>
-  </div>
-  <div class="form-group"><label>DESTINATIONS PRINCIPALES</label><input type="text" placeholder="Ex: Montréal-Toronto, Québec-Boston..."/></div>
-  <div class="form-row">
-    <div class="form-group"><label>DÉCOUCHERS REQUIS</label><select><option>Non</option><option>Oui — régulièrement</option><option>Parfois</option></select></div>
-    <div class="form-group"><label>NUITS HORS DOMICILE / SEMAINE</label><select><option>0</option><option>1-2 nuits</option><option>3-4 nuits</option><option>5 nuits+</option></select></div>
-  </div>
-  <div class="form-group"><label>KILOMÉTRAGE HEBDOMADAIRE ESTIMÉ</label><input type="text" placeholder="Ex: 2000-3000 km/semaine"/></div>
-</div>
 
-<!-- SECTION 6 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">6</div>
-    <div><div class="section-title">Le parc de véhicules</div><div class="section-sub">VOS ÉQUIPEMENTS</div></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>MARQUE DES CAMIONS</label><select><option>Kenworth</option><option>Peterbilt</option><option>Freightliner</option><option>Volvo</option><option>International</option><option>Mack</option><option>Mixte</option></select></div>
-    <div class="form-group"><label>ANNÉE MOYENNE DES CAMIONS</label><input type="text" placeholder="Ex: 2019-2022"/></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>ÉTAT GÉNÉRAL DU PARC</label><select><option>Excellent</option><option>Bon</option><option>Moyen</option></select></div>
-    <div class="form-group"><label>CAMION ASSIGNÉ OU PARTAGÉ</label><select><option>Camion assigné</option><option>Camion partagé</option><option>Selon disponibilité</option></select></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>TRANSMISSION</label><select><option>Automatique</option><option>Manuelle</option><option>Les deux</option></select></div>
-    <div class="form-group"><label>ELD / GPS INSTALLÉ</label><select><option>Oui</option><option>Non</option></select></div>
-  </div>
-  <div class="form-group"><label>OWNER-OPERATOR ACCEPTÉ</label><select><option>Non — employé seulement</option><option>Oui — owner-operator accepté</option><option>Les deux</option></select></div>
-</div>
-
-<!-- SECTION 7 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">7</div>
-    <div><div class="section-title">Conditions offertes</div><div class="section-sub">SALAIRE ET AVANTAGES</div></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>MODE DE PAIEMENT</label><select><option>Taux horaire</option><option>Kilométrage</option><option>Salaire fixe annuel</option><option>Commission</option><option>Mixte</option></select></div>
-    <div class="form-group"><label>SALAIRE / TAUX OFFERT</label><input type="text" placeholder="Ex: 25-28$/h ou 0.55$/km"/></div>
-  </div>
-  <div class="form-group"><label>AVANTAGES SOCIAUX OFFERTS</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="a1"/><label for="a1">Assurance collective</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a2"/><label for="a2">REER collectif</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a3"/><label for="a3">Vacances 3 semaines+</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a4"/><label for="a4">Bonis de performance</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a5"/><label for="a5">Remboursement repas</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a6"/><label for="a6">Allocation vêtements</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a7"/><label for="a7">Formation payée</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="a8"/><label for="a8">Téléphone fourni</label></div>
+    <!-- SECTION 3 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div><div class="section-title">Exigences obligatoires</div><div class="section-sub">CRITÈRES DU CANDIDAT</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>CLASSE DE PERMIS REQUISE</label><select name="license_required"><option>Classe 1</option><option>Classe 1 avec air</option><option>Classe 3</option><option>Classe 4</option><option>Classe 5</option></select></div>
+        <div class="form-group"><label>ANNÉES D'EXPÉRIENCE MINIMUM</label><select name="min_experience"><option>Aucune (débutant accepté)</option><option>6 mois</option><option>1 an</option><option>2 ans</option><option>3 ans</option><option>5 ans+</option></select></div>
+      </div>
+      <div class="form-group"><label>TYPE D'ÉQUIPEMENT MAÎTRISÉ</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="e1" name="equipment[]" value="Dry Van" /><label for="e1">Dry Van</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e2" name="equipment[]" value="Reefer" /><label for="e2">Reefer</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e3" name="equipment[]" value="Flatbed" /><label for="e3">Flatbed</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e4" name="equipment[]" value="Dompeur" /><label for="e4">Dompeur</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e5" name="equipment[]" value="Citerne" /><label for="e5">Citerne</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e6" name="equipment[]" value="Benne" /><label for="e6">Benne</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e7" name="equipment[]" value="Lowboy" /><label for="e7">Lowboy</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="e8" name="equipment[]" value="Porteur" /><label for="e8">Porteur</label></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>MANUTENTION REQUISE</label><select name="handling"><option>Non</option><option>Oui</option><option>Selon les livraisons</option></select></div>
+        <div class="form-group"><label>LANGUE REQUISE</label><select name="language_req"><option>Français seulement</option><option>Anglais seulement</option><option>Bilingue obligatoire</option><option>Bilingue un atout</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>DOSSIER DE CONDUITE MAXIMUM</label><select name="driving_record"><option>Vierge (0 point)</option><option>2 points max</option><option>4 points max</option><option>À discuter</option></select></div>
+        <div class="form-group"><label>CASIER JUDICIAIRE VIERGE</label><select name="criminal_record"><option>Obligatoire</option><option>Selon le type d'infraction</option><option>Non requis</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>FAST CARD REQUISE</label><select name="fast_card"><option>Non</option><option>Oui — obligatoire</option><option>Un atout</option></select></div>
+        <div class="form-group"><label>TEST DE DÉPISTAGE</label><select name="drug_test"><option>Non requis</option><option>Oui — avant embauche</option><option>Oui — aléatoire</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>PASSEPORT REQUIS</label><select name="passport"><option>Non</option><option>Oui</option></select></div>
+        <div class="form-group"><label>DIABLE/TRANSPALETTE</label><select name="pallet_jack"><option>Non requis</option><option>Requis</option><option>Un atout</option></select></div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- SECTION 8 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">8</div>
-    <div><div class="section-title">Culture et environnement</div><div class="section-sub">VOTRE MILIEU DE TRAVAIL</div></div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>TYPE D'ENTREPRISE</label><select><option>Petite entreprise familiale</option><option>PME</option><option>Grande compagnie</option><option>Multinationale</option></select></div>
-    <div class="form-group"><label>STYLE DE GESTION</label><select><option>Grande autonomie</option><option>Encadrement structuré</option><option>Mixte</option></select></div>
-  </div>
-  <div class="form-group"><label>DÉCRIVEZ VOTRE ENTREPRISE EN QUELQUES MOTS</label><textarea placeholder="Culture, valeurs, ambiance, ce qui vous distingue..."/></div>
-  <div class="form-group"><label>COMMUNICATION AVEC LES RÉPARTITEURS</label><select><option>Très fréquente — contact constant</option><option>Modérée — quelques fois par jour</option><option>Minimale — grande autonomie</option></select></div>
-  <div class="form-row">
-    <div class="form-group"><label>PÉRIODE D'ESSAI</label><select><option>Aucune</option><option>2 semaines</option><option>1 mois</option><option>3 mois</option></select></div>
-    <div class="form-group"><label>FORMATION OFFERTE</label><select><option>Oui — complète</option><option>Oui — partielle</option><option>Non</option></select></div>
-  </div>
-</div>
-
-<!-- SECTION 9 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">9</div>
-    <div><div class="section-title">Défis et historique</div><div class="section-sub">VOTRE SITUATION ACTUELLE</div></div>
-  </div>
-  <div class="form-group"><label>POURQUOI CHERCHEZ-VOUS UN CHAUFFEUR?</label><select><option>Expansion — nouveau poste</option><option>Remplacement — départ volontaire</option><option>Remplacement — congédiement</option><option>Congé maladie/maternité</option><option>Roulement élevé</option><option>Autre</option></select></div>
-  <div class="form-row">
-    <div class="form-group"><label>TAUX DE ROULEMENT ANNUEL</label><select><option>Faible — moins de 10%</option><option>Moyen — 10-25%</option><option>Élevé — 25-50%</option><option>Très élevé — 50%+</option></select></div>
-    <div class="form-group"><label>AVEZ-VOUS UTILISÉ UNE AGENCE AVANT?</label><select><option>Non — première fois</option><option>Oui — bonne expérience</option><option>Oui — mauvaise expérience</option></select></div>
-  </div>
-  <div class="form-group"><label>RAISONS PRINCIPALES DE DÉPARTS PASSÉS</label><textarea placeholder="Ex: salaire, horaire, distance, problèmes de comportement..."/></div>
-  <div class="form-group"><label>VOS PLUS GRANDS DÉFIS EN RECRUTEMENT</label><textarea placeholder="Ex: manque de candidats qualifiés, roulement élevé, difficulté à retenir..."/></div>
-</div>
-
-<!-- SECTION 10 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">10</div>
-    <div><div class="section-title">Le match parfait</div><div class="section-sub">VOTRE CHAUFFEUR IDÉAL</div></div>
-  </div>
-  <div class="form-group"><label>DÉCRIVEZ VOTRE CHAUFFEUR IDÉAL</label><textarea placeholder="Expérience, personnalité, valeurs, attitude au travail..."/></div>
-  <div class="form-group"><label>QUALITÉS HUMAINES LES PLUS IMPORTANTES</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="q1"/><label for="q1">Ponctualité</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q2"/><label for="q2">Autonomie</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q3"/><label for="q3">Communication</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q4"/><label for="q4">Fiabilité</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q5"/><label for="q5">Respect des délais</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q6"/><label for="q6">Soin du véhicule</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q7"/><label for="q7">Esprit d'équipe</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="q8"/><label for="q8">Flexibilité</label></div>
+    <!-- SECTION 4 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div><div class="section-title">Type de marchandise</div><div class="section-sub">CE QUI EST TRANSPORTÉ</div></div>
+      </div>
+      <div class="form-group"><label>TYPE DE MARCHANDISE PRINCIPALE</label><input type="text" name="cargo_type" placeholder="Ex: produits alimentaires, matériaux de construction, etc." /></div>
+      <div class="form-row">
+        <div class="form-group"><label>MARCHANDISES DANGEREUSES (TMD)</label><select name="hazmat"><option>Non</option><option>Oui — certificat requis</option><option>Parfois</option></select></div>
+        <div class="form-group"><label>ALIMENTAIRE / PHARMACEUTIQUE</label><select name="food_pharma"><option>Non</option><option>Oui — exigences HACCP</option><option>Oui — autres exigences</option></select></div>
+      </div>
+      <div class="form-group"><label>EXIGENCES SPÉCIALES LIÉES À LA MARCHANDISE</label><textarea name="cargo_special" placeholder="Températures contrôlées, manipulation spéciale, certifications requises..."></textarea></div>
     </div>
-  </div>
-  <div class="form-group"><label>ÉLÉMENTS RÉDHIBITOIRES</label><textarea placeholder="Ex: points sur le permis, manque d'expérience spécifique, autre..."/></div>
-  <div class="form-group"><label>PRÊT À FORMER UN CANDIDAT AVEC MOINS D'EXPÉRIENCE?</label>
-    <div class="radio-group">
-      <div class="radio-item"><input type="radio" name="former" id="f1"/><label for="f1">Oui — si bon potentiel</label></div>
-      <div class="radio-item"><input type="radio" name="former" id="f2"/><label for="f2">Non — expérience obligatoire</label></div>
-      <div class="radio-item"><input type="radio" name="former" id="f3"/><label for="f3">Dépend du candidat</label></div>
+
+    <!-- SECTION 5 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div><div class="section-title">Les routes</div><div class="section-sub">TERRITOIRES ET DESTINATIONS</div></div>
+      </div>
+      <div class="form-group"><label>TYPE DE TRANSPORT</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="t1" name="transport_type[]" value="Local" /><label for="t1">Local</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="t2" name="transport_type[]" value="Régional" /><label for="t2">Régional</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="t3" name="transport_type[]" value="Longue Distance Canada" /><label for="t3">Longue Distance Canada</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="t4" name="transport_type[]" value="Longue Distance USA" /><label for="t4">Longue Distance USA</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="t5" name="transport_type[]" value="Cross-border" /><label for="t5">Cross-border</label></div>
+        </div>
+      </div>
+      <div class="form-group"><label>DESTINATIONS PRINCIPALES</label><input type="text" name="destinations" placeholder="Ex: Montréal-Toronto, Québec-Boston..." /></div>
+      <div class="form-row">
+        <div class="form-group"><label>DÉCOUCHERS REQUIS</label><select name="overnight"><option>Non</option><option>Oui — régulièrement</option><option>Parfois</option></select></div>
+        <div class="form-group"><label>NUITS HORS DOMICILE / SEMAINE</label><select name="nights_away"><option>0</option><option>1-2 nuits</option><option>3-4 nuits</option><option>5 nuits+</option></select></div>
+      </div>
+      <div class="form-group"><label>KILOMÉTRAGE HEBDOMADAIRE ESTIMÉ</label><input type="text" name="weekly_km" placeholder="Ex: 2000-3000 km/semaine" /></div>
     </div>
-  </div>
-</div>
 
-<!-- SECTION 11 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">11</div>
-    <div><div class="section-title">Pourquoi choisir votre entreprise</div><div class="section-sub">VOTRE VALEUR COMME EMPLOYEUR</div></div>
-  </div>
-  <div class="form-group"><label>POURQUOI UN CHAUFFEUR DEVRAIT VOUS CHOISIR?</label><textarea placeholder="Ce qui vous distingue comme employeur, vos forces, votre culture..."/></div>
-  <div class="form-group"><label>CERTIFICATIONS / RECONNAISSANCES</label><input type="text" placeholder="Ex: CVOR, certifications ISO, prix de l'industrie..."/></div>
-  <div class="form-group"><label>AVEZ-VOUS DES TÉMOIGNAGES DE CHAUFFEURS SATISFAITS?</label>
-    <div class="radio-group">
-      <div class="radio-item"><input type="radio" name="temoignages" id="tm1"/><label for="tm1">Oui</label></div>
-      <div class="radio-item"><input type="radio" name="temoignages" id="tm2"/><label for="tm2">Non</label></div>
+    <!-- SECTION 6 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div><div class="section-title">Le parc de véhicules</div><div class="section-sub">VOS ÉQUIPEMENTS</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>MARQUE DES CAMIONS</label><select name="truck_brand"><option>Kenworth</option><option>Peterbilt</option><option>Freightliner</option><option>Volvo</option><option>International</option><option>Mack</option><option>Mixte</option></select></div>
+        <div class="form-group"><label>ANNÉE MOYENNE DES CAMIONS</label><input type="text" name="truck_year" placeholder="Ex: 2019-2022" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>ÉTAT GÉNÉRAL DU PARC</label><select name="fleet_condition"><option>Excellent</option><option>Bon</option><option>Moyen</option></select></div>
+        <div class="form-group"><label>CAMION ASSIGNÉ OU PARTAGÉ</label><select name="truck_assignment"><option>Camion assigné</option><option>Camion partagé</option><option>Selon disponibilité</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>TRANSMISSION</label><select name="transmission"><option>Automatique</option><option>Manuelle</option><option>Les deux</option></select></div>
+        <div class="form-group"><label>ELD / GPS INSTALLÉ</label><select name="eld"><option>Oui</option><option>Non</option></select></div>
+      </div>
+      <div class="form-group"><label>OWNER-OPERATOR ACCEPTÉ</label><select name="owner_operator"><option>Non — employé seulement</option><option>Oui — owner-operator accepté</option><option>Les deux</option></select></div>
     </div>
-  </div>
-</div>
 
-<!-- SECTION 12 -->
-<div class="section-card">
-  <div class="section-header">
-    <div class="section-num">12</div>
-    <div><div class="section-title">Processus et suivi</div><div class="section-sub">COMMENT ON TRAVAILLE ENSEMBLE</div></div>
-  </div>
-  <div class="form-group"><label>VOTRE PROCESSUS D'ENTREVUE</label>
-    <div class="checkbox-group">
-      <div class="checkbox-item"><input type="checkbox" id="p1"/><label for="p1">Entrevue téléphonique</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="p2"/><label for="p2">Entrevue en personne</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="p3"/><label for="p3">Test de conduite</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="p4"/><label for="p4">Vérification de références</label></div>
+    <!-- SECTION 7 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div><div class="section-title">Conditions offertes</div><div class="section-sub">SALAIRE ET AVANTAGES</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>MODE DE PAIEMENT</label><select name="pay_mode"><option>Taux horaire</option><option>Kilométrage</option><option>Salaire fixe annuel</option><option>Commission</option><option>Mixte</option></select></div>
+        <div class="form-group"><label>SALAIRE / TAUX OFFERT</label><input type="text" name="salary" placeholder="Ex: 25-28$/h ou 0.55$/km" /></div>
+      </div>
+      <div class="form-group"><label>AVANTAGES SOCIAUX OFFERTS</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="a1" name="benefits[]" value="Assurance collective" /><label for="a1">Assurance collective</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a2" name="benefits[]" value="REER collectif" /><label for="a2">REER collectif</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a3" name="benefits[]" value="Vacances 3 semaines+" /><label for="a3">Vacances 3 semaines+</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a4" name="benefits[]" value="Bonis de performance" /><label for="a4">Bonis de performance</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a5" name="benefits[]" value="Remboursement repas" /><label for="a5">Remboursement repas</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a6" name="benefits[]" value="Allocation vêtements" /><label for="a6">Allocation vêtements</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a7" name="benefits[]" value="Formation payée" /><label for="a7">Formation payée</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="a8" name="benefits[]" value="Téléphone fourni" /><label for="a8">Téléphone fourni</label></div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group"><label>DÉLAI DE DÉCISION APRÈS ENTREVUE</label><select><option>24-48 heures</option><option>1 semaine</option><option>2 semaines</option><option>Variable</option></select></div>
-    <div class="form-group"><label>PRÉFÉRENCE DE CONTACT</label><select><option>Téléphone</option><option>Courriel</option><option>Texto</option><option>Peu importe</option></select></div>
-  </div>
-  <div class="form-group"><label>MEILLEUR MOMENT POUR VOUS JOINDRE</label><input type="text" placeholder="Ex: lundi au vendredi, 8h-17h"/></div>
-  <div class="form-group"><label>RESPONSABLE DU SUIVI DANS VOTRE ENTREPRISE</label><input type="text" placeholder="Nom et titre de la personne responsable"/></div>
-  <div class="form-group"><label>INFORMATIONS SUPPLÉMENTAIRES</label><textarea placeholder="Tout ce qui pourrait nous aider à trouver le candidat parfait..."/></div>
-</div>
 
-<div class="submit-section">
-  <button class="cta-btn">Soumettre ma demande</button>
-  <p class="form-note">Notre équipe vous contactera dans les 24 heures. Zéro frais si on ne trouve pas votre candidat. Garantie 30 jours incluse.</p>
-</div>
+    <!-- SECTION 8 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <div><div class="section-title">Culture et environnement</div><div class="section-sub">VOTRE MILIEU DE TRAVAIL</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>TYPE D'ENTREPRISE</label><select name="company_type"><option>Petite entreprise familiale</option><option>PME</option><option>Grande compagnie</option><option>Multinationale</option></select></div>
+        <div class="form-group"><label>STYLE DE GESTION</label><select name="mgmt_style"><option>Grande autonomie</option><option>Encadrement structuré</option><option>Mixte</option></select></div>
+      </div>
+      <div class="form-group"><label>DÉCRIVEZ VOTRE ENTREPRISE EN QUELQUES MOTS</label><textarea name="company_desc" placeholder="Culture, valeurs, ambiance, ce qui vous distingue..."></textarea></div>
+      <div class="form-group"><label>COMMUNICATION AVEC LES RÉPARTITEURS</label><select name="dispatch_comm"><option>Très fréquente — contact constant</option><option>Modérée — quelques fois par jour</option><option>Minimale — grande autonomie</option></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>PÉRIODE D'ESSAI</label><select name="probation"><option>Aucune</option><option>2 semaines</option><option>1 mois</option><option>3 mois</option></select></div>
+        <div class="form-group"><label>FORMATION OFFERTE</label><select name="training"><option>Oui — complète</option><option>Oui — partielle</option><option>Non</option></select></div>
+      </div>
+    </div>
 
-</div>
+    <!-- SECTION 9 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <div><div class="section-title">Défis et historique</div><div class="section-sub">VOTRE SITUATION ACTUELLE</div></div>
+      </div>
+      <div class="form-group"><label>POURQUOI CHERCHEZ-VOUS UN CHAUFFEUR?</label><select name="hiring_reason"><option>Expansion — nouveau poste</option><option>Remplacement — départ volontaire</option><option>Remplacement — congédiement</option><option>Congé maladie/maternité</option><option>Roulement élevé</option><option>Autre</option></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>TAUX DE ROULEMENT ANNUEL</label><select name="turnover_rate"><option>Faible — moins de 10%</option><option>Moyen — 10-25%</option><option>Élevé — 25-50%</option><option>Très élevé — 50%+</option></select></div>
+        <div class="form-group"><label>AVEZ-VOUS UTILISÉ UNE AGENCE AVANT?</label><select name="prior_agency"><option>Non — première fois</option><option>Oui — bonne expérience</option><option>Oui — mauvaise expérience</option></select></div>
+      </div>
+      <div class="form-group"><label>RAISONS PRINCIPALES DE DÉPARTS PASSÉS</label><textarea name="departure_reasons" placeholder="Ex: salaire, horaire, distance, problèmes de comportement..."></textarea></div>
+      <div class="form-group"><label>VOS PLUS GRANDS DÉFIS EN RECRUTEMENT</label><textarea name="recruitment_challenges" placeholder="Ex: manque de candidats qualifiés, roulement élevé, difficulté à retenir..."></textarea></div>
+    </div>
 
-<div class="footer">
-  <div class="nav-logo">CAMION<span style="color:#C9A96E;">RECRUTE</span>.COM</div>
-  <p>© 2026 CamionRecrute.com — Tous droits réservés</p>
-  <p style="margin-top:4px;">Les bons chauffeurs. Les bonnes opportunités.</p>
-</div>
+    <!-- SECTION 10 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <div><div class="section-title">Le match parfait</div><div class="section-sub">VOTRE CHAUFFEUR IDÉAL</div></div>
+      </div>
+      <div class="form-group"><label>DÉCRIVEZ VOTRE CHAUFFEUR IDÉAL</label><textarea name="ideal_driver" placeholder="Expérience, personnalité, valeurs, attitude au travail..."></textarea></div>
+      <div class="form-group"><label>QUALITÉS HUMAINES LES PLUS IMPORTANTES</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="q1" name="qualities[]" value="Ponctualité" /><label for="q1">Ponctualité</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q2" name="qualities[]" value="Autonomie" /><label for="q2">Autonomie</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q3" name="qualities[]" value="Communication" /><label for="q3">Communication</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q4" name="qualities[]" value="Fiabilité" /><label for="q4">Fiabilité</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q5" name="qualities[]" value="Respect des délais" /><label for="q5">Respect des délais</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q6" name="qualities[]" value="Soin du véhicule" /><label for="q6">Soin du véhicule</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q7" name="qualities[]" value="Esprit d'équipe" /><label for="q7">Esprit d'équipe</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="q8" name="qualities[]" value="Flexibilité" /><label for="q8">Flexibilité</label></div>
+        </div>
+      </div>
+      <div class="form-group"><label>ÉLÉMENTS RÉDHIBITOIRES</label><textarea name="dealbreakers" placeholder="Ex: points sur le permis, manque d'expérience spécifique, autre..."></textarea></div>
+      <div class="form-group"><label>PRÊT À FORMER UN CANDIDAT AVEC MOINS D'EXPÉRIENCE?</label>
+        <div class="radio-group">
+          <div class="radio-item"><input type="radio" name="willing_to_train" id="f1" value="Oui" /><label for="f1">Oui — si bon potentiel</label></div>
+          <div class="radio-item"><input type="radio" name="willing_to_train" id="f2" value="Non" /><label for="f2">Non — expérience obligatoire</label></div>
+          <div class="radio-item"><input type="radio" name="willing_to_train" id="f3" value="Dépend" /><label for="f3">Dépend du candidat</label></div>
+        </div>
+      </div>
+    </div>
 
-<script>
-window.addEventListener('scroll', function() {
-  const scrollTop = window.scrollY;
-  const docHeight = document.body.scrollHeight - window.innerHeight;
-  const progress = (scrollTop / docHeight) * 100;
-  document.getElementById('progressFill').style.width = progress + '%';
-  const section = Math.min(12, Math.max(1, Math.ceil(progress / 8.33)));
-  document.getElementById('progressText').textContent = 'SECTION ' + section + ' / 12';
-});
-</script>
+    <!-- SECTION 11 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <div><div class="section-title">Pourquoi choisir votre entreprise</div><div class="section-sub">VOTRE VALEUR COMME EMPLOYEUR</div></div>
+      </div>
+      <div class="form-group"><label>POURQUOI UN CHAUFFEUR DEVRAIT VOUS CHOISIR?</label><textarea name="employer_value" placeholder="Ce qui vous distingue comme employeur, vos forces, votre culture..."></textarea></div>
+      <div class="form-group"><label>CERTIFICATIONS / RECONNAISSANCES</label><input type="text" name="certifications" placeholder="Ex: CVOR, certifications ISO, prix de l'industrie..." /></div>
+      <div class="form-group"><label>AVEZ-VOUS DES TÉMOIGNAGES DE CHAUFFEURS SATISFAITS?</label>
+        <div class="radio-group">
+          <div class="radio-item"><input type="radio" name="testimonials" id="tm1" value="Oui" /><label for="tm1">Oui</label></div>
+          <div class="radio-item"><input type="radio" name="testimonials" id="tm2" value="Non" /><label for="tm2">Non</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 12 -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div><div class="section-title">Processus et suivi</div><div class="section-sub">COMMENT ON TRAVAILLE ENSEMBLE</div></div>
+      </div>
+      <div class="form-group"><label>VOTRE PROCESSUS D'ENTREVUE</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" id="p1" name="interview_process[]" value="Téléphonique" /><label for="p1">Entrevue téléphonique</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="p2" name="interview_process[]" value="En personne" /><label for="p2">Entrevue en personne</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="p3" name="interview_process[]" value="Test de conduite" /><label for="p3">Test de conduite</label></div>
+          <div class="checkbox-item"><input type="checkbox" id="p4" name="interview_process[]" value="Vérification références" /><label for="p4">Vérification de références</label></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>DÉLAI DE DÉCISION APRÈS ENTREVUE</label><select name="decision_delay"><option>24-48 heures</option><option>1 semaine</option><option>2 semaines</option><option>Variable</option></select></div>
+        <div class="form-group"><label>PRÉFÉRENCE DE CONTACT</label><select name="contact_pref"><option>Téléphone</option><option>Courriel</option><option>Texto</option><option>Peu importe</option></select></div>
+      </div>
+      <div class="form-group"><label>MEILLEUR MOMENT POUR VOUS JOINDRE</label><input type="text" name="best_time" placeholder="Ex: lundi au vendredi, 8h-17h" /></div>
+      <div class="form-group"><label>RESPONSABLE DU SUIVI DANS VOTRE ENTREPRISE</label><input type="text" name="followup_person" placeholder="Nom et titre de la personne responsable" /></div>
+      <div class="form-group"><label>INFORMATIONS SUPPLÉMENTAIRES</label><textarea name="additional_info" placeholder="Tout ce qui pourrait nous aider à trouver le candidat parfait..."></textarea></div>
+    </div>
+
+    <div class="submit-section">
+      <button type="submit" class="btn" style="width:100%;justify-content:center;font-size:17px;" id="cfSubmit">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Soumettre ma demande
+      </button>
+      <p class="form-note">Notre équipe vous contactera dans les 24 heures. Zéro frais si on ne trouve pas votre candidat. Garantie 30 jours incluse.</p>
+      <div id="cfMsg" class="form-msg"></div>
+    </div>
+
+  </div><!-- /form-container -->
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/layout.js"></script>
+  <script>
+  // Progress bar on scroll
+  window.addEventListener('scroll', function () {
+    var scrollTop = window.scrollY;
+    var docHeight = document.body.scrollHeight - window.innerHeight;
+    if (docHeight <= 0) return;
+    var progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    var section = Math.min(12, Math.max(1, Math.ceil(progress / 8.33)));
+    document.getElementById('progressText').textContent = 'SECTION ' + section + ' / 12';
+  });
+  </script>
+</body>
+</html>
