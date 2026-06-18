@@ -127,3 +127,45 @@ create policy "auth_all_capps"   on public.company_applications
 --   Supabase Dashboard → Authentication → Users → Add user
 -- (Disable public sign-ups under Authentication → Providers → Email)
 -- ============================================================
+
+-- ------------------------------------------------------------
+-- 4) APP SETTINGS  (admin-managed config: SMTP, Zoho, OneDrive)
+-- ------------------------------------------------------------
+create table if not exists app_settings (
+  key   text primary key,
+  value text,
+  updated_at timestamptz default now()
+);
+
+-- Seed default empty keys
+insert into app_settings (key, value) values
+  ('smtp_host',              ''),
+  ('smtp_port',              '587'),
+  ('smtp_user',              ''),
+  ('smtp_pass',              ''),
+  ('smtp_from_email',        ''),
+  ('smtp_from_name',         'CamionRecrute'),
+  ('zoho_client_id',         ''),
+  ('zoho_client_secret',     ''),
+  ('zoho_refresh_token',     ''),
+  ('zoho_account_url',       'accounts.zoho.com'),
+  ('zoho_enabled',           'false'),
+  ('onedrive_tenant_id',     ''),
+  ('onedrive_client_id',     ''),
+  ('onedrive_client_secret', ''),
+  ('onedrive_drive_id',      ''),
+  ('onedrive_file_id',       ''),
+  ('onedrive_sheet_name',    'Sheet1'),
+  ('onedrive_enabled',       'false'),
+  ('smtp_enabled',           'false')
+on conflict (key) do nothing;
+
+-- ------------------------------------------------------------
+-- SECURITY: app_settings holds SMTP / Zoho / OneDrive secrets.
+-- Lock it down so the public anon key CANNOT read or write it.
+-- Only authenticated (admin) users may access.
+-- ------------------------------------------------------------
+alter table public.app_settings enable row level security;
+
+create policy "auth_only_settings" on public.app_settings
+  for all to authenticated using (true) with check (true);

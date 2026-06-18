@@ -8,27 +8,56 @@
   // ---- loader hide ----
   window.addEventListener("load", function () {
     var loader = document.getElementById("cr-loader");
-    if (loader) setTimeout(function () { loader.classList.add("hide"); }, 450);
+    if (loader)
+      setTimeout(function () {
+        loader.classList.add("hide");
+      }, 450);
   });
 
   document.addEventListener("DOMContentLoaded", function () {
     initReveal();
     initLeadForm();
+    initNavScroll();
   });
+
+  // ---- nav scroll effect ----
+  function initNavScroll() {
+    var bar = document.querySelector(".topbar");
+    if (!bar) return;
+    function onScroll() {
+      if (window.scrollY > 60) {
+        bar.classList.add("scrolled");
+      } else {
+        bar.classList.remove("scrolled");
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
   // ---- scroll reveal ----
   function initReveal() {
     var els = document.querySelectorAll(".reveal");
     if (!("IntersectionObserver" in window)) {
-      els.forEach(function (e) { e.classList.add("in"); });
+      els.forEach(function (e) {
+        e.classList.add("in");
+      });
       return;
     }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.12 });
-    els.forEach(function (e) { io.observe(e); });
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            en.target.classList.add("in");
+            io.unobserve(en.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    els.forEach(function (e) {
+      io.observe(e);
+    });
   }
 
   // ---- company lead form -> Supabase ----
@@ -41,7 +70,10 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       msg.className = "form-msg";
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
 
       var fd = new FormData(form);
       var payload = {
@@ -87,7 +119,9 @@
             return res;
           });
       }
-      return Promise.reject(new Error("Supabase not configured (js/config.js)."));
+      return Promise.reject(
+        new Error("Supabase not configured (js/config.js)."),
+      );
     }
   }
 })();

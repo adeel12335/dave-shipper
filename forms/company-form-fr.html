@@ -9,56 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css" />
-<style>
-/* ---- Company form page overrides (scoped to .cf-page) ---- */
-.cf-page .cf-hero { padding: 50px 40px; text-align: center; background: #0A1525; border-bottom: 1px solid rgba(201,169,110,.13); }
-.cf-page .cf-hero h1 { font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 12px; }
-.cf-page .cf-hero h1 span { color: #d4a03c; }
-.cf-page .cf-hero p { font-size: 15px; color: #A0B4C8; max-width: 600px; margin: 0 auto; }
-
-.cf-page .form-container { max-width: 800px; margin: 40px auto; padding: 0 20px 60px; }
-
-.cf-page .section-card { background: #0A1525; border: 1px solid rgba(212,160,60,.2); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
-.cf-page .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(212,160,60,.13); }
-.cf-page .section-num { width: 36px; height: 36px; border-radius: 50%; background: #d4a03c; color: #0F1C2E; font-size: 15px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.cf-page .section-title { font-size: 17px; font-weight: 700; color: #fff; }
-.cf-page .section-sub { font-size: 11px; color: #d4a03c; letter-spacing: 2px; margin-top: 2px; }
-
-.cf-page .form-group { margin-bottom: 18px; }
-.cf-page .form-group > label:first-child { display: block; font-size: 12px; color: #d4a03c; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
-.cf-page .form-group input,
-.cf-page .form-group select,
-.cf-page .form-group textarea { width: 100%; background: #0F1C2E; border: 1px solid rgba(212,160,60,.2); border-radius: 4px; padding: 11px 14px; color: #fff; font-size: 14px; font-family: inherit; transition: border .2s; }
-.cf-page .form-group input:focus,
-.cf-page .form-group select:focus,
-.cf-page .form-group textarea:focus { outline: none; border-color: #d4a03c; }
-.cf-page .form-group textarea { height: 90px; resize: vertical; }
-.cf-page .form-group select option { background: #0F1C2E; }
-
-.cf-page .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.cf-page .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.cf-page .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-.cf-page .checkbox-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.cf-page .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #d4a03c; cursor: pointer; flex-shrink: 0; }
-.cf-page .checkbox-item label { font-size: 13px; color: #A0B4C8; cursor: pointer; letter-spacing: 0; font-weight: 400; }
-.cf-page .radio-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.cf-page .radio-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.cf-page .radio-item input[type="radio"] { width: 16px; height: 16px; accent-color: #d4a03c; cursor: pointer; }
-.cf-page .radio-item label { font-size: 13px; color: #A0B4C8; cursor: pointer; letter-spacing: 0; font-weight: 400; }
-
-.cf-page .submit-section { text-align: center; margin-top: 32px; }
-.cf-page .form-note { font-size: 13px; color: #5A7A9A; margin-top: 16px; line-height: 1.6; }
-
-@media (max-width: 680px) {
-  .cf-page .form-row,
-  .cf-page .form-row-3,
-  .cf-page .checkbox-group { grid-template-columns: 1fr; }
-  .cf-page .cf-hero { padding: 36px 20px; }
-  .cf-page .cf-hero h1 { font-size: 24px; }
-}
-</style>
 </head>
-<body class="form-page cf-page">
+<body class="form-page">
 
   <div id="site-header"></div>
 
@@ -71,302 +23,14 @@
   </div>
 
   <!-- HERO -->
-  <div class="cf-hero">
-    <h1>Formulaire <span>Entreprise</span></h1>
-    <p>Remplissez ce formulaire en détail pour nous permettre de trouver le chauffeur qui correspond parfaitement à vos besoins. Plus vous êtes précis, meilleur sera le match.</p>
+  <div class="form-hero">
+    <h1 data-form-title>Formulaire Entreprise</h1>
+    <p data-form-intro>Remplissez ce formulaire en détail pour nous permettre de trouver le chauffeur qui correspond parfaitement à vos besoins.</p>
   </div>
 
   <div class="form-container">
-
-    <!-- SECTION 1 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">1</div>
-        <div><div class="section-title">Informations de l'entreprise</div><div class="section-sub">VOS COORDONNÉES</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>NOM DE L'ENTREPRISE *</label><input type="text" name="company_name" required placeholder="Transport ABC Inc." /></div>
-        <div class="form-group"><label>NOM DU CONTACT *</label><input type="text" name="contact_name" required placeholder="Jean Tremblay" /></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>TITRE / POSTE</label><input type="text" name="contact_title" placeholder="Directeur des opérations" /></div>
-        <div class="form-group"><label>TÉLÉPHONE *</label><input type="tel" name="phone" required placeholder="(514) 555-1234" /></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>COURRIEL *</label><input type="email" name="email" required placeholder="jean@transportabc.ca" /></div>
-        <div class="form-group"><label>SITE WEB</label><input type="text" name="website" placeholder="www.transportabc.ca" /></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>ADRESSE DU TERMINAL</label><input type="text" name="terminal_address" placeholder="123 rue Industrielle, Montréal" /></div>
-        <div class="form-group"><label>VILLE / RÉGION *</label><input type="text" name="city_region" required placeholder="Montréal, QC" /></div>
-      </div>
-      <div class="form-row-3">
-        <div class="form-group"><label>NOMBRE D'EMPLOYÉS</label><select name="employee_count"><option>1-10</option><option>11-25</option><option>26-50</option><option>51-100</option><option>100+</option></select></div>
-        <div class="form-group"><label>NOMBRE DE CAMIONS</label><input type="number" name="truck_count" placeholder="Ex: 15" /></div>
-        <div class="form-group"><label>ANNÉES EN AFFAIRES</label><input type="number" name="years_in_business" placeholder="Ex: 10" /></div>
-      </div>
-    </div>
-
-    <!-- SECTION 2 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">2</div>
-        <div><div class="section-title">Le poste recherché</div><div class="section-sub">DÉTAILS DU POSTE</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>TYPE DE POSTE *</label><select name="position_type" required><option>Classe 1 — Longue distance</option><option>Classe 1 — Local/Régional</option><option>Classe 3</option><option>Shunteur</option><option>Livreur</option><option>Manutentionnaire-chauffeur</option><option>Autre</option></select></div>
-        <div class="form-group"><label>NOMBRE DE CHAUFFEURS *</label><select name="drivers_count" required><option>1</option><option>2-3</option><option>4-5</option><option>6-10</option><option>10+</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>TYPE D'EMPLOI</label><select name="employment_type"><option>Temps plein permanent</option><option>Temps plein temporaire</option><option>Temps partiel</option><option>Saisonnier</option><option>Sur appel</option></select></div>
-        <div class="form-group"><label>URGENCE DU BESOIN</label><select name="urgency"><option>Immédiat</option><option>Dans 2 semaines</option><option>Dans 1 mois</option><option>Dans 2-3 mois</option><option>Planification future</option></select></div>
-      </div>
-      <div class="form-group"><label>HORAIRE RECHERCHÉ</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="h1" name="schedule[]" value="Jour" /><label for="h1">Jour</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="h2" name="schedule[]" value="Soir" /><label for="h2">Soir</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="h3" name="schedule[]" value="Nuit" /><label for="h3">Nuit</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="h4" name="schedule[]" value="Fin de semaine" /><label for="h4">Fin de semaine</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="h5" name="schedule[]" value="Rotation" /><label for="h5">Rotation</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="h6" name="schedule[]" value="Flexible" /><label for="h6">Flexible</label></div>
-        </div>
-      </div>
-      <div class="form-group"><label>DATE DE DÉBUT SOUHAITÉE</label><input type="date" name="start_date" /></div>
-    </div>
-
-    <!-- SECTION 3 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">3</div>
-        <div><div class="section-title">Exigences obligatoires</div><div class="section-sub">CRITÈRES DU CANDIDAT</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>CLASSE DE PERMIS REQUISE</label><select name="license_required"><option>Classe 1</option><option>Classe 1 avec air</option><option>Classe 3</option><option>Classe 4</option><option>Classe 5</option></select></div>
-        <div class="form-group"><label>ANNÉES D'EXPÉRIENCE MINIMUM</label><select name="min_experience"><option>Aucune (débutant accepté)</option><option>6 mois</option><option>1 an</option><option>2 ans</option><option>3 ans</option><option>5 ans+</option></select></div>
-      </div>
-      <div class="form-group"><label>TYPE D'ÉQUIPEMENT MAÎTRISÉ</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="e1" name="equipment[]" value="Dry Van" /><label for="e1">Dry Van</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e2" name="equipment[]" value="Reefer" /><label for="e2">Reefer</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e3" name="equipment[]" value="Flatbed" /><label for="e3">Flatbed</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e4" name="equipment[]" value="Dompeur" /><label for="e4">Dompeur</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e5" name="equipment[]" value="Citerne" /><label for="e5">Citerne</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e6" name="equipment[]" value="Benne" /><label for="e6">Benne</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e7" name="equipment[]" value="Lowboy" /><label for="e7">Lowboy</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="e8" name="equipment[]" value="Porteur" /><label for="e8">Porteur</label></div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>MANUTENTION REQUISE</label><select name="handling"><option>Non</option><option>Oui</option><option>Selon les livraisons</option></select></div>
-        <div class="form-group"><label>LANGUE REQUISE</label><select name="language_req"><option>Français seulement</option><option>Anglais seulement</option><option>Bilingue obligatoire</option><option>Bilingue un atout</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>DOSSIER DE CONDUITE MAXIMUM</label><select name="driving_record"><option>Vierge (0 point)</option><option>2 points max</option><option>4 points max</option><option>À discuter</option></select></div>
-        <div class="form-group"><label>CASIER JUDICIAIRE VIERGE</label><select name="criminal_record"><option>Obligatoire</option><option>Selon le type d'infraction</option><option>Non requis</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>FAST CARD REQUISE</label><select name="fast_card"><option>Non</option><option>Oui — obligatoire</option><option>Un atout</option></select></div>
-        <div class="form-group"><label>TEST DE DÉPISTAGE</label><select name="drug_test"><option>Non requis</option><option>Oui — avant embauche</option><option>Oui — aléatoire</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>PASSEPORT REQUIS</label><select name="passport"><option>Non</option><option>Oui</option></select></div>
-        <div class="form-group"><label>DIABLE/TRANSPALETTE</label><select name="pallet_jack"><option>Non requis</option><option>Requis</option><option>Un atout</option></select></div>
-      </div>
-    </div>
-
-    <!-- SECTION 4 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">4</div>
-        <div><div class="section-title">Type de marchandise</div><div class="section-sub">CE QUI EST TRANSPORTÉ</div></div>
-      </div>
-      <div class="form-group"><label>TYPE DE MARCHANDISE PRINCIPALE</label><input type="text" name="cargo_type" placeholder="Ex: produits alimentaires, matériaux de construction, etc." /></div>
-      <div class="form-row">
-        <div class="form-group"><label>MARCHANDISES DANGEREUSES (TMD)</label><select name="hazmat"><option>Non</option><option>Oui — certificat requis</option><option>Parfois</option></select></div>
-        <div class="form-group"><label>ALIMENTAIRE / PHARMACEUTIQUE</label><select name="food_pharma"><option>Non</option><option>Oui — exigences HACCP</option><option>Oui — autres exigences</option></select></div>
-      </div>
-      <div class="form-group"><label>EXIGENCES SPÉCIALES LIÉES À LA MARCHANDISE</label><textarea name="cargo_special" placeholder="Températures contrôlées, manipulation spéciale, certifications requises..."></textarea></div>
-    </div>
-
-    <!-- SECTION 5 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">5</div>
-        <div><div class="section-title">Les routes</div><div class="section-sub">TERRITOIRES ET DESTINATIONS</div></div>
-      </div>
-      <div class="form-group"><label>TYPE DE TRANSPORT</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="t1" name="transport_type[]" value="Local" /><label for="t1">Local</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="t2" name="transport_type[]" value="Régional" /><label for="t2">Régional</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="t3" name="transport_type[]" value="Longue Distance Canada" /><label for="t3">Longue Distance Canada</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="t4" name="transport_type[]" value="Longue Distance USA" /><label for="t4">Longue Distance USA</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="t5" name="transport_type[]" value="Cross-border" /><label for="t5">Cross-border</label></div>
-        </div>
-      </div>
-      <div class="form-group"><label>DESTINATIONS PRINCIPALES</label><input type="text" name="destinations" placeholder="Ex: Montréal-Toronto, Québec-Boston..." /></div>
-      <div class="form-row">
-        <div class="form-group"><label>DÉCOUCHERS REQUIS</label><select name="overnight"><option>Non</option><option>Oui — régulièrement</option><option>Parfois</option></select></div>
-        <div class="form-group"><label>NUITS HORS DOMICILE / SEMAINE</label><select name="nights_away"><option>0</option><option>1-2 nuits</option><option>3-4 nuits</option><option>5 nuits+</option></select></div>
-      </div>
-      <div class="form-group"><label>KILOMÉTRAGE HEBDOMADAIRE ESTIMÉ</label><input type="text" name="weekly_km" placeholder="Ex: 2000-3000 km/semaine" /></div>
-    </div>
-
-    <!-- SECTION 6 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">6</div>
-        <div><div class="section-title">Le parc de véhicules</div><div class="section-sub">VOS ÉQUIPEMENTS</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>MARQUE DES CAMIONS</label><select name="truck_brand"><option>Kenworth</option><option>Peterbilt</option><option>Freightliner</option><option>Volvo</option><option>International</option><option>Mack</option><option>Mixte</option></select></div>
-        <div class="form-group"><label>ANNÉE MOYENNE DES CAMIONS</label><input type="text" name="truck_year" placeholder="Ex: 2019-2022" /></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>ÉTAT GÉNÉRAL DU PARC</label><select name="fleet_condition"><option>Excellent</option><option>Bon</option><option>Moyen</option></select></div>
-        <div class="form-group"><label>CAMION ASSIGNÉ OU PARTAGÉ</label><select name="truck_assignment"><option>Camion assigné</option><option>Camion partagé</option><option>Selon disponibilité</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>TRANSMISSION</label><select name="transmission"><option>Automatique</option><option>Manuelle</option><option>Les deux</option></select></div>
-        <div class="form-group"><label>ELD / GPS INSTALLÉ</label><select name="eld"><option>Oui</option><option>Non</option></select></div>
-      </div>
-      <div class="form-group"><label>OWNER-OPERATOR ACCEPTÉ</label><select name="owner_operator"><option>Non — employé seulement</option><option>Oui — owner-operator accepté</option><option>Les deux</option></select></div>
-    </div>
-
-    <!-- SECTION 7 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">7</div>
-        <div><div class="section-title">Conditions offertes</div><div class="section-sub">SALAIRE ET AVANTAGES</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>MODE DE PAIEMENT</label><select name="pay_mode"><option>Taux horaire</option><option>Kilométrage</option><option>Salaire fixe annuel</option><option>Commission</option><option>Mixte</option></select></div>
-        <div class="form-group"><label>SALAIRE / TAUX OFFERT</label><input type="text" name="salary" placeholder="Ex: 25-28$/h ou 0.55$/km" /></div>
-      </div>
-      <div class="form-group"><label>AVANTAGES SOCIAUX OFFERTS</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="a1" name="benefits[]" value="Assurance collective" /><label for="a1">Assurance collective</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a2" name="benefits[]" value="REER collectif" /><label for="a2">REER collectif</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a3" name="benefits[]" value="Vacances 3 semaines+" /><label for="a3">Vacances 3 semaines+</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a4" name="benefits[]" value="Bonis de performance" /><label for="a4">Bonis de performance</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a5" name="benefits[]" value="Remboursement repas" /><label for="a5">Remboursement repas</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a6" name="benefits[]" value="Allocation vêtements" /><label for="a6">Allocation vêtements</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a7" name="benefits[]" value="Formation payée" /><label for="a7">Formation payée</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="a8" name="benefits[]" value="Téléphone fourni" /><label for="a8">Téléphone fourni</label></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 8 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">8</div>
-        <div><div class="section-title">Culture et environnement</div><div class="section-sub">VOTRE MILIEU DE TRAVAIL</div></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>TYPE D'ENTREPRISE</label><select name="company_type"><option>Petite entreprise familiale</option><option>PME</option><option>Grande compagnie</option><option>Multinationale</option></select></div>
-        <div class="form-group"><label>STYLE DE GESTION</label><select name="mgmt_style"><option>Grande autonomie</option><option>Encadrement structuré</option><option>Mixte</option></select></div>
-      </div>
-      <div class="form-group"><label>DÉCRIVEZ VOTRE ENTREPRISE EN QUELQUES MOTS</label><textarea name="company_desc" placeholder="Culture, valeurs, ambiance, ce qui vous distingue..."></textarea></div>
-      <div class="form-group"><label>COMMUNICATION AVEC LES RÉPARTITEURS</label><select name="dispatch_comm"><option>Très fréquente — contact constant</option><option>Modérée — quelques fois par jour</option><option>Minimale — grande autonomie</option></select></div>
-      <div class="form-row">
-        <div class="form-group"><label>PÉRIODE D'ESSAI</label><select name="probation"><option>Aucune</option><option>2 semaines</option><option>1 mois</option><option>3 mois</option></select></div>
-        <div class="form-group"><label>FORMATION OFFERTE</label><select name="training"><option>Oui — complète</option><option>Oui — partielle</option><option>Non</option></select></div>
-      </div>
-    </div>
-
-    <!-- SECTION 9 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">9</div>
-        <div><div class="section-title">Défis et historique</div><div class="section-sub">VOTRE SITUATION ACTUELLE</div></div>
-      </div>
-      <div class="form-group"><label>POURQUOI CHERCHEZ-VOUS UN CHAUFFEUR?</label><select name="hiring_reason"><option>Expansion — nouveau poste</option><option>Remplacement — départ volontaire</option><option>Remplacement — congédiement</option><option>Congé maladie/maternité</option><option>Roulement élevé</option><option>Autre</option></select></div>
-      <div class="form-row">
-        <div class="form-group"><label>TAUX DE ROULEMENT ANNUEL</label><select name="turnover_rate"><option>Faible — moins de 10%</option><option>Moyen — 10-25%</option><option>Élevé — 25-50%</option><option>Très élevé — 50%+</option></select></div>
-        <div class="form-group"><label>AVEZ-VOUS UTILISÉ UNE AGENCE AVANT?</label><select name="prior_agency"><option>Non — première fois</option><option>Oui — bonne expérience</option><option>Oui — mauvaise expérience</option></select></div>
-      </div>
-      <div class="form-group"><label>RAISONS PRINCIPALES DE DÉPARTS PASSÉS</label><textarea name="departure_reasons" placeholder="Ex: salaire, horaire, distance, problèmes de comportement..."></textarea></div>
-      <div class="form-group"><label>VOS PLUS GRANDS DÉFIS EN RECRUTEMENT</label><textarea name="recruitment_challenges" placeholder="Ex: manque de candidats qualifiés, roulement élevé, difficulté à retenir..."></textarea></div>
-    </div>
-
-    <!-- SECTION 10 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">10</div>
-        <div><div class="section-title">Le match parfait</div><div class="section-sub">VOTRE CHAUFFEUR IDÉAL</div></div>
-      </div>
-      <div class="form-group"><label>DÉCRIVEZ VOTRE CHAUFFEUR IDÉAL</label><textarea name="ideal_driver" placeholder="Expérience, personnalité, valeurs, attitude au travail..."></textarea></div>
-      <div class="form-group"><label>QUALITÉS HUMAINES LES PLUS IMPORTANTES</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="q1" name="qualities[]" value="Ponctualité" /><label for="q1">Ponctualité</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q2" name="qualities[]" value="Autonomie" /><label for="q2">Autonomie</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q3" name="qualities[]" value="Communication" /><label for="q3">Communication</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q4" name="qualities[]" value="Fiabilité" /><label for="q4">Fiabilité</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q5" name="qualities[]" value="Respect des délais" /><label for="q5">Respect des délais</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q6" name="qualities[]" value="Soin du véhicule" /><label for="q6">Soin du véhicule</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q7" name="qualities[]" value="Esprit d'équipe" /><label for="q7">Esprit d'équipe</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="q8" name="qualities[]" value="Flexibilité" /><label for="q8">Flexibilité</label></div>
-        </div>
-      </div>
-      <div class="form-group"><label>ÉLÉMENTS RÉDHIBITOIRES</label><textarea name="dealbreakers" placeholder="Ex: points sur le permis, manque d'expérience spécifique, autre..."></textarea></div>
-      <div class="form-group"><label>PRÊT À FORMER UN CANDIDAT AVEC MOINS D'EXPÉRIENCE?</label>
-        <div class="radio-group">
-          <div class="radio-item"><input type="radio" name="willing_to_train" id="f1" value="Oui" /><label for="f1">Oui — si bon potentiel</label></div>
-          <div class="radio-item"><input type="radio" name="willing_to_train" id="f2" value="Non" /><label for="f2">Non — expérience obligatoire</label></div>
-          <div class="radio-item"><input type="radio" name="willing_to_train" id="f3" value="Dépend" /><label for="f3">Dépend du candidat</label></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 11 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">11</div>
-        <div><div class="section-title">Pourquoi choisir votre entreprise</div><div class="section-sub">VOTRE VALEUR COMME EMPLOYEUR</div></div>
-      </div>
-      <div class="form-group"><label>POURQUOI UN CHAUFFEUR DEVRAIT VOUS CHOISIR?</label><textarea name="employer_value" placeholder="Ce qui vous distingue comme employeur, vos forces, votre culture..."></textarea></div>
-      <div class="form-group"><label>CERTIFICATIONS / RECONNAISSANCES</label><input type="text" name="certifications" placeholder="Ex: CVOR, certifications ISO, prix de l'industrie..." /></div>
-      <div class="form-group"><label>AVEZ-VOUS DES TÉMOIGNAGES DE CHAUFFEURS SATISFAITS?</label>
-        <div class="radio-group">
-          <div class="radio-item"><input type="radio" name="testimonials" id="tm1" value="Oui" /><label for="tm1">Oui</label></div>
-          <div class="radio-item"><input type="radio" name="testimonials" id="tm2" value="Non" /><label for="tm2">Non</label></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 12 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-num">12</div>
-        <div><div class="section-title">Processus et suivi</div><div class="section-sub">COMMENT ON TRAVAILLE ENSEMBLE</div></div>
-      </div>
-      <div class="form-group"><label>VOTRE PROCESSUS D'ENTREVUE</label>
-        <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" id="p1" name="interview_process[]" value="Téléphonique" /><label for="p1">Entrevue téléphonique</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="p2" name="interview_process[]" value="En personne" /><label for="p2">Entrevue en personne</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="p3" name="interview_process[]" value="Test de conduite" /><label for="p3">Test de conduite</label></div>
-          <div class="checkbox-item"><input type="checkbox" id="p4" name="interview_process[]" value="Vérification références" /><label for="p4">Vérification de références</label></div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>DÉLAI DE DÉCISION APRÈS ENTREVUE</label><select name="decision_delay"><option>24-48 heures</option><option>1 semaine</option><option>2 semaines</option><option>Variable</option></select></div>
-        <div class="form-group"><label>PRÉFÉRENCE DE CONTACT</label><select name="contact_pref"><option>Téléphone</option><option>Courriel</option><option>Texto</option><option>Peu importe</option></select></div>
-      </div>
-      <div class="form-group"><label>MEILLEUR MOMENT POUR VOUS JOINDRE</label><input type="text" name="best_time" placeholder="Ex: lundi au vendredi, 8h-17h" /></div>
-      <div class="form-group"><label>RESPONSABLE DU SUIVI DANS VOTRE ENTREPRISE</label><input type="text" name="followup_person" placeholder="Nom et titre de la personne responsable" /></div>
-      <div class="form-group"><label>INFORMATIONS SUPPLÉMENTAIRES</label><textarea name="additional_info" placeholder="Tout ce qui pourrait nous aider à trouver le candidat parfait..."></textarea></div>
-    </div>
-
-    <div class="submit-section">
-      <button type="submit" class="btn" style="width:100%;justify-content:center;font-size:17px;" id="cfSubmit">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Soumettre ma demande
-      </button>
-      <p class="form-note">Notre équipe vous contactera dans les 24 heures. Zéro frais si on ne trouve pas votre candidat. Garantie 30 jours incluse.</p>
-      <div id="cfMsg" class="form-msg"></div>
-    </div>
-
-  </div><!-- /form-container -->
+    <div id="crform-root"></div>
+  </div>
 
   <div id="site-footer"></div>
 
@@ -375,17 +39,246 @@
   <script src="../js/i18n.js"></script>
   <script src="../js/supabase-client.js"></script>
   <script src="../js/layout.js"></script>
+  <script src="../js/form-renderer.js"></script>
   <script>
-  // Progress bar on scroll
-  window.addEventListener('scroll', function () {
-    var scrollTop = window.scrollY;
-    var docHeight = document.body.scrollHeight - window.innerHeight;
-    if (docHeight <= 0) return;
-    var progress = (scrollTop / docHeight) * 100;
-    document.getElementById('progressFill').style.width = progress + '%';
-    var section = Math.min(12, Math.max(1, Math.ceil(progress / 8.33)));
-    document.getElementById('progressText').textContent = 'SECTION ' + section + ' / 12';
-  });
+  CR.applyLang(CR.getLang());
+
+  var schema = {
+    table: "company_applications",
+    title: {fr:"Formulaire <span class='gold'>Entreprise</span>", en:"Company <span class='gold'>Form</span>"},
+    intro: {fr:"Remplissez ce formulaire en détail pour nous permettre de trouver le chauffeur qui correspond parfaitement à vos besoins. Plus vous êtes précis, meilleur sera le match.",
+            en:"Complete this form in detail so we can find the driver who perfectly matches your needs. The more precise you are, the better the match."},
+    submit: {fr:"Soumettre ma demande", en:"Submit my request"},
+    note: {fr:"Notre équipe vous contactera dans les 24 heures. Zéro frais si on ne trouve pas votre candidat. Garantie 30 jours incluse.",
+           en:"Our team will contact you within 24 hours. Zero fees if we don't find your candidate. 30-day guarantee included."},
+    sections: [
+      { num:1, title:{fr:"Informations de l'entreprise",en:"Company Information"}, sub:{fr:"VOS COORDONNÉES",en:"YOUR DETAILS"}, fields:[
+        {name:"company_name", type:"text", required:true, label:{fr:"Nom de l'entreprise",en:"Company name"}, placeholder:{fr:"Transport ABC Inc.",en:"Transport ABC Inc."}},
+        {name:"contact_name", type:"text", required:true, label:{fr:"Nom du contact",en:"Contact name"}, placeholder:{fr:"Jean Tremblay",en:"John Smith"}},
+        {name:"contact_title", type:"text", label:{fr:"Titre / Poste",en:"Title / Position"}, placeholder:{fr:"Directeur des opérations",en:"Operations manager"}},
+        {name:"phone", type:"tel", required:true, label:{fr:"Téléphone",en:"Phone"}, placeholder:{fr:"(514) 555-1234",en:"(514) 555-1234"}},
+        {name:"email", type:"email", required:true, label:{fr:"Courriel",en:"Email"}, placeholder:{fr:"jean@transportabc.ca",en:"john@transportabc.ca"}},
+        {name:"website", type:"text", label:{fr:"Site web",en:"Website"}, placeholder:{fr:"www.transportabc.ca",en:"www.transportabc.ca"}},
+        {name:"terminal_address", type:"text", col:"full", label:{fr:"Adresse du terminal",en:"Terminal address"}, placeholder:{fr:"123 rue Industrielle, Montréal",en:"123 Industrial St, Montreal"}},
+        {name:"city_region", type:"text", required:true, label:{fr:"Ville / Région",en:"City / Region"}, placeholder:{fr:"Montréal, QC",en:"Montreal, QC"}},
+        {name:"employee_count", type:"select", label:{fr:"Nombre d'employés",en:"Number of employees"}, options:[
+          {label:{fr:"1-10",en:"1-10"}},{label:{fr:"11-25",en:"11-25"}},{label:{fr:"26-50",en:"26-50"}},{label:{fr:"51-100",en:"51-100"}},{label:{fr:"100+",en:"100+"}}
+        ]},
+        {name:"truck_count", type:"number", label:{fr:"Nombre de camions",en:"Number of trucks"}, placeholder:{fr:"Ex: 15",en:"e.g. 15"}},
+        {name:"years_in_business", type:"number", label:{fr:"Années en affaires",en:"Years in business"}, placeholder:{fr:"Ex: 10",en:"e.g. 10"}}
+      ]},
+      { num:2, title:{fr:"Le poste recherché",en:"The position"}, sub:{fr:"DÉTAILS DU POSTE",en:"POSITION DETAILS"}, fields:[
+        {name:"position_type", type:"select", required:true, label:{fr:"Type de poste",en:"Position type"}, options:[
+          {label:{fr:"Classe 1 — Longue distance",en:"Class 1 — Long-haul"}},{label:{fr:"Classe 1 — Local/Régional",en:"Class 1 — Local/Regional"}},
+          {label:{fr:"Classe 3",en:"Class 3"}},{label:{fr:"Shunteur",en:"Shunter"}},{label:{fr:"Livreur",en:"Delivery driver"}},
+          {label:{fr:"Manutentionnaire-chauffeur",en:"Handler-driver"}},{label:{fr:"Autre",en:"Other"}}
+        ]},
+        {name:"drivers_count", type:"select", required:true, label:{fr:"Nombre de chauffeurs",en:"Number of drivers"}, options:[
+          {label:{fr:"1",en:"1"}},{label:{fr:"2-3",en:"2-3"}},{label:{fr:"4-5",en:"4-5"}},{label:{fr:"6-10",en:"6-10"}},{label:{fr:"10+",en:"10+"}}
+        ]},
+        {name:"employment_type", type:"select", label:{fr:"Type d'emploi",en:"Employment type"}, options:[
+          {label:{fr:"Temps plein permanent",en:"Full-time permanent"}},{label:{fr:"Temps plein temporaire",en:"Full-time temporary"}},
+          {label:{fr:"Temps partiel",en:"Part-time"}},{label:{fr:"Saisonnier",en:"Seasonal"}},{label:{fr:"Sur appel",en:"On-call"}}
+        ]},
+        {name:"urgency", type:"select", label:{fr:"Urgence du besoin",en:"Urgency of need"}, options:[
+          {label:{fr:"Immédiat",en:"Immediate"}},{label:{fr:"Dans 2 semaines",en:"Within 2 weeks"}},{label:{fr:"Dans 1 mois",en:"Within 1 month"}},
+          {label:{fr:"Dans 2-3 mois",en:"Within 2-3 months"}},{label:{fr:"Planification future",en:"Future planning"}}
+        ]},
+        {name:"schedule", type:"checkboxes", col:"full", label:{fr:"Horaire recherché",en:"Schedule wanted"}, options:[
+          {label:{fr:"Jour",en:"Day"}},{label:{fr:"Soir",en:"Evening"}},{label:{fr:"Nuit",en:"Night"}},
+          {label:{fr:"Fin de semaine",en:"Weekend"}},{label:{fr:"Rotation",en:"Rotation"}},{label:{fr:"Flexible",en:"Flexible"}}
+        ]},
+        {name:"start_date", type:"date", col:"full", label:{fr:"Date de début souhaitée",en:"Desired start date"}}
+      ]},
+      { num:3, title:{fr:"Exigences obligatoires",en:"Mandatory requirements"}, sub:{fr:"CRITÈRES DU CANDIDAT",en:"CANDIDATE CRITERIA"}, fields:[
+        {name:"license_required", type:"select", label:{fr:"Classe de permis requise",en:"License class required"}, options:[
+          {label:{fr:"Classe 1",en:"Class 1"}},{label:{fr:"Classe 1 avec air",en:"Class 1 with air"}},{label:{fr:"Classe 3",en:"Class 3"}},
+          {label:{fr:"Classe 4",en:"Class 4"}},{label:{fr:"Classe 5",en:"Class 5"}}
+        ]},
+        {name:"min_experience", type:"select", label:{fr:"Années d'expérience minimum",en:"Minimum years of experience"}, options:[
+          {label:{fr:"Aucune (débutant accepté)",en:"None (beginner accepted)"}},{label:{fr:"6 mois",en:"6 months"}},{label:{fr:"1 an",en:"1 year"}},
+          {label:{fr:"2 ans",en:"2 years"}},{label:{fr:"3 ans",en:"3 years"}},{label:{fr:"5 ans+",en:"5 years+"}}
+        ]},
+        {name:"equipment", type:"checkboxes", col:"full", label:{fr:"Type d'équipement maîtrisé",en:"Equipment mastered"}, options:[
+          {label:{fr:"Dry Van",en:"Dry Van"}},{label:{fr:"Reefer",en:"Reefer"}},{label:{fr:"Flatbed",en:"Flatbed"}},{label:{fr:"Dompeur",en:"Dump"}},
+          {label:{fr:"Citerne",en:"Tanker"}},{label:{fr:"Benne",en:"Dump body"}},{label:{fr:"Lowboy",en:"Lowboy"}},{label:{fr:"Porteur",en:"Straight truck"}}
+        ]},
+        {name:"handling", type:"select", label:{fr:"Manutention requise",en:"Handling required"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui",en:"Yes"}},{label:{fr:"Selon les livraisons",en:"Depending on deliveries"}}
+        ]},
+        {name:"language_req", type:"select", label:{fr:"Langue requise",en:"Language required"}, options:[
+          {label:{fr:"Français seulement",en:"French only"}},{label:{fr:"Anglais seulement",en:"English only"}},
+          {label:{fr:"Bilingue obligatoire",en:"Bilingual mandatory"}},{label:{fr:"Bilingue un atout",en:"Bilingual an asset"}}
+        ]},
+        {name:"driving_record", type:"select", label:{fr:"Dossier de conduite maximum",en:"Maximum driving record"}, options:[
+          {label:{fr:"Vierge (0 point)",en:"Clean (0 points)"}},{label:{fr:"2 points max",en:"2 points max"}},
+          {label:{fr:"4 points max",en:"4 points max"}},{label:{fr:"À discuter",en:"To be discussed"}}
+        ]},
+        {name:"criminal_record", type:"select", label:{fr:"Casier judiciaire vierge",en:"Clean criminal record"}, options:[
+          {label:{fr:"Obligatoire",en:"Mandatory"}},{label:{fr:"Selon le type d'infraction",en:"Depending on offense type"}},{label:{fr:"Non requis",en:"Not required"}}
+        ]},
+        {name:"fast_card", type:"select", label:{fr:"FAST Card requise",en:"FAST card required"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui — obligatoire",en:"Yes — mandatory"}},{label:{fr:"Un atout",en:"An asset"}}
+        ]},
+        {name:"drug_test", type:"select", label:{fr:"Test de dépistage",en:"Drug test"}, options:[
+          {label:{fr:"Non requis",en:"Not required"}},{label:{fr:"Oui — avant embauche",en:"Yes — pre-hire"}},{label:{fr:"Oui — aléatoire",en:"Yes — random"}}
+        ]},
+        {name:"passport", type:"select", label:{fr:"Passeport requis",en:"Passport required"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui",en:"Yes"}}
+        ]},
+        {name:"pallet_jack", type:"select", label:{fr:"Diable / Transpalette",en:"Hand truck / Pallet jack"}, options:[
+          {label:{fr:"Non requis",en:"Not required"}},{label:{fr:"Requis",en:"Required"}},{label:{fr:"Un atout",en:"An asset"}}
+        ]}
+      ]},
+      { num:4, title:{fr:"Type de marchandise",en:"Type of cargo"}, sub:{fr:"CE QUI EST TRANSPORTÉ",en:"WHAT IS TRANSPORTED"}, fields:[
+        {name:"cargo_type", type:"text", col:"full", label:{fr:"Type de marchandise principale",en:"Main cargo type"}, placeholder:{fr:"Ex: produits alimentaires, matériaux de construction, etc.",en:"e.g. food products, construction materials, etc."}},
+        {name:"hazmat", type:"select", label:{fr:"Marchandises dangereuses (TMD)",en:"Dangerous goods (TDG)"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui — certificat requis",en:"Yes — certificate required"}},{label:{fr:"Parfois",en:"Sometimes"}}
+        ]},
+        {name:"food_pharma", type:"select", label:{fr:"Alimentaire / Pharmaceutique",en:"Food / Pharmaceutical"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui — exigences HACCP",en:"Yes — HACCP requirements"}},{label:{fr:"Oui — autres exigences",en:"Yes — other requirements"}}
+        ]},
+        {name:"cargo_special", type:"textarea", col:"full", label:{fr:"Exigences spéciales liées à la marchandise",en:"Special cargo requirements"}, placeholder:{fr:"Températures contrôlées, manipulation spéciale, certifications requises...",en:"Controlled temperatures, special handling, required certifications..."}}
+      ]},
+      { num:5, title:{fr:"Les routes",en:"Routes"}, sub:{fr:"TERRITOIRES ET DESTINATIONS",en:"TERRITORIES AND DESTINATIONS"}, fields:[
+        {name:"transport_type", type:"checkboxes", col:"full", label:{fr:"Type de transport",en:"Transport type"}, options:[
+          {label:{fr:"Local",en:"Local"}},{label:{fr:"Régional",en:"Regional"}},{label:{fr:"Longue Distance Canada",en:"Long-haul Canada"}},
+          {label:{fr:"Longue Distance USA",en:"Long-haul USA"}},{label:{fr:"Cross-border",en:"Cross-border"}}
+        ]},
+        {name:"destinations", type:"text", col:"full", label:{fr:"Destinations principales",en:"Main destinations"}, placeholder:{fr:"Ex: Montréal-Toronto, Québec-Boston...",en:"e.g. Montreal-Toronto, Quebec-Boston..."}},
+        {name:"overnight", type:"select", label:{fr:"Découchers requis",en:"Overnight stays required"}, options:[
+          {label:{fr:"Non",en:"No"}},{label:{fr:"Oui — régulièrement",en:"Yes — regularly"}},{label:{fr:"Parfois",en:"Sometimes"}}
+        ]},
+        {name:"nights_away", type:"select", label:{fr:"Nuits hors domicile / semaine",en:"Nights away / week"}, options:[
+          {label:{fr:"0",en:"0"}},{label:{fr:"1-2 nuits",en:"1-2 nights"}},{label:{fr:"3-4 nuits",en:"3-4 nights"}},{label:{fr:"5 nuits+",en:"5 nights+"}}
+        ]},
+        {name:"weekly_km", type:"text", col:"full", label:{fr:"Kilométrage hebdomadaire estimé",en:"Estimated weekly mileage"}, placeholder:{fr:"Ex: 2000-3000 km/semaine",en:"e.g. 2000-3000 km/week"}}
+      ]},
+      { num:6, title:{fr:"Le parc de véhicules",en:"The fleet"}, sub:{fr:"VOS ÉQUIPEMENTS",en:"YOUR EQUIPMENT"}, fields:[
+        {name:"truck_brand", type:"select", label:{fr:"Marque des camions",en:"Truck brand"}, options:[
+          {label:{fr:"Kenworth",en:"Kenworth"}},{label:{fr:"Peterbilt",en:"Peterbilt"}},{label:{fr:"Freightliner",en:"Freightliner"}},
+          {label:{fr:"Volvo",en:"Volvo"}},{label:{fr:"International",en:"International"}},{label:{fr:"Mack",en:"Mack"}},{label:{fr:"Mixte",en:"Mixed"}}
+        ]},
+        {name:"truck_year", type:"text", label:{fr:"Année moyenne des camions",en:"Average truck year"}, placeholder:{fr:"Ex: 2019-2022",en:"e.g. 2019-2022"}},
+        {name:"fleet_condition", type:"select", label:{fr:"État général du parc",en:"General fleet condition"}, options:[
+          {label:{fr:"Excellent",en:"Excellent"}},{label:{fr:"Bon",en:"Good"}},{label:{fr:"Moyen",en:"Average"}}
+        ]},
+        {name:"truck_assignment", type:"select", label:{fr:"Camion assigné ou partagé",en:"Assigned or shared truck"}, options:[
+          {label:{fr:"Camion assigné",en:"Assigned truck"}},{label:{fr:"Camion partagé",en:"Shared truck"}},{label:{fr:"Selon disponibilité",en:"Based on availability"}}
+        ]},
+        {name:"transmission", type:"select", label:{fr:"Transmission",en:"Transmission"}, options:[
+          {label:{fr:"Automatique",en:"Automatic"}},{label:{fr:"Manuelle",en:"Manual"}},{label:{fr:"Les deux",en:"Both"}}
+        ]},
+        {name:"eld", type:"select", label:{fr:"ELD / GPS installé",en:"ELD / GPS installed"}, options:[
+          {label:{fr:"Oui",en:"Yes"}},{label:{fr:"Non",en:"No"}}
+        ]},
+        {name:"owner_operator", type:"select", col:"full", label:{fr:"Owner-operator accepté",en:"Owner-operator accepted"}, options:[
+          {label:{fr:"Non — employé seulement",en:"No — employee only"}},{label:{fr:"Oui — owner-operator accepté",en:"Yes — owner-operator accepted"}},{label:{fr:"Les deux",en:"Both"}}
+        ]}
+      ]},
+      { num:7, title:{fr:"Conditions offertes",en:"Conditions offered"}, sub:{fr:"SALAIRE ET AVANTAGES",en:"SALARY AND BENEFITS"}, fields:[
+        {name:"pay_mode", type:"select", label:{fr:"Mode de paiement",en:"Payment method"}, options:[
+          {label:{fr:"Taux horaire",en:"Hourly rate"}},{label:{fr:"Kilométrage",en:"Mileage"}},{label:{fr:"Salaire fixe annuel",en:"Fixed annual salary"}},
+          {label:{fr:"Commission",en:"Commission"}},{label:{fr:"Mixte",en:"Mixed"}}
+        ]},
+        {name:"salary", type:"text", label:{fr:"Salaire / taux offert",en:"Salary / rate offered"}, placeholder:{fr:"Ex: 25-28$/h ou 0.55$/km",en:"e.g. $25-28/h or $0.55/km"}},
+        {name:"benefits", type:"checkboxes", col:"full", label:{fr:"Avantages sociaux offerts",en:"Benefits offered"}, options:[
+          {label:{fr:"Assurance collective",en:"Group insurance"}},{label:{fr:"REER collectif",en:"Group RRSP"}},{label:{fr:"Vacances 3 semaines+",en:"3+ weeks vacation"}},
+          {label:{fr:"Bonis de performance",en:"Performance bonuses"}},{label:{fr:"Remboursement repas",en:"Meal reimbursement"}},{label:{fr:"Allocation vêtements",en:"Clothing allowance"}},
+          {label:{fr:"Formation payée",en:"Paid training"}},{label:{fr:"Téléphone fourni",en:"Phone provided"}}
+        ]}
+      ]},
+      { num:8, title:{fr:"Culture et environnement",en:"Culture and environment"}, sub:{fr:"VOTRE MILIEU DE TRAVAIL",en:"YOUR WORK ENVIRONMENT"}, fields:[
+        {name:"company_type", type:"select", label:{fr:"Type d'entreprise",en:"Company type"}, options:[
+          {label:{fr:"Petite entreprise familiale",en:"Small family business"}},{label:{fr:"PME",en:"SME"}},{label:{fr:"Grande compagnie",en:"Large company"}},{label:{fr:"Multinationale",en:"Multinational"}}
+        ]},
+        {name:"mgmt_style", type:"select", label:{fr:"Style de gestion",en:"Management style"}, options:[
+          {label:{fr:"Grande autonomie",en:"High autonomy"}},{label:{fr:"Encadrement structuré",en:"Structured supervision"}},{label:{fr:"Mixte",en:"Mixed"}}
+        ]},
+        {name:"company_desc", type:"textarea", col:"full", label:{fr:"Décrivez votre entreprise en quelques mots",en:"Describe your company in a few words"}, placeholder:{fr:"Culture, valeurs, ambiance, ce qui vous distingue...",en:"Culture, values, atmosphere, what sets you apart..."}},
+        {name:"dispatch_comm", type:"select", col:"full", label:{fr:"Communication avec les répartiteurs",en:"Communication with dispatchers"}, options:[
+          {label:{fr:"Très fréquente — contact constant",en:"Very frequent — constant contact"}},{label:{fr:"Modérée — quelques fois par jour",en:"Moderate — a few times a day"}},{label:{fr:"Minimale — grande autonomie",en:"Minimal — high autonomy"}}
+        ]},
+        {name:"probation", type:"select", label:{fr:"Période d'essai",en:"Probation period"}, options:[
+          {label:{fr:"Aucune",en:"None"}},{label:{fr:"2 semaines",en:"2 weeks"}},{label:{fr:"1 mois",en:"1 month"}},{label:{fr:"3 mois",en:"3 months"}}
+        ]},
+        {name:"training", type:"select", label:{fr:"Formation offerte",en:"Training offered"}, options:[
+          {label:{fr:"Oui — complète",en:"Yes — complete"}},{label:{fr:"Oui — partielle",en:"Yes — partial"}},{label:{fr:"Non",en:"No"}}
+        ]}
+      ]},
+      { num:9, title:{fr:"Défis et historique",en:"Challenges and history"}, sub:{fr:"VOTRE SITUATION ACTUELLE",en:"YOUR CURRENT SITUATION"}, fields:[
+        {name:"hiring_reason", type:"select", col:"full", label:{fr:"Pourquoi cherchez-vous un chauffeur?",en:"Why are you looking for a driver?"}, options:[
+          {label:{fr:"Expansion — nouveau poste",en:"Expansion — new position"}},{label:{fr:"Remplacement — départ volontaire",en:"Replacement — voluntary departure"}},
+          {label:{fr:"Remplacement — congédiement",en:"Replacement — dismissal"}},{label:{fr:"Congé maladie/maternité",en:"Sick/maternity leave"}},
+          {label:{fr:"Roulement élevé",en:"High turnover"}},{label:{fr:"Autre",en:"Other"}}
+        ]},
+        {name:"turnover_rate", type:"select", label:{fr:"Taux de roulement annuel",en:"Annual turnover rate"}, options:[
+          {label:{fr:"Faible — moins de 10%",en:"Low — less than 10%"}},{label:{fr:"Moyen — 10-25%",en:"Medium — 10-25%"}},
+          {label:{fr:"Élevé — 25-50%",en:"High — 25-50%"}},{label:{fr:"Très élevé — 50%+",en:"Very high — 50%+"}}
+        ]},
+        {name:"prior_agency", type:"select", label:{fr:"Avez-vous utilisé une agence avant?",en:"Have you used an agency before?"}, options:[
+          {label:{fr:"Non — première fois",en:"No — first time"}},{label:{fr:"Oui — bonne expérience",en:"Yes — good experience"}},{label:{fr:"Oui — mauvaise expérience",en:"Yes — bad experience"}}
+        ]},
+        {name:"departure_reasons", type:"textarea", col:"full", label:{fr:"Raisons principales de départs passés",en:"Main reasons for past departures"}, placeholder:{fr:"Ex: salaire, horaire, distance, problèmes de comportement...",en:"e.g. salary, schedule, distance, behavioral issues..."}},
+        {name:"recruitment_challenges", type:"textarea", col:"full", label:{fr:"Vos plus grands défis en recrutement",en:"Your biggest recruitment challenges"}, placeholder:{fr:"Ex: manque de candidats qualifiés, roulement élevé, difficulté à retenir...",en:"e.g. lack of qualified candidates, high turnover, difficulty retaining..."}}
+      ]},
+      { num:10, title:{fr:"Le match parfait",en:"The perfect match"}, sub:{fr:"VOTRE CHAUFFEUR IDÉAL",en:"YOUR IDEAL DRIVER"}, fields:[
+        {name:"ideal_driver", type:"textarea", col:"full", label:{fr:"Décrivez votre chauffeur idéal",en:"Describe your ideal driver"}, placeholder:{fr:"Expérience, personnalité, valeurs, attitude au travail...",en:"Experience, personality, values, work attitude..."}},
+        {name:"qualities", type:"checkboxes", col:"full", label:{fr:"Qualités humaines les plus importantes",en:"Most important human qualities"}, options:[
+          {label:{fr:"Ponctualité",en:"Punctuality"}},{label:{fr:"Autonomie",en:"Autonomy"}},{label:{fr:"Communication",en:"Communication"}},{label:{fr:"Fiabilité",en:"Reliability"}},
+          {label:{fr:"Respect des délais",en:"Meeting deadlines"}},{label:{fr:"Soin du véhicule",en:"Vehicle care"}},{label:{fr:"Esprit d'équipe",en:"Team spirit"}},{label:{fr:"Flexibilité",en:"Flexibility"}}
+        ]},
+        {name:"dealbreakers", type:"textarea", col:"full", label:{fr:"Éléments rédhibitoires",en:"Deal-breakers"}, placeholder:{fr:"Ex: points sur le permis, manque d'expérience spécifique, autre...",en:"e.g. points on license, lack of specific experience, other..."}},
+        {name:"willing_to_train", type:"radios", col:"full", label:{fr:"Prêt à former un candidat avec moins d'expérience?",en:"Willing to train a less experienced candidate?"}, options:[
+          {label:{fr:"Oui — si bon potentiel",en:"Yes — if good potential"}},{label:{fr:"Non — expérience obligatoire",en:"No — experience mandatory"}},{label:{fr:"Dépend du candidat",en:"Depends on the candidate"}}
+        ]}
+      ]},
+      { num:11, title:{fr:"Pourquoi choisir votre entreprise",en:"Why choose your company"}, sub:{fr:"VOTRE VALEUR COMME EMPLOYEUR",en:"YOUR VALUE AS AN EMPLOYER"}, fields:[
+        {name:"employer_value", type:"textarea", col:"full", label:{fr:"Pourquoi un chauffeur devrait vous choisir?",en:"Why should a driver choose you?"}, placeholder:{fr:"Ce qui vous distingue comme employeur, vos forces, votre culture...",en:"What sets you apart as an employer, your strengths, your culture..."}},
+        {name:"certifications", type:"text", col:"full", label:{fr:"Certifications / Reconnaissances",en:"Certifications / Recognitions"}, placeholder:{fr:"Ex: CVOR, certifications ISO, prix de l'industrie...",en:"e.g. CVOR, ISO certifications, industry awards..."}},
+        {name:"testimonials", type:"radios", col:"full", label:{fr:"Avez-vous des témoignages de chauffeurs satisfaits?",en:"Do you have testimonials from satisfied drivers?"}, options:[
+          {label:{fr:"Oui",en:"Yes"}},{label:{fr:"Non",en:"No"}}
+        ]}
+      ]},
+      { num:12, title:{fr:"Processus et suivi",en:"Process and follow-up"}, sub:{fr:"COMMENT ON TRAVAILLE ENSEMBLE",en:"HOW WE WORK TOGETHER"}, fields:[
+        {name:"interview_process", type:"checkboxes", col:"full", label:{fr:"Votre processus d'entrevue",en:"Your interview process"}, options:[
+          {label:{fr:"Entrevue téléphonique",en:"Phone interview"}},{label:{fr:"Entrevue en personne",en:"In-person interview"}},
+          {label:{fr:"Test de conduite",en:"Driving test"}},{label:{fr:"Vérification de références",en:"Reference check"}}
+        ]},
+        {name:"decision_delay", type:"select", label:{fr:"Délai de décision après entrevue",en:"Decision time after interview"}, options:[
+          {label:{fr:"24-48 heures",en:"24-48 hours"}},{label:{fr:"1 semaine",en:"1 week"}},{label:{fr:"2 semaines",en:"2 weeks"}},{label:{fr:"Variable",en:"Variable"}}
+        ]},
+        {name:"contact_pref", type:"select", label:{fr:"Préférence de contact",en:"Contact preference"}, options:[
+          {label:{fr:"Téléphone",en:"Phone"}},{label:{fr:"Courriel",en:"Email"}},{label:{fr:"Texto",en:"Text"}},{label:{fr:"Peu importe",en:"No preference"}}
+        ]},
+        {name:"best_time", type:"text", col:"full", label:{fr:"Meilleur moment pour vous joindre",en:"Best time to reach you"}, placeholder:{fr:"Ex: lundi au vendredi, 8h-17h",en:"e.g. Monday to Friday, 8am-5pm"}},
+        {name:"followup_person", type:"text", col:"full", label:{fr:"Responsable du suivi dans votre entreprise",en:"Follow-up contact at your company"}, placeholder:{fr:"Nom et titre de la personne responsable",en:"Name and title of the responsible person"}},
+        {name:"additional_info", type:"textarea", col:"full", label:{fr:"Informations supplémentaires",en:"Additional information"}, placeholder:{fr:"Tout ce qui pourrait nous aider à trouver le candidat parfait...",en:"Anything that could help us find the perfect candidate..."}}
+      ]}
+    ],
+    buildPayload: function (v, locale) {
+      var coreKeys = ["company_name","contact_name","contact_title","phone","email","website","city_region","position_type","drivers_count"];
+      var details = {};
+      Object.keys(v).forEach(function (k) {
+        if (coreKeys.indexOf(k) === -1) details[k] = v[k];
+      });
+      return {
+        company_name: v.company_name,
+        contact_name: v.contact_name,
+        contact_title: v.contact_title || null,
+        phone: v.phone,
+        email: v.email,
+        website: v.website || null,
+        city_region: v.city_region || null,
+        position_type: v.position_type || null,
+        drivers_count: v.drivers_count || null,
+        details: details,
+        locale: locale
+      };
+    }
+  };
+
+  CRForm.render(schema);
   </script>
 </body>
 </html>
