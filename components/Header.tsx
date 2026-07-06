@@ -28,8 +28,8 @@ export default function Header() {
   }, [menuOpen])
 
   const navLinks = [
-    { href: '/forms/driver-form', label: lang === 'fr' ? 'Formulaire Chauffeur' : 'Driver Application' },
-    { href: '/forms/company-form', label: lang === 'fr' ? 'Formulaire Entreprise' : 'Company Form' },
+    { href: '/#apply', label: lang === 'fr' ? 'Postuler' : 'Apply' },
+    { href: '/#companies', label: lang === 'fr' ? 'Entreprises' : 'Companies' },
   ]
 
   return (
@@ -48,11 +48,11 @@ export default function Header() {
           {/* Desktop actions */}
           <div className="nav-actions desktop-nav">
             <div className="desktop-nav-links">
-              <Link href="/forms/driver-form" className="desktop-nav-link">
-                {lang === 'fr' ? 'Formulaire Chauffeur' : 'Driver Form'}
+              <Link href="/#apply" className="desktop-nav-link">
+                {lang === 'fr' ? 'Postuler' : 'Apply'}
               </Link>
-              <Link href="/forms/company-form" className="desktop-nav-link">
-                {lang === 'fr' ? 'Formulaire Entreprise' : 'Company Form'}
+              <Link href="/#companies" className="desktop-nav-link">
+                {lang === 'fr' ? 'Entreprises' : 'Companies'}
               </Link>
             </div>
             <div className="desktop-nav-divider" />

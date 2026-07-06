@@ -53,6 +53,7 @@ create table if not exists public.driver_applications (
   schedule           text[] default '{}',
   employment_types   text[] default '{}',
   languages          text[] default '{}',
+  additional_notes   text,
   locale             text default 'fr',
   status             text not null default 'new',
   admin_notes        text,
@@ -95,6 +96,14 @@ create index if not exists idx_drivers_class   on public.driver_applications usi
 create index if not exists idx_drivers_region  on public.driver_applications using gin(distance_regions);
 create index if not exists idx_capps_status    on public.company_applications(status);
 create index if not exists idx_capps_created   on public.company_applications(created_at desc);
+
+create index if not exists idx_capps_details on public.company_applications using gin(details);
+
+-- For incremental updates on existing databases, run:
+--   supabase/migrations/20260706180000_phase1_updates.sql
+
+-- Legacy one-liner (also included in migration file):
+alter table public.driver_applications add column if not exists additional_notes text;
 
 -- ============================================================
 -- ROW LEVEL SECURITY

@@ -1,6 +1,9 @@
 'use client'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { useLang } from '@/lib/i18n'
+import { COMPANY_LEAD_FIELDS, COMPANY_LEAD_INTRO } from '@/lib/forms/company-lead-schema'
+import { localizeField, t } from '@/lib/forms/form-utils'
 
 function useReveal() {
   useEffect(() => {
@@ -14,9 +17,13 @@ function useReveal() {
   }, [])
 }
 
+const EMPTY_LEAD = { company_name: '', contact_name: '', phone: '', email: '', message: '' }
+
 export default function HomePage() {
   useReveal()
-  const [form, setForm] = useState({ company_name: '', contact_name: '', phone: '', email: '', region: '', drivers_count: '1', position_type: 'Classe 1 - Longue distance', message: '' })
+  const { lang } = useLang()
+  const leadFields = COMPANY_LEAD_FIELDS.map((f) => localizeField(f, lang))
+  const [form, setForm] = useState(EMPTY_LEAD)
   const [status, setStatus] = useState('idle')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -26,10 +33,10 @@ export default function HomePage() {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, locale: 'fr' }) })
+      const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, locale: lang }) })
       if (!res.ok) throw new Error()
       setStatus('ok')
-      setForm({ company_name: '', contact_name: '', phone: '', email: '', region: '', drivers_count: '1', position_type: 'Classe 1 - Longue distance', message: '' })
+      setForm(EMPTY_LEAD)
     } catch { setStatus('err') }
   }
 
@@ -86,8 +93,8 @@ export default function HomePage() {
                 <div className="step-num">3</div>
                 <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#14222f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11l3-3 3 3M9 11l3 3 3-3 3 3" /><path d="M21 13l-4 4-2-2" /></svg>
               </div>
-              <h3>On vous place</h3>
-              <p>Nous vous mettons en contact avec les entreprises qui correspondent a votre profil.</p>
+              <h3>Lien d onboarding</h3>
+              <p>Si vous etes retenu, nous vous enverrons le lien pour les prochaines etapes.</p>
             </div>
           </div>
         </div>
@@ -125,7 +132,7 @@ export default function HomePage() {
           <h2 className="h2 reveal">Postulez maintenant</h2>
           <div className="eyebrow reveal">C EST GRATUIT ET SANS ENGAGEMENT</div>
           <div className="underline reveal"></div>
-          <p className="reveal">Remplissez le formulaire ci-dessous. Notre equipe vous contactera dans les 24-48 heures.</p>
+          <p className="reveal">Remplissez le formulaire de candidature. Notre equipe evaluera votre profil, puis enverra le lien d onboarding aux candidats retenus.</p>
           <Link href="/forms/driver-form" className="btn reveal">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
             <span>Acceder au formulaire de candidature</span>
@@ -139,36 +146,34 @@ export default function HomePage() {
           <h2 className="h2 reveal">Vous etes une entreprise?</h2>
           <div className="eyebrow reveal">TROUVEZ VOTRE PROCHAIN CHAUFFEUR</div>
           <div className="underline reveal"></div>
-          <p className="intro reveal">Remplissez ce court formulaire. On vous rappelle pour comprendre vos besoins, puis on vous envoie le formulaire detaille.</p>
+          <p className="intro reveal">{t(COMPANY_LEAD_INTRO, lang)}</p>
           <form className="lead-form reveal" onSubmit={handleSubmit} noValidate>
             <div className="grid2">
-              <div className="field"><label>Nom de l entreprise</label><input name="company_name" required value={form.company_name} onChange={handleChange} /></div>
-              <div className="field"><label>Nom du contact</label><input name="contact_name" required value={form.contact_name} onChange={handleChange} /></div>
+              {leadFields.filter((f) => f.name !== 'message').map((f) => (
+                <div key={f.name} className="field">
+                  <label>{f.label}{f.required ? ' *' : ''}</label>
+                  <input
+                    name={f.name}
+                    type={f.type}
+                    required={f.required}
+                    placeholder={f.placeholder}
+                    value={form[f.name as keyof typeof form]}
+                    onChange={handleChange}
+                  />
+                </div>
+              ))}
             </div>
-            <div className="grid2">
-              <div className="field"><label>Telephone</label><input name="phone" type="tel" required value={form.phone} onChange={handleChange} /></div>
-              <div className="field"><label>Courriel</label><input name="email" type="email" required value={form.email} onChange={handleChange} /></div>
-            </div>
-            <div className="grid2">
-              <div className="field"><label>Ville / Region</label><input name="region" value={form.region} onChange={handleChange} /></div>
-              <div className="field"><label>Nombre de chauffeurs</label>
-                <select name="drivers_count" value={form.drivers_count} onChange={handleChange}>
-                  <option>1</option><option>2-3</option><option>4-5</option><option>6-10</option><option>10+</option>
-                </select>
+            {leadFields.filter((f) => f.name === 'message').map((f) => (
+              <div key={f.name} className="field">
+                <label>{f.label}</label>
+                <textarea name={f.name} placeholder={f.placeholder} value={form.message} onChange={handleChange} />
               </div>
-            </div>
-            <div className="field"><label>Type de poste recherche</label>
-              <select name="position_type" value={form.position_type} onChange={handleChange}>
-                <option>Classe 1 - Longue distance</option><option>Classe 1 - Local/Regional</option>
-                <option>Classe 3</option><option>Shunter</option><option>Livreur</option><option>Autre</option>
-              </select>
-            </div>
-            <div className="field"><label>Votre besoin (optionnel)</label><textarea name="message" value={form.message} onChange={handleChange}></textarea></div>
+            ))}
             <button type="submit" className="btn" style={{ width: '100%' }} disabled={status === 'sending'}>
-              {status === 'sending' ? 'Envoi en cours...' : 'Envoyer ma demande'}
+              {status === 'sending' ? (lang === 'fr' ? 'Envoi en cours...' : 'Sending...') : (lang === 'fr' ? 'Envoyer ma demande' : 'Send my request')}
             </button>
-            {status === 'ok' && <div className="form-msg ok" style={{ display: 'block' }}>Merci! Nous avons bien recu votre demande et vous contacterons sous 24h.</div>}
-            {status === 'err' && <div className="form-msg err" style={{ display: 'block' }}>Une erreur est survenue. Veuillez reessayer ou nous appeler.</div>}
+            {status === 'ok' && <div className="form-msg ok" style={{ display: 'block' }}>{lang === 'fr' ? 'Merci! Nous avons bien recu votre demande et vous contacterons sous 24h.' : 'Thank you! We received your request and will contact you within 24 hours.'}</div>}
+            {status === 'err' && <div className="form-msg err" style={{ display: 'block' }}>{lang === 'fr' ? 'Une erreur est survenue. Veuillez reessayer ou nous appeler.' : 'An error occurred. Please try again or call us.'}</div>}
           </form>
         </div>
       </section>

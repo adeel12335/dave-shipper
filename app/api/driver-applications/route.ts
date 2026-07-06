@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { syncToZoho } from '@/lib/integrations/zoho'
 import { syncToOneDrive } from '@/lib/integrations/onedrive'
 import { sendNotificationEmail, buildDriverEmailHtml } from '@/lib/integrations/email'
@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { full_name, phone, email, city, province, years_experience, equipment, license_classes,
       transport_types, available_from, desired_salary, legal_right_to_work, legal_status,
-      position_types, distance_regions, schedule, employment_types, languages, locale } = body
+      position_types, distance_regions, schedule, employment_types, languages, additional_notes, locale } = body
 
     if (!full_name || !phone || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
     const supabase = await createClient()
-    const { error } = await supabase.from('driver_applications').insert({
+    const { data: inserted, error } = await supabase.from('driver_applications').insert({
       full_name, phone, email,
       city: city || null,
       province: province || null,
@@ -33,13 +33,14 @@ export async function POST(req: NextRequest) {
       schedule: schedule || [],
       employment_types: employment_types || [],
       languages: languages || [],
+      additional_notes: additional_notes || null,
       locale: locale || 'fr',
       status: 'new',
-    })
+    }).select('id').single()
 
     if (error) throw error
 
-    // Fire integrations in parallel (non-blocking — errors are logged, not thrown)
+    const applicationId = inserted.id
     const integrationData = { ...body }
     Promise.allSettled([
       syncToZoho(integrationData),
@@ -48,11 +49,30 @@ export async function POST(req: NextRequest) {
         `New Driver Application — ${full_name}`,
         buildDriverEmailHtml(integrationData)
       ),
-    ]).then(results => {
+    ]).then(async (results) => {
       results.forEach((r, i) => {
         if (r.status === 'rejected') console.error(`Integration ${i} failed:`, r.reason)
         else if (!r.value.ok) console.error(`Integration ${i} error:`, r.value.error)
       })
+
+      const admin = await createAdminClient()
+      const zohoResult = results[0]
+      if (zohoResult.status === 'fulfilled' && zohoResult.value.synced) {
+        const { error: updateError } = await admin
+          .from('driver_applications')
+          .update({ synced_zoho: true })
+          .eq('id', applicationId)
+        if (updateError) console.error('Failed to update synced_zoho:', updateError)
+      }
+
+      const onedriveResult = results[1]
+      if (onedriveResult.status === 'fulfilled' && onedriveResult.value.ok) {
+        const { error: updateError } = await admin
+          .from('driver_applications')
+          .update({ synced_excel: true })
+          .eq('id', applicationId)
+        if (updateError) console.error('Failed to update synced_excel:', updateError)
+      }
     })
 
     return NextResponse.json({ success: true })

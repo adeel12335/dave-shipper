@@ -1,215 +1,299 @@
 'use client'
-import { useState } from 'react'
+
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
-
-type Field = {
-  name: string
-  type: string
-  label: string
-  required?: boolean
-  full?: boolean
-  placeholder?: string
-  options?: string[]
-}
-
-const SECTIONS: { num: number; title: string; sub: string; fields: Field[] }[] = [
-  {
-    num: 1, title: 'Informations de la compagnie', sub: 'VOTRE ENTREPRISE',
-    fields: [
-      { name: 'company_name', type: 'text', required: true, label: 'Nom de la compagnie', placeholder: 'Transport ABC Inc.' },
-      { name: 'mc_number', type: 'text', label: 'Numero MC / DOT', placeholder: 'MC-123456' },
-      { name: 'city', type: 'text', required: true, label: 'Ville', placeholder: 'Montreal' },
-      { name: 'province', type: 'select', required: true, full: true, label: 'Province / Etat', options: ['Quebec', 'Ontario', 'Alberta', 'Colombie-Britannique', 'Manitoba', 'Saskatchewan', 'Autre'] },
-    ]
-  },
-  {
-    num: 2, title: 'Personne contact', sub: 'RESPONSABLE DES EMBAUCHES',
-    fields: [
-      { name: 'contact_name', type: 'text', required: true, label: 'Nom du responsable', placeholder: 'Jean Dupont' },
-      { name: 'contact_title', type: 'text', label: 'Titre / Poste', placeholder: 'Directeur des operations' },
-      { name: 'phone', type: 'tel', required: true, label: 'Telephone', placeholder: '(514) 555-0000' },
-      { name: 'email', type: 'email', required: true, label: 'Courriel', placeholder: 'rh@compagnie.com' },
-    ]
-  },
-  {
-    num: 3, title: 'Besoins en conducteurs', sub: 'TYPE DE CHAUFFEURS RECHERCHES',
-    fields: [
-      { name: 'driver_types', type: 'checkboxes', full: true, label: 'Types de chauffeurs', options: ['Classe 1', 'Classe 3', 'Classe 5', 'AZ', 'DZ', 'Propietaire-operateur'] },
-      { name: 'positions_count', type: 'select', full: true, label: 'Nombre de postes a combler', options: ['1-2', '3-5', '6-10', '11-20', 'Plus de 20'] },
-      { name: 'employment_type', type: 'checkboxes', full: true, label: "Type d'emploi offert", options: ['Temps plein', 'Temps partiel', 'Contractuel', 'Saisonnier', 'Permanent'] },
-    ]
-  },
-  {
-    num: 4, title: 'Type de transport', sub: 'OPERATIONS',
-    fields: [
-      { name: 'transport_types', type: 'checkboxes', full: true, label: 'Types de transport', options: ['Local', 'Regional', 'Longue Distance Canada', 'Longue Distance U.S.', 'International'] },
-      { name: 'equipment_types', type: 'checkboxes', full: true, label: 'Types de remorques', options: ['Dry Van', 'Reefer', 'Flatbed', 'Citerne', 'Dompeur', 'Container', 'Train Routier'] },
-    ]
-  },
-  {
-    num: 5, title: 'Conditions offertes', sub: 'REMUNERATION',
-    fields: [
-      { name: 'salary_range', type: 'select', full: true, label: 'Salaire / tarif offert', options: ['Moins de 22$/h', '22-25$/h', '25-28$/h', '28-32$/h', 'Plus de 32$/h', 'Salaire a discuter', 'Au km'] },
-      { name: 'benefits', type: 'checkboxes', full: true, label: 'Avantages offerts', options: ['Assurances collectives', 'REER', 'Conges payes', 'Formation payee', 'Prime de rendement', 'Camion attitré'] },
-      { name: 'additional_info', type: 'textarea', full: true, label: 'Informations supplementaires', placeholder: 'Decrivez le poste, les conditions, vos attentes...' },
-    ]
-  },
-]
+import FormBrandBar from '@/components/FormBrandBar'
+import { useSearchParams } from 'next/navigation'
+import { COMPANY_FORM_SECTIONS, COMPANY_FORM_SUBMIT_NOTE } from '@/lib/forms/company-form-schema'
+import { buildCompanyApplicationPayload, localizeSections, t } from '@/lib/forms/form-utils'
+import type { FormLang } from '@/lib/forms/types'
+import type { LocalizedField } from '@/lib/forms/types'
 
 type FormData = Record<string, string | string[]>
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-export default function CompanyFormPage() {
+const COPY = {
+  fr: {
+    heroTitle: 'Formulaire',
+    heroGold: 'Entreprise',
+    heroSub: 'Remplissez ce formulaire en detail pour nous permettre de trouver le chauffeur qui correspond parfaitement a vos besoins.',
+    progress: (n: number, total: number) => `ETAPE ${n} / ${total}`,
+    stepHint: (n: number, total: number) => `Etape ${n} sur ${total} — completez chaque section puis cliquez sur Suivant.`,
+    next: 'Suivant',
+    prev: 'Precedent',
+    submit: 'Soumettre ma demande',
+    sending: 'Envoi en cours...',
+    err: 'Une erreur est survenue. Veuillez reessayer.',
+    required: 'Ce champ est requis',
+    invalidEmail: 'Adresse courriel invalide',
+    invalidPhone: 'Minimum 10 chiffres requis',
+    successSub: 'Notre equipe vous contactera dans les meilleurs delais.',
+    back: "Retour a l'accueil",
+    select: '-- Choisir --',
+  },
+  en: {
+    heroTitle: 'Company',
+    heroGold: 'Form',
+    heroSub: 'Complete this form in detail so we can find the driver who perfectly matches your needs.',
+    progress: (n: number, total: number) => `STEP ${n} / ${total}`,
+    stepHint: (n: number, total: number) => `Step ${n} of ${total} — complete each section then click Next.`,
+    next: 'Next',
+    prev: 'Previous',
+    submit: 'Submit my request',
+    sending: 'Sending...',
+    err: 'An error occurred. Please try again.',
+    required: 'This field is required',
+    invalidEmail: 'Invalid email address',
+    invalidPhone: 'Minimum 10 digits required',
+    successSub: 'Our team will contact you as soon as possible.',
+    back: 'Back to home',
+    select: '-- Select --',
+  },
+}
+
+function CompanyFormContent() {
+  const searchParams = useSearchParams()
+  const leadId = searchParams.get('lead')
+  const langParam = searchParams.get('lang')
+  const [lang, setLang] = useState<FormLang>(langParam === 'en' ? 'en' : 'fr')
+
   const [data, setData] = useState<FormData>({})
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [step, setStep] = useState(0)
+
+  const tx = COPY[lang]
+  const sections = localizeSections(COMPANY_FORM_SECTIONS, lang)
+  const sectionCount = sections.length
+  const section = sections[step]
+  const isLast = step === sectionCount - 1
+  const progressPct = Math.round(((step + 1) / sectionCount) * 100)
 
   const setValue = (name: string, value: string | string[]) => {
-    setData(d => ({ ...d, [name]: value }))
-    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
+    setData((d) => ({ ...d, [name]: value }))
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: '' }))
   }
 
   const toggleCheck = (name: string, val: string) => {
     const cur = (data[name] as string[]) || []
-    setValue(name, cur.includes(val) ? cur.filter(v => v !== val) : [...cur, val])
+    setValue(name, cur.includes(val) ? cur.filter((v) => v !== val) : [...cur, val])
   }
 
-  const validate = () => {
+  const validateFields = (fields: LocalizedField[]) => {
     const e: Record<string, string> = {}
-    const allFields = SECTIONS.flatMap(s => s.fields)
-    for (const f of allFields) {
+    for (const f of fields) {
       if (f.required) {
         const val = data[f.name]
-        if (!val || (typeof val === 'string' && !val.trim())) {
-          e[f.name] = 'Ce champ est requis'
-        }
+        if (!val || (typeof val === 'string' && !val.trim())) e[f.name] = tx.required
       }
-      if (f.type === 'email' && data[f.name]) {
-        if (!EMAIL_RE.test(data[f.name] as string)) e[f.name] = 'Adresse courriel invalide'
+      if (f.type === 'email' && data[f.name] && !EMAIL_RE.test(data[f.name] as string)) {
+        e[f.name] = tx.invalidEmail
       }
       if (f.type === 'tel' && data[f.name]) {
         const digits = (data[f.name] as string).replace(/\D/g, '')
-        if (digits.length < 10) e[f.name] = 'Minimum 10 chiffres requis'
+        if (digits.length < 10) e[f.name] = tx.invalidPhone
       }
     }
-    setErrors(e)
-    return Object.keys(e).length === 0
+    return e
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!validate()) {
-      const firstErr = document.querySelector('[data-field-err]')
-      firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  const validateSection = (index: number) => {
+    const sectionErrors = validateFields(sections[index].fields)
+    setErrors((prev) => {
+      const next = { ...prev }
+      sections[index].fields.forEach((f) => delete next[f.name])
+      return { ...next, ...sectionErrors }
+    })
+    return Object.keys(sectionErrors).length === 0
+  }
+
+  const goToStep = (next: number) => {
+    setStep(next)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleNext = () => {
+    if (!validateSection(step)) {
+      document.querySelector('[data-field].has-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
-    setStatus('loading')
-    const res = await fetch('/api/company-applications', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-    setStatus(res.ok ? 'success' : 'error')
+    goToStep(step + 1)
   }
 
-  if (status === 'success') {
+  const handleBack = () => goToStep(step - 1)
+
+  const handleSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault()
+    const allErrors: Record<string, string> = {}
+    sections.forEach((s) => Object.assign(allErrors, validateFields(s.fields)))
+    setErrors(allErrors)
+    if (Object.keys(allErrors).length > 0) {
+      const firstErrName = Object.keys(allErrors)[0]
+      const errStep = sections.findIndex((s) => s.fields.some((f) => f.name === firstErrName))
+      if (errStep >= 0) goToStep(errStep)
+      return
+    }
+    setStatus('sending')
+    try {
+      const payload = buildCompanyApplicationPayload(data, { leadId, locale: lang })
+      const res = await fetch('/api/company-applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('ok')
+    } catch {
+      setStatus('err')
+    }
+  }
+
+  const renderField = (f: LocalizedField) => (
+    <div key={f.name} className={`field${f.full ? ' full' : ''}${errors[f.name] ? ' has-error' : ''}`} data-field={f.name}>
+      <label>{f.label}{f.required && <span className="req"> *</span>}</label>
+
+      {f.type === 'select' && (
+        <select name={f.name} value={(data[f.name] as string) || ''} onChange={(e) => setValue(f.name, e.target.value)}>
+          <option value="">{tx.select}</option>
+          {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      )}
+
+      {(f.type === 'text' || f.type === 'tel' || f.type === 'email' || f.type === 'date' || f.type === 'number') && (
+        <input
+          type={f.type === 'number' ? 'number' : f.type}
+          name={f.name}
+          placeholder={f.placeholder}
+          value={(data[f.name] as string) || ''}
+          onChange={(e) => setValue(f.name, e.target.value)}
+        />
+      )}
+
+      {f.type === 'textarea' && (
+        <textarea
+          name={f.name}
+          rows={4}
+          placeholder={f.placeholder}
+          value={(data[f.name] as string) || ''}
+          onChange={(e) => setValue(f.name, e.target.value)}
+        />
+      )}
+
+      {f.type === 'checkboxes' && (
+        <div className="choices">
+          {f.options?.map((o) => (
+            <label key={o.value} className="choice">
+              <input
+                type="checkbox"
+                checked={((data[f.name] as string[]) || []).includes(o.value)}
+                onChange={() => toggleCheck(f.name, o.value)}
+              />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {f.type === 'radios' && (
+        <div className="choices row">
+          {f.options?.map((o) => (
+            <label key={o.value} className="choice">
+              <input
+                type="radio"
+                name={f.name}
+                value={o.value}
+                checked={(data[f.name] as string) === o.value}
+                onChange={() => setValue(f.name, o.value)}
+              />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+    </div>
+  )
+
+  if (status === 'ok') {
     return (
-      <div style={{ minHeight: '100vh', background: '#f8f9fc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-        <div style={{ background: 'white', borderRadius: 16, padding: 48, textAlign: 'center', maxWidth: 480, boxShadow: '0 4px 24px rgba(0,0,0,.08)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
-          <h2 style={{ fontSize: 24, fontWeight: 800, color: '#14222f', marginBottom: 8 }}>Demande envoyée!</h2>
-          <p style={{ color: '#6b7a8d', marginBottom: 24 }}>Nous vous contacterons dans les meilleurs délais pour discuter de vos besoins.</p>
-          <Link href="/" style={{ display: 'inline-block', padding: '12px 28px', background: '#d4a03c', color: '#14222f', borderRadius: 8, fontWeight: 700, textDecoration: 'none' }}>Retour à l&apos;accueil</Link>
+      <div className="form-page">
+        <FormBrandBar lang={lang} />
+        <div className="form-hero">
+          <h1><span className="gold">{lang === 'fr' ? 'Demande envoyee!' : 'Request submitted!'}</span></h1>
+          <p>{tx.successSub}</p>
+        </div>
+        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <Link href="/" className="btn">{tx.back}</Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8f9fc', paddingTop: 100 }}>
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 20px 80px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: '#d4a03c', textTransform: 'uppercase', marginBottom: 8 }}>RECRUTEMENT</p>
-          <h1 style={{ fontSize: 36, fontWeight: 900, color: '#14222f', lineHeight: 1.2 }}>Trouvez vos <span style={{ color: '#d4a03c' }}>Chauffeurs</span></h1>
-          <p style={{ color: '#6b7a8d', marginTop: 12, maxWidth: 500, margin: '12px auto 0' }}>Remplissez ce formulaire et notre équipe vous contactera rapidement avec des profils correspondant à vos besoins.</p>
-        </div>
+    <div className="form-page">
+      <FormBrandBar lang={lang} onToggleLang={() => setLang(lang === 'fr' ? 'en' : 'fr')} />
 
-        {status === 'error' && (
-          <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: 10, padding: '14px 20px', marginBottom: 24, color: '#b91c1c', fontWeight: 600 }}>
-            Une erreur est survenue. Veuillez réessayer ou nous contacter directement.
+      <div className="progress">
+        <div className="wrap">
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progressPct}%` }} />
           </div>
-        )}
+          <div className="progress-text">{tx.progress(step + 1, sectionCount)}</div>
+        </div>
+      </div>
 
+      <div className="form-hero">
+        <h1>{tx.heroTitle} <span className="gold">{tx.heroGold}</span></h1>
+        <p>{tx.heroSub}</p>
+      </div>
+
+      <div className="form-container">
         <form onSubmit={handleSubmit}>
-          {SECTIONS.map((section) => (
-            <div key={section.num} style={{ background: 'white', borderRadius: 16, padding: 32, marginBottom: 24, boxShadow: '0 2px 12px rgba(0,0,0,.06)', border: '1px solid #e8edf5' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid #f0f2f6' }}>
-                <div style={{ width: 36, height: 36, background: 'linear-gradient(135deg,#d4a03c,#b8872e)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: 16, flexShrink: 0 }}>{section.num}</div>
+          <div className="section-cards">
+            <div key={section.num} className="section-card reveal in">
+              <div className="section-header">
+                <div className="section-num">{section.num}</div>
                 <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: '#d4a03c', textTransform: 'uppercase' }}>{section.sub}</div>
-                  <div style={{ fontSize: 17, fontWeight: 800, color: '#14222f' }}>{section.title}</div>
+                  <div className="section-title">{section.title}</div>
+                  <div className="section-sub">{section.sub}</div>
                 </div>
               </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
-                {section.fields.map((f) => (
-                  <div key={f.name} style={{ gridColumn: f.full ? '1 / -1' : undefined }} data-field-err={errors[f.name] ? f.name : undefined}>
-                    <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#14222f', marginBottom: 6 }}>
-                      {f.label}{f.required && <span style={{ color: '#d4a03c', marginLeft: 4 }}>*</span>}
-                    </label>
-
-                    {f.type === 'select' && (
-                      <select name={f.name} value={(data[f.name] as string) || ''} onChange={e => setValue(f.name, e.target.value)}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: `1.5px solid ${errors[f.name] ? '#e53e3e' : '#e0e7ef'}`, fontSize: 14, color: '#14222f', background: 'white', outline: 'none' }}>
-                        <option value="">Sélectionner...</option>
-                        {f.options?.map(o => <option key={o} value={o}>{o}</option>)}
-                      </select>
-                    )}
-
-                    {f.type === 'checkboxes' && (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px' }}>
-                        {f.options?.map(o => (
-                          <label key={o} style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'pointer', fontSize: 14, color: '#2a3d52', fontWeight: 500 }}>
-                            <input type="checkbox" checked={((data[f.name] as string[]) || []).includes(o)} onChange={() => toggleCheck(f.name, o)} style={{ accentColor: '#d4a03c', width: 16, height: 16 }} />
-                            {o}
-                          </label>
-                        ))}
-                      </div>
-                    )}
-
-                    {f.type === 'radios' && (
-                      <div style={{ display: 'flex', gap: 20 }}>
-                        {f.options?.map(o => (
-                          <label key={o} style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'pointer', fontSize: 14, color: '#2a3d52', fontWeight: 500 }}>
-                            <input type="radio" name={f.name} value={o} checked={data[f.name] === o} onChange={() => setValue(f.name, o)} style={{ accentColor: '#d4a03c' }} />
-                            {o}
-                          </label>
-                        ))}
-                      </div>
-                    )}
-
-                    {f.type === 'textarea' && (
-                      <textarea name={f.name} rows={4} placeholder={f.placeholder} value={(data[f.name] as string) || ''} onChange={e => setValue(f.name, e.target.value)}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: `1.5px solid ${errors[f.name] ? '#e53e3e' : '#e0e7ef'}`, fontSize: 14, color: '#14222f', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }} />
-                    )}
-
-                    {!['select', 'checkboxes', 'radios', 'textarea'].includes(f.type) && (
-                      <input type={f.type} name={f.name} placeholder={f.placeholder} value={(data[f.name] as string) || ''} onChange={e => setValue(f.name, e.target.value)}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: `1.5px solid ${errors[f.name] ? '#e53e3e' : '#e0e7ef'}`, fontSize: 14, color: '#14222f', outline: 'none', boxSizing: 'border-box' }} />
-                    )}
-
-                    {errors[f.name] && <p style={{ margin: '4px 0 0', fontSize: 12, fontWeight: 600, color: '#e53e3e' }}>{errors[f.name]}</p>}
-                  </div>
-                ))}
+              <div className="fields-grid">
+                {section.fields.map(renderField)}
               </div>
             </div>
-          ))}
-
-          <div style={{ textAlign: 'center' }}>
-            <button type="submit" disabled={status === 'loading'}
-              style={{ padding: '16px 48px', background: 'linear-gradient(135deg,#d4a03c,#b8872e)', color: '#0a1420', fontWeight: 800, fontSize: 16, borderRadius: 12, border: 'none', cursor: 'pointer', letterSpacing: 0.5 }}>
-              {status === 'loading' ? 'Envoi en cours...' : 'Soumettre ma demande'}
-            </button>
           </div>
+
+          <div className="wizard-nav">
+            {step > 0 ? (
+              <button type="button" className="btn-wizard-back" onClick={handleBack}>{tx.prev}</button>
+            ) : (
+              <span />
+            )}
+            <div className="wizard-nav-spacer" />
+            {!isLast ? (
+              <button type="button" className="btn btn-wizard-next" onClick={handleNext}>{tx.next}</button>
+            ) : (
+              <button type="submit" className="btn btn-wizard-next" disabled={status === 'sending'}>
+                {status === 'sending' ? tx.sending : tx.submit}
+              </button>
+            )}
+          </div>
+
+          {status === 'err' && <div className="form-msg err" style={{ display: 'block', marginTop: 16 }}>{tx.err}</div>}
+          {isLast && <p className="form-note" style={{ marginTop: 16 }}>{t(COMPANY_FORM_SUBMIT_NOTE, lang)}</p>}
         </form>
       </div>
     </div>
+  )
+}
+
+export default function CompanyFormPage() {
+  return (
+    <Suspense fallback={<div className="form-page" style={{ minHeight: '60vh' }} />}>
+      <CompanyFormContent />
+    </Suspense>
   )
 }

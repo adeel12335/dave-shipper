@@ -1,10 +1,21 @@
 'use client'
 import Image from 'next/image'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { ADMIN_FILTER_DEFS, PAGE_TO_TABLE } from '@/lib/admin/filter-definitions'
+import type { AdminFilterDef } from '@/lib/admin/filter-definitions'
 
 const STATUS_LABELS: Record<string, string> = { new: 'New', contacted: 'Contacted', form_sent: 'Form Sent', matched: 'Matched', invoiced: 'Invoiced', closed: 'Closed' }
 const STATUS_COLORS: Record<string, string> = { new: '#3b82f6', contacted: '#f59e0b', form_sent: '#8b5cf6', matched: '#22c55e', invoiced: '#d4a03c', closed: '#6b7a8d' }
+const POSITION_TYPE_OPTIONS: { value: string; label: string }[] = [
+  { value: 'class1_ld', label: 'Classe 1 — Longue distance' },
+  { value: 'class1_local', label: 'Classe 1 — Local/Regional' },
+  { value: 'class3', label: 'Classe 3' },
+  { value: 'shunter', label: 'Shunteur' },
+  { value: 'delivery', label: 'Livreur' },
+  { value: 'driver_handler', label: 'Manutentionnaire-chauffeur' },
+  { value: 'other', label: 'Autre' },
+]
 
 type PageType = 'dashboard' | 'leads' | 'drivers' | 'companies' | 'settings'
 
@@ -22,8 +33,13 @@ export default function AdminPage() {
   const [tableData, setTableData] = useState<any[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
+  const [fieldFilters, setFieldFilters] = useState<Record<string, string>>({})
+  const [showFilters, setShowFilters] = useState(false)
+  const [copyMsg, setCopyMsg] = useState('')
+  const [syncMsg, setSyncMsg] = useState('')
+  const [syncing, setSyncing] = useState(false)
+  const [exporting, setExporting] = useState(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
 
   const [cfg, setCfg] = useState<Record<string, string>>({})
@@ -44,7 +60,27 @@ export default function AdminPage() {
     if (!user) return
     if (['leads', 'drivers', 'companies'].includes(page)) loadTable()
     if (page === 'settings') loadCfg()
-  }, [user, page, currentPage, search, statusFilter])
+  }, [user, page, currentPage, statusFilter, fieldFilters])
+
+  const tableName = PAGE_TO_TABLE[page] || 'company_leads'
+  const filterDefs = useMemo(() => {
+    const defs = ADMIN_FILTER_DEFS[tableName] || []
+    return defs.filter((d) => d.key !== 'status')
+  }, [tableName])
+
+  const hasActiveFilters = Object.values(fieldFilters).some((v) => v?.trim())
+
+  const resetFilters = () => { setFieldFilters({}); setCurrentPage(1) }
+
+  const setFilter = (key: string, value: string) => {
+    setFieldFilters((f) => {
+      const next = { ...f }
+      if (!value?.trim()) delete next[key]
+      else next[key] = value
+      return next
+    })
+    setCurrentPage(1)
+  }
 
   const loadStats = async () => {
     const r = await fetch('/api/admin/stats')
@@ -52,14 +88,14 @@ export default function AdminPage() {
   }
 
   const loadTable = useCallback(async () => {
-    const tableMap: Record<string, string> = { leads: 'company_leads', drivers: 'driver_applications', companies: 'company_applications' }
-    const table = tableMap[page] || 'company_leads'
+    const table = PAGE_TO_TABLE[page] || 'company_leads'
     const p = new URLSearchParams({ table, page: String(currentPage), limit: '20' })
-    if (search) p.set('search', search)
     if (statusFilter) p.set('status', statusFilter)
+    const active = Object.fromEntries(Object.entries(fieldFilters).filter(([, v]) => v?.trim()))
+    if (Object.keys(active).length) p.set('filters', JSON.stringify(active))
     const r = await fetch(`/api/admin/data?${p}`)
     if (r.ok) { const { data, count } = await r.json(); setTableData(data || []); setTotalCount(count || 0) }
-  }, [page, currentPage, search, statusFilter])
+  }, [page, currentPage, statusFilter, fieldFilters])
 
   const loadCfg = async () => {
     const r = await fetch('/api/admin/settings')
@@ -92,6 +128,68 @@ export default function AdminPage() {
     await fetch('/api/admin/data', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ table, id, updates: { status } }) })
     loadTable(); loadStats()
     if (selectedRow?.id === id) setSelectedRow((r: any) => ({ ...r, status }))
+  }
+
+  const copyFormLink = async (leadId: string) => {
+    const url = `${window.location.origin}/forms/company-form?lead=${leadId}&lang=fr`
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopyMsg('Link copied!')
+    } catch {
+      setCopyMsg('Copy failed')
+    }
+    setTimeout(() => setCopyMsg(''), 2500)
+  }
+
+  const syncToZoho = async () => {
+    if (!selectedRow?.id) return
+    const table = PAGE_TO_TABLE[page]
+    setSyncing(true)
+    setSyncMsg('')
+    try {
+      const r = await fetch('/api/admin/sync-zoho', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table, id: selectedRow.id }),
+      })
+      const data = await r.json()
+      if (!r.ok) {
+        setSyncMsg(data.error || 'Sync failed')
+      } else if (data.synced) {
+        setSyncMsg('Synced to Zoho!')
+        setSelectedRow((row: any) => ({ ...row, synced_zoho: true }))
+        loadTable()
+      } else {
+        setSyncMsg('Zoho sync is disabled or not configured')
+      }
+    } catch {
+      setSyncMsg('Sync failed')
+    }
+    setSyncing(false)
+    setTimeout(() => setSyncMsg(''), 4000)
+  }
+
+  const exportCsv = async () => {
+    setExporting(true)
+    try {
+      const table = PAGE_TO_TABLE[page] || 'company_leads'
+      const p = new URLSearchParams({ table })
+      if (statusFilter) p.set('status', statusFilter)
+      const active = Object.fromEntries(Object.entries(fieldFilters).filter(([, v]) => v?.trim()))
+      if (Object.keys(active).length) p.set('filters', JSON.stringify(active))
+      const r = await fetch(`/api/admin/export?${p}`)
+      if (!r.ok) throw new Error('Export failed')
+      const blob = await r.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${table}-export.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      alert('Export failed')
+    }
+    setExporting(false)
   }
 
   const TABLE_MAP: Record<string, string> = { leads: 'company_leads', drivers: 'driver_applications', companies: 'company_applications' }
@@ -138,7 +236,7 @@ export default function AdminPage() {
           <div className="nav-section">
             <div className="nav-section-title">Data</div>
             {([['leads','Company Leads',stats.leads],['drivers','Driver Applications',stats.drivers],['companies','Company Applications',stats.companies]] as [PageType,string,number][]).map(([id,label,badge]) => (
-              <button key={id} className={`nav-item${page === id ? ' active' : ''}`} onClick={() => { setPage(id); setCurrentPage(1); setSearch(''); setStatusFilter('') }}>
+              <button key={id} className={`nav-item${page === id ? ' active' : ''}`} onClick={() => { setPage(id); setCurrentPage(1); setStatusFilter(''); setFieldFilters({}); setShowFilters(false) }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="7" r="4"/><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg>
                 {label}
                 <span className="nav-badge">{badge}</span>
@@ -175,14 +273,6 @@ export default function AdminPage() {
             </button>
             <h2 className="topbar-title" style={{ textTransform: 'capitalize' }}>{page}</h2>
           </div>
-          {['leads','drivers','companies'].includes(page) && (
-            <div className="topbar-actions">
-              <div className="topbar-search">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" placeholder="Search..." value={search} onChange={e => { setSearch(e.target.value); setCurrentPage(1) }} />
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="content-area">
@@ -204,14 +294,48 @@ export default function AdminPage() {
           {/* DATA TABLES */}
           {['leads','drivers','companies'].includes(page) && (
             <div className="page-view active">
-              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap', alignItems: 'center' }}>
                 {['','new','contacted','form_sent','matched','invoiced','closed'].map(s => (
                   <button key={s} onClick={() => { setStatusFilter(s); setCurrentPage(1) }}
                     style={{ padding: '6px 14px', borderRadius: 20, border: '1px solid var(--border)', background: statusFilter===s?'var(--gold)':'white', color: statusFilter===s?'var(--navy-800)':'var(--text)', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
                     {s ? STATUS_LABELS[s] : 'All'}
                   </button>
                 ))}
+                <button
+                  className={`filters-toggle${showFilters || hasActiveFilters ? ' active' : ''}`}
+                  onClick={() => setShowFilters(v => !v)}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  {hasActiveFilters && <span className="dot" />}
+                  Filters
+                </button>
+                <button
+                  onClick={exportCsv}
+                  disabled={exporting}
+                  style={{ padding: '6px 14px', borderRadius: 8, border: '1px solid var(--border)', background: 'white', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}
+                >
+                  {exporting ? 'Exporting...' : 'Export CSV'}
+                </button>
               </div>
+
+              {showFilters && (
+                <div className="filters-panel">
+                  <div className="filters-panel-header">
+                    <h4>Filter by field</h4>
+                    <span className="filters-count">{filterDefs.length} fields available</span>
+                  </div>
+                  <div className="filters-grid filters-grid-wide">
+                    {filterDefs.map((def) => (
+                      <FilterInput key={def.key} def={def} table={tableName} value={fieldFilters[def.key] || ''} onChange={(v) => setFilter(def.key, v)} />
+                    ))}
+                  </div>
+                  {hasActiveFilters && (
+                    <div className="filters-actions">
+                      <button className="filters-clear" onClick={resetFilters}>Clear all filters</button>
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="table-card">
                 <div className="table-wrap">
                   <table>
@@ -275,7 +399,7 @@ export default function AdminPage() {
                   <CfgToggle label="Enable Zoho Recruit sync" k="zoho_enabled" cfg={cfg} set={setCfgKey}/>
                   <p style={{ fontSize:12,color:'#6b7a8d',marginBottom:14,lineHeight:1.6 }}>
                     Zoho API Console &rarr; Self Client &rarr; Generate Refresh Token<br/>
-                    Scope: <code>ZohoRecruit.modules.Candidates.ALL</code>
+                    Scopes: <code>ZohoRecruit.modules.Candidates.CREATE</code>, <code>ZohoRecruit.modules.client.CREATE</code>
                   </p>
                   <CfgRow label="Client ID" k="zoho_client_id" cfg={cfg} set={setCfgKey} placeholder="1000.XXXX"/>
                   <CfgRow label="Client Secret" k="zoho_client_secret" cfg={cfg} set={setCfgKey} type="password"/>
@@ -306,25 +430,129 @@ export default function AdminPage() {
 
       {/* DETAIL MODAL */}
       {selectedRow && (
-        <div style={{ position:'fixed',inset:0,background:'rgba(0,0,0,.5)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:20 }}
-          onClick={()=>setSelectedRow(null)}>
-          <div style={{ background:'white',borderRadius:16,padding:32,maxWidth:600,width:'100%',maxHeight:'80vh',overflowY:'auto' }}
-            onClick={e=>e.stopPropagation()}>
-            <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24 }}>
-              <h3 style={{ fontSize:18,fontWeight:800 }}>{selectedRow.full_name||selectedRow.company_name||'Detail'}</h3>
-              <button onClick={()=>setSelectedRow(null)} style={{ background:'none',border:'none',fontSize:24,cursor:'pointer',lineHeight:1 }}>x</button>
+        <div className="modal-overlay open" onClick={() => setSelectedRow(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{selectedRow.full_name || selectedRow.company_name || 'Detail'}</h3>
+              <button className="modal-close" onClick={() => setSelectedRow(null)}>×</button>
             </div>
-            <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px 24px' }}>
-              {Object.entries(selectedRow).filter(([k])=>k!=='id').map(([k,v])=>(
-                <div key={k} style={{ borderBottom:'1px solid #f0f2f6',paddingBottom:8 }}>
-                  <div style={{ fontSize:10,fontWeight:700,letterSpacing:1.5,color:'#d4a03c',textTransform:'uppercase',marginBottom:2 }}>{k.replace(/_/g,' ')}</div>
-                  <div style={{ fontSize:14,color:'#14222f',fontWeight:500 }}>{Array.isArray(v)?(v as string[]).join(', ')||'-':String(v||'-')}</div>
+            <div className="modal-body">
+              <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                {page === 'leads' && selectedRow.id && (
+                  <button className="modal-btn modal-btn-primary" onClick={() => copyFormLink(selectedRow.id)}>
+                    Copy detailed form link
+                  </button>
+                )}
+                {['leads', 'drivers', 'companies'].includes(page) && selectedRow.id && (
+                  <button
+                    className="modal-btn"
+                    onClick={syncToZoho}
+                    disabled={syncing || selectedRow.synced_zoho}
+                    style={{ opacity: selectedRow.synced_zoho ? 0.6 : 1 }}
+                  >
+                    {selectedRow.synced_zoho ? 'Already synced to Zoho' : syncing ? 'Syncing...' : 'Sync to Zoho'}
+                  </button>
+                )}
+                {copyMsg && <span style={{ fontSize: 13, fontWeight: 600, color: copyMsg === 'Link copied!' ? 'var(--green)' : 'var(--red)' }}>{copyMsg}</span>}
+                {syncMsg && <span style={{ fontSize: 13, fontWeight: 600, color: syncMsg.includes('Synced') ? 'var(--green)' : 'var(--red)' }}>{syncMsg}</span>}
+              </div>
+              <div className="modal-grid">
+                {Object.entries(selectedRow)
+                  .filter(([k]) => k !== 'id' && !(page === 'companies' && k === 'details'))
+                  .map(([k, v]) => (
+                    <div key={k} className={`modal-field${k === 'admin_notes' || k === 'message' ? ' full' : ''}`}>
+                      <label>{k.replace(/_/g, ' ')}</label>
+                      <div className={`value${!v || (Array.isArray(v) && !v.length) ? ' empty' : ''}`}>
+                        {formatFieldValue(k, v)}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              {page === 'companies' && selectedRow.details && typeof selectedRow.details === 'object' && Object.keys(selectedRow.details).length > 0 && (
+                <div className="modal-field full" style={{ marginTop: 20 }}>
+                  <label>Form Details</label>
+                  <DetailsBlock data={selectedRow.details} />
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+function FilterInput({ def, table, value, onChange }: { def: AdminFilterDef; table: string; value: string; onChange: (v: string) => void }) {
+  const [dynamicOpts, setDynamicOpts] = useState<{ value: string; label: string }[]>([])
+  const [loadingOpts, setLoadingOpts] = useState(false)
+
+  useEffect(() => {
+    if (!def.dynamic) return
+    setLoadingOpts(true)
+    const p = new URLSearchParams({ table, field: def.key, jsonb: String(!!def.jsonb) })
+    fetch(`/api/admin/filter-options?${p}`)
+      .then((r) => r.json())
+      .then((d) => setDynamicOpts(d.options || []))
+      .catch(() => setDynamicOpts([]))
+      .finally(() => setLoadingOpts(false))
+  }, [def.key, def.dynamic, def.jsonb, table])
+
+  const isCreatedRange = def.key === 'created_from' || def.key === 'created_to'
+  if (isCreatedRange) {
+    return (
+      <div className="filter-field">
+        <label>{def.label}</label>
+        <input type="date" value={value} onChange={(e) => onChange(e.target.value)} />
+      </div>
+    )
+  }
+
+  const options = def.dynamic ? dynamicOpts : (def.options || [])
+
+  return (
+    <div className="filter-field">
+      <label>{def.label}</label>
+      <select value={value} onChange={(e) => onChange(e.target.value)} disabled={loadingOpts && def.dynamic}>
+        <option value="">{loadingOpts && def.dynamic ? 'Loading...' : 'All'}</option>
+        {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </select>
+    </div>
+  )
+}
+
+function formatFieldValue(key: string, value: unknown): React.ReactNode {
+  if (value === null || value === undefined || value === '') return '—'
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No'
+  if (Array.isArray(value)) {
+    if (!value.length) return '—'
+    return <span className="tags">{value.map((item, i) => <span key={i} className="tag">{String(item)}</span>)}</span>
+  }
+  if (typeof value === 'object') return JSON.stringify(value, null, 2)
+  if (key === 'created_at' || key.endsWith('_at')) {
+    try { return new Date(String(value)).toLocaleString() } catch { return String(value) }
+  }
+  if (key === 'position_type') {
+    const match = POSITION_TYPE_OPTIONS.find(o => o.value === value)
+    return match ? match.label : String(value)
+  }
+  return String(value)
+}
+
+function formatDetailKey(key: string): string {
+  return key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function DetailsBlock({ data }: { data: Record<string, unknown> }) {
+  const entries = Object.entries(data).filter(([, v]) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && !v.length))
+  if (!entries.length) return <div className="value empty">No additional details</div>
+  return (
+    <div className="details-block">
+      {entries.map(([key, value]) => (
+        <div key={key} className="detail-row">
+          <div className="detail-key">{formatDetailKey(key)}</div>
+          <div className="detail-val">{formatFieldValue(key, value)}</div>
+        </div>
+      ))}
     </div>
   )
 }

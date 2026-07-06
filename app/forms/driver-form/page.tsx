@@ -1,114 +1,142 @@
 'use client'
+
 import { useState } from 'react'
 import Link from 'next/link'
-
-type Field = {
-  name: string
-  type: string
-  label: string
-  required?: boolean
-  full?: boolean
-  placeholder?: string
-  options?: string[]
-}
-
-const SECTIONS: { num: number; title: string; sub: string; fields: Field[] }[] = [
-  {
-    num: 1, title: 'Informations Personnelles', sub: 'VOS COORDONNEES',
-    fields: [
-      { name: 'full_name', type: 'text', required: true, label: 'Nom complet', placeholder: 'Prenom et nom' },
-      { name: 'phone', type: 'tel', required: true, label: 'Telephone', placeholder: '(514) 555-1234' },
-      { name: 'email', type: 'email', required: true, label: 'Courriel', placeholder: 'vous@courriel.com' },
-      { name: 'city', type: 'text', required: true, label: 'Ville', placeholder: 'Montreal' },
-      { name: 'province', type: 'select', required: true, full: true, label: 'Province', options: ['Quebec', 'Ontario', 'Alberta', 'Colombie-Britannique', 'Manitoba', 'Saskatchewan', 'Autre'] },
-    ]
-  },
-  {
-    num: 2, title: 'Experience & Qualifications', sub: 'VOTRE PROFIL',
-    fields: [
-      { name: 'years_experience', type: 'select', required: true, full: true, label: "Annees d'experience", options: ['Moins de 1 an', '1-2 ans', '3-5 ans', '6-10 ans', 'Plus de 10 ans'] },
-      { name: 'license_classes', type: 'checkboxes', full: true, label: 'Classes de permis', options: ['Classe 1', 'Classe 2', 'Classe 3', 'Classe 4', 'Classe 5'] },
-      { name: 'equipment', type: 'checkboxes', full: true, label: 'Types de remorques', options: ['Dry Van', 'Reefer', 'Flatbed', 'Citerne', 'Dompeur', 'Container', 'Train Routier', 'Moffat', 'Tailgate'] },
-    ]
-  },
-  {
-    num: 3, title: 'Preferences de Travail', sub: 'TYPE DE POSTE',
-    fields: [
-      { name: 'transport_types', type: 'checkboxes', full: true, label: 'Types de transport', options: ['Local', 'Regional', 'Longue Distance Canada', 'Longue Distance U.S.'] },
-      { name: 'position_types', type: 'checkboxes', full: true, label: 'Types de postes', options: ['Temps plein', 'Temps partiel', 'Contractuel', 'Saisonnier'] },
-      { name: 'employment_types', type: 'checkboxes', full: true, label: "Type d'emploi", options: ['Employe', 'Proprietaire-operateur'] },
-    ]
-  },
-  {
-    num: 4, title: 'Disponibilite', sub: 'QUAND POUVEZ-VOUS COMMENCER',
-    fields: [
-      { name: 'available_from', type: 'date', label: 'Disponible a partir de', placeholder: '' },
-      { name: 'desired_salary', type: 'text', label: 'Salaire desire', placeholder: 'Ex: 28$/h ou 0.60$/km' },
-      { name: 'schedule', type: 'checkboxes', full: true, label: 'Horaires acceptes', options: ['Jour', 'Soir', 'Nuit', 'Fin de semaine', 'Horaire rotatif'] },
-    ]
-  },
-  {
-    num: 5, title: 'Statut Legal', sub: 'DROIT DE TRAVAILLER AU CANADA',
-    fields: [
-      { name: 'legal_right_to_work', type: 'radios', full: true, label: 'Avez-vous le droit de travailler au Canada?', options: ['Oui', 'Non'] },
-      { name: 'legal_status', type: 'select', full: true, label: 'Statut', options: ['Citoyen canadien', 'Resident permanent', 'Permis de travail', 'Autre'] },
-      { name: 'languages', type: 'checkboxes', full: true, label: 'Langues parlees', options: ['Francais', 'Anglais', 'Espagnol', 'Autre'] },
-    ]
-  },
-  {
-    num: 6, title: 'Regions', sub: 'OU SOUHAITEZ-VOUS TRAVAILLER',
-    fields: [
-      { name: 'distance_regions', type: 'checkboxes', full: true, label: 'Regions souhaitees', options: ['Quebec', 'Ontario', 'Maritimes', 'Ouest canadien', 'Est USA', 'Ouest USA', 'Nationwide'] },
-    ]
-  },
-]
+import FormBrandBar from '@/components/FormBrandBar'
+import { DRIVER_FORM_SECTIONS, DRIVER_FORM_SUBMIT_NOTE } from '@/lib/forms/driver-form-schema'
+import { localizeSections, t } from '@/lib/forms/form-utils'
+import type { FormLang } from '@/lib/forms/types'
+import type { LocalizedField } from '@/lib/forms/types'
 
 type FormData = Record<string, string | string[]>
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const COPY = {
+  fr: {
+    heroTitle: 'Application',
+    heroGold: 'Chauffeur',
+    heroSub: 'Remplissez ce formulaire pour nous presenter votre profil. C est la premiere etape — si vous correspondez a nos besoins, nous vous enverrons ensuite le lien d onboarding.',
+    flowNote: 'Etape 1 : candidature en ligne. Etape 2 : evaluation par notre equipe. Etape 3 : lien d onboarding envoye aux candidats retenus.',
+    progress: (n: number, total: number) => `ETAPE ${n} / ${total}`,
+    stepHint: (title: string) => `Section en cours : ${title}`,
+    next: 'Suivant',
+    prev: 'Precedent',
+    submit: 'Soumettre ma candidature',
+    sending: 'Envoi en cours...',
+    err: 'Une erreur est survenue. Veuillez reessayer.',
+    required: 'Ce champ est requis',
+    invalidEmail: 'Adresse courriel invalide',
+    invalidPhone: 'Minimum 10 chiffres requis',
+    successTitle: 'Candidature',
+    successGold: 'recue!',
+    successSub: 'Merci! Notre equipe evaluera votre profil dans les 24-48 heures. Si vous etes retenu, nous vous enverrons le lien pour les prochaines etapes d onboarding.',
+    back: "Retour a l'accueil",
+    select: '-- Choisir --',
+  },
+  en: {
+    heroTitle: 'Driver',
+    heroGold: 'Application',
+    heroSub: 'Complete this form to introduce your profile. This is step one — if you are a good fit, we will send you the onboarding link next.',
+    flowNote: 'Step 1: online application. Step 2: review by our team. Step 3: onboarding link sent to selected candidates.',
+    progress: (n: number, total: number) => `STEP ${n} / ${total}`,
+    stepHint: (title: string) => `Current section: ${title}`,
+    next: 'Next',
+    prev: 'Previous',
+    submit: 'Submit my application',
+    sending: 'Sending...',
+    err: 'An error occurred. Please try again.',
+    required: 'This field is required',
+    invalidEmail: 'Invalid email address',
+    invalidPhone: 'Minimum 10 digits required',
+    successTitle: 'Application',
+    successGold: 'received!',
+    successSub: 'Thank you! Our team will review your profile within 24-48 hours. If you are selected, we will send you the link for the next onboarding steps.',
+    back: 'Back to home',
+    select: '-- Select --',
+  },
+}
+
 export default function DriverFormPage() {
+  const [lang, setLang] = useState<FormLang>('fr')
   const [data, setData] = useState<FormData>({})
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [step, setStep] = useState(0)
+
+  const tx = COPY[lang]
+  const sections = localizeSections(DRIVER_FORM_SECTIONS, lang)
+  const sectionCount = sections.length
+  const section = sections[step]
+  const isLast = step === sectionCount - 1
+  const progressPct = Math.round(((step + 1) / sectionCount) * 100)
 
   const setValue = (name: string, value: string | string[]) => {
-    setData(d => ({ ...d, [name]: value }))
-    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
+    setData((d) => ({ ...d, [name]: value }))
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: '' }))
   }
 
   const toggleCheck = (name: string, val: string) => {
     const cur = (data[name] as string[]) || []
-    setValue(name, cur.includes(val) ? cur.filter(v => v !== val) : [...cur, val])
+    setValue(name, cur.includes(val) ? cur.filter((v) => v !== val) : [...cur, val])
   }
 
-  const validate = () => {
+  const validateFields = (fields: LocalizedField[]) => {
     const e: Record<string, string> = {}
-    const allFields = SECTIONS.flatMap(s => s.fields)
-    for (const f of allFields) {
+    for (const f of fields) {
+      const val = data[f.name]
       if (f.required) {
-        const val = data[f.name]
-        if (!val || (typeof val === 'string' && !val.trim())) {
-          e[f.name] = 'Ce champ est requis'
+        if (f.type === 'checkboxes') {
+          if (!Array.isArray(val) || val.length === 0) e[f.name] = tx.required
+        } else if (!val || (typeof val === 'string' && !val.trim())) {
+          e[f.name] = tx.required
         }
       }
-      if (f.type === 'email' && data[f.name]) {
-        if (!EMAIL_RE.test(data[f.name] as string)) e[f.name] = 'Adresse courriel invalide'
+      if (f.type === 'email' && data[f.name] && !EMAIL_RE.test(data[f.name] as string)) {
+        e[f.name] = tx.invalidEmail
       }
       if (f.type === 'tel' && data[f.name]) {
         const digits = (data[f.name] as string).replace(/\D/g, '')
-        if (digits.length < 10) e[f.name] = 'Minimum 10 chiffres requis'
+        if (digits.length < 10) e[f.name] = tx.invalidPhone
       }
     }
-    setErrors(e)
-    return Object.keys(e).length === 0
+    return e
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!validate()) {
-      const firstErr = document.querySelector('[data-field].has-error')
-      firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  const validateSection = (index: number) => {
+    const sectionErrors = validateFields(sections[index].fields)
+    setErrors((prev) => {
+      const next = { ...prev }
+      sections[index].fields.forEach((f) => delete next[f.name])
+      return { ...next, ...sectionErrors }
+    })
+    return Object.keys(sectionErrors).length === 0
+  }
+
+  const goToStep = (next: number) => {
+    setStep(next)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleNext = () => {
+    if (!validateSection(step)) {
+      document.querySelector('[data-field].has-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      return
+    }
+    goToStep(step + 1)
+  }
+
+  const handleBack = () => goToStep(step - 1)
+
+  const handleSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault()
+    const allErrors: Record<string, string> = {}
+    sections.forEach((s) => Object.assign(allErrors, validateFields(s.fields)))
+    setErrors(allErrors)
+    if (Object.keys(allErrors).length > 0) {
+      const firstErrName = Object.keys(allErrors)[0]
+      const errStep = sections.findIndex((s) => s.fields.some((f) => f.name === firstErrName))
+      if (errStep >= 0) goToStep(errStep)
       return
     }
     setStatus('sending')
@@ -116,104 +144,160 @@ export default function DriverFormPage() {
       const res = await fetch('/api/driver-applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, locale: 'fr' }),
+        body: JSON.stringify({ ...data, locale: lang }),
       })
       if (!res.ok) throw new Error()
       setStatus('ok')
-    } catch { setStatus('err') }
+    } catch {
+      setStatus('err')
+    }
   }
+
+  const renderField = (f: LocalizedField) => (
+    <div key={f.name} className={`field${f.full ? ' full' : ''}${errors[f.name] ? ' has-error' : ''}`} data-field={f.name}>
+      <label>{f.label}{f.required && <span className="req"> *</span>}</label>
+
+      {f.type === 'select' && (
+        <select name={f.name} value={(data[f.name] as string) || ''} onChange={(e) => setValue(f.name, e.target.value)}>
+          <option value="">{tx.select}</option>
+          {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      )}
+
+      {(f.type === 'text' || f.type === 'tel' || f.type === 'email' || f.type === 'date') && (
+        <input
+          type={f.type}
+          name={f.name}
+          placeholder={f.placeholder}
+          value={(data[f.name] as string) || ''}
+          onChange={(e) => setValue(f.name, e.target.value)}
+        />
+      )}
+
+      {f.type === 'textarea' && (
+        <textarea
+          name={f.name}
+          rows={4}
+          placeholder={f.placeholder}
+          value={(data[f.name] as string) || ''}
+          onChange={(e) => setValue(f.name, e.target.value)}
+        />
+      )}
+
+      {f.type === 'checkboxes' && (
+        <div className={`choices${(f.options?.length ?? 0) > 6 ? ' choices-wide' : ''}`}>
+          {f.options?.map((o) => (
+            <label key={o.value} className="choice">
+              <input
+                type="checkbox"
+                checked={((data[f.name] as string[]) || []).includes(o.value)}
+                onChange={() => toggleCheck(f.name, o.value)}
+              />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {f.type === 'radios' && (
+        <div className="choices row">
+          {f.options?.map((o) => (
+            <label key={o.value} className="choice">
+              <input
+                type="radio"
+                name={f.name}
+                value={o.value}
+                checked={(data[f.name] as string) === o.value}
+                onChange={() => setValue(f.name, o.value)}
+              />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+    </div>
+  )
 
   if (status === 'ok') {
     return (
       <div className="form-page">
+        <FormBrandBar lang={lang} />
         <div className="form-hero">
-          <h1>Candidature <span className="gold">soumise!</span></h1>
-          <p>Merci! Notre equipe vous contactera dans les 24-48 heures.</p>
+          <h1>{tx.successTitle} <span className="gold">{tx.successGold}</span></h1>
+          <p>{tx.successSub}</p>
         </div>
-        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <Link href="/" className="btn">Retour a l accueil</Link>
+        <div style={{ textAlign: 'center', padding: '48px 20px 72px' }}>
+          <Link href="/" className="btn">{tx.back}</Link>
         </div>
       </div>
     )
   }
 
-  const progress = Math.round((Object.keys(data).length / 15) * 100)
-
   return (
     <div className="form-page">
+      <FormBrandBar lang={lang} onToggleLang={() => setLang(lang === 'fr' ? 'en' : 'fr')} />
+
       <div className="progress">
         <div className="wrap">
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${Math.min(progress, 100)}%` }}></div>
+            <div className="progress-fill" style={{ width: `${progressPct}%` }} />
           </div>
-          <div className="progress-text">{SECTIONS.length} SECTIONS</div>
+          <div className="progress-text">{tx.progress(step + 1, sectionCount)}</div>
         </div>
       </div>
 
       <div className="form-hero">
-        <h1>Application <span className="gold">Chauffeur</span></h1>
-        <p>Merci de completer ce formulaire afin que notre equipe puisse evaluer votre profil.</p>
+        <h1>{tx.heroTitle} <span className="gold">{tx.heroGold}</span></h1>
+        <p>{tx.heroSub}</p>
+        <p className="form-flow-note">{tx.flowNote}</p>
+        <div className="wizard-steps" aria-hidden>
+          {sections.map((s, i) => (
+            <span
+              key={s.num}
+              className={`wizard-step-dot${i === step ? ' active' : ''}${i < step ? ' done' : ''}`}
+              title={s.title}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="form-container">
         <form id="crForm" onSubmit={handleSubmit}>
           <div className="section-cards">
-            {SECTIONS.map(section => (
-              <div key={section.num} className="section-card reveal in">
-                <div className="section-header">
-                  <div className="section-num">{section.num}</div>
-                  <div>
-                    <div className="section-title">{section.title}</div>
-                    <div className="section-sub">{section.sub}</div>
-                  </div>
-                </div>
-                <div className="fields-grid">
-                  {section.fields.map(f => (
-                    <div key={f.name} className={`field${f.full ? ' full' : ''}${errors[f.name] ? ' has-error' : ''}`} data-field={f.name}>
-                      <label>{f.label}{f.required && <span className="req"> *</span>}</label>
-                      {f.type === 'select' && (
-                        <select name={f.name} value={(data[f.name] as string) || ''} onChange={e => setValue(f.name, e.target.value)}>
-                          <option value="">-- Choisir --</option>
-                          {f.options?.map(o => <option key={o} value={o}>{o}</option>)}
-                        </select>
-                      )}
-                      {(f.type === 'text' || f.type === 'tel' || f.type === 'email' || f.type === 'date') && (
-                        <input type={f.type} name={f.name} placeholder={f.placeholder} value={(data[f.name] as string) || ''} onChange={e => setValue(f.name, e.target.value)} />
-                      )}
-                      {f.type === 'checkboxes' && (
-                        <div className="choices">
-                          {f.options?.map(o => (
-                            <label key={o} className="choice">
-                              <input type="checkbox" name={f.name} value={o} checked={((data[f.name] as string[]) || []).includes(o)} onChange={() => toggleCheck(f.name, o)} />
-                              <span>{o}</span>
-                            </label>
-                          ))}
-                        </div>
-                      )}
-                      {f.type === 'radios' && (
-                        <div className="choices row">
-                          {f.options?.map(o => (
-                            <label key={o} className="choice">
-                              <input type="radio" name={f.name} value={o} checked={(data[f.name] as string) === o} onChange={() => setValue(f.name, o)} />
-                              <span>{o}</span>
-                            </label>
-                          ))}
-                        </div>
-                      )}
-                      {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
-                    </div>
-                  ))}
+            <div key={section.num} className="section-card reveal in">
+              <div className="section-header">
+                <div className="section-num">{section.num}</div>
+                <div>
+                  <div className="section-title">{section.title}</div>
+                  <div className="section-sub">{tx.stepHint(section.title)}</div>
                 </div>
               </div>
-            ))}
+              <div className="fields-grid">
+                {section.fields.map(renderField)}
+              </div>
+            </div>
           </div>
-          <div className="submit-section">
-            <button type="submit" className="btn" style={{ width: '100%' }} disabled={status === 'sending'}>
-              {status === 'sending' ? 'Envoi en cours...' : 'Soumettre ma candidature'}
-            </button>
-            {status === 'err' && <div className="form-msg err" style={{ display: 'block' }}>Une erreur est survenue. Veuillez reessayer.</div>}
-            <p className="form-note">Seuls les candidats correspondant a nos besoins seront contactes. Votre information est confidentielle.</p>
+
+          <div className="wizard-nav">
+            {step > 0 ? (
+              <button type="button" className="btn-wizard-back" onClick={handleBack}>{tx.prev}</button>
+            ) : (
+              <span />
+            )}
+            <div className="wizard-nav-spacer" />
+            {!isLast ? (
+              <button type="button" className="btn btn-wizard-next" onClick={handleNext}>{tx.next}</button>
+            ) : (
+              <button type="submit" className="btn btn-wizard-next" disabled={status === 'sending'}>
+                {status === 'sending' ? tx.sending : tx.submit}
+              </button>
+            )}
           </div>
+
+          {status === 'err' && <div className="form-msg err" style={{ display: 'block', marginTop: 16 }}>{tx.err}</div>}
+          {isLast && <p className="form-note" style={{ marginTop: 16 }}>{t(DRIVER_FORM_SUBMIT_NOTE, lang)}</p>}
         </form>
       </div>
     </div>
