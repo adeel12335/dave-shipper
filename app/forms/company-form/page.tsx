@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import FormBrandBar from '@/components/FormBrandBar'
 import { useSearchParams } from 'next/navigation'
+import { useLang } from '@/lib/i18n'
 import { COMPANY_FORM_SECTIONS, COMPANY_FORM_SUBMIT_NOTE } from '@/lib/forms/company-form-schema'
 import { buildCompanyApplicationPayload, localizeSections, t } from '@/lib/forms/form-utils'
-import type { FormLang } from '@/lib/forms/types'
 import type { LocalizedField } from '@/lib/forms/types'
 
 type FormData = Record<string, string | string[]>
@@ -56,7 +56,9 @@ function CompanyFormContent() {
   const searchParams = useSearchParams()
   const leadId = searchParams.get('lead')
   const langParam = searchParams.get('lang')
-  const [lang, setLang] = useState<FormLang>(langParam === 'en' ? 'en' : 'fr')
+  const { lang, setLang } = useLang()
+  // Honor a ?lang= deep link (e.g. detailed form sent to a company in English)
+  useEffect(() => { if (langParam === 'en' || langParam === 'fr') setLang(langParam) }, [langParam])
 
   const [data, setData] = useState<FormData>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
@@ -219,7 +221,7 @@ function CompanyFormContent() {
   if (status === 'ok') {
     return (
       <div className="form-page">
-        <FormBrandBar lang={lang} />
+        <FormBrandBar />
         <div className="form-hero">
           <h1><span className="gold">{lang === 'fr' ? 'Demande envoyee!' : 'Request submitted!'}</span></h1>
           <p>{tx.successSub}</p>
@@ -233,7 +235,7 @@ function CompanyFormContent() {
 
   return (
     <div className="form-page">
-      <FormBrandBar lang={lang} onToggleLang={() => setLang(lang === 'fr' ? 'en' : 'fr')} />
+      <FormBrandBar />
 
       <div className="progress">
         <div className="wrap">
@@ -270,7 +272,7 @@ function CompanyFormContent() {
             {step > 0 ? (
               <button type="button" className="btn-wizard-back" onClick={handleBack}>{tx.prev}</button>
             ) : (
-              <span />
+              <span className="wizard-step-count">{tx.progress(step + 1, sectionCount)}</span>
             )}
             <div className="wizard-nav-spacer" />
             {!isLast ? (

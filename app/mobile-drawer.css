@@ -74,6 +74,82 @@
   gap: 12px;
 }
 
+/* ---- "Apply now" dropdown ---- */
+.apply-dropdown {
+  position: relative;
+}
+.apply-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.apply-toggle .chev {
+  transition: transform 0.2s ease;
+}
+.apply-dropdown.open .apply-toggle .chev {
+  transform: rotate(180deg);
+}
+.apply-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 268px;
+  background: #0d1826;
+  border: 1px solid rgba(212, 160, 60, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55);
+  padding: 8px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: apply-menu-in 0.15s ease;
+}
+@keyframes apply-menu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.apply-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.15s ease;
+}
+.apply-menu-item:hover {
+  background: rgba(212, 160, 60, 0.13);
+}
+.apply-menu-item > svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.apply-menu-text {
+  display: flex;
+  flex-direction: column;
+}
+.apply-menu-title {
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.apply-menu-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+}
+
+/* Section label inside the mobile drawer */
+.drawer-section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgba(212, 160, 60, 0.85);
+  padding: 14px 14px 4px;
+}
+
 /* Mobile right cluster (lang + hamburger) — hidden on desktop */
 .mobile-nav-right {
   display: none;

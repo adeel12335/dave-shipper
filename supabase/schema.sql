@@ -154,6 +154,8 @@ insert into app_settings (key, value) values
   ('smtp_pass',              ''),
   ('smtp_from_email',        ''),
   ('smtp_from_name',         'TruckRecruit'),
+  ('notification_email',     ''),
+  ('confirmation_enabled',   'false'),
   ('zoho_client_id',         ''),
   ('zoho_client_secret',     ''),
   ('zoho_refresh_token',     ''),

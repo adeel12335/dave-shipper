@@ -751,14 +751,9 @@ section {
   flex-wrap: wrap;
 }
 .form-brand-logo {
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
-}
-.form-brand-logo span {
-  color: var(--gold);
 }
 .form-brand-tag {
   font-size: 10px;
@@ -832,10 +827,17 @@ section {
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.75);
 }
+/* Form pages sit in a flex column so the footer anchors to the bottom
+   instead of leaving a dead void under short wizard steps. */
+.form-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .form-page {
   background: var(--navy-700);
   color: #fff;
-  min-height: 100vh;
+  flex: 1 0 auto;
 }
 .form-hero {
   background: var(--navy-800);
@@ -989,6 +991,13 @@ section {
 }
 .wizard-nav-spacer {
   flex: 1;
+}
+.wizard-step-count {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  text-transform: uppercase;
 }
 .btn-wizard-back {
   padding: 14px 28px;

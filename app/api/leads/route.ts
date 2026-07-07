@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
-import { sendNotificationEmail, buildLeadEmailHtml } from '@/lib/integrations/email'
+import { sendNotificationEmail, buildLeadEmailHtml, sendConfirmationEmail, buildCompanyConfirmationHtml } from '@/lib/integrations/email'
 import { syncCompanyToZoho } from '@/lib/integrations/zoho'
 
 export async function POST(req: NextRequest) {
@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
         buildLeadEmailHtml(integrationData)
       ),
       syncCompanyToZoho(integrationData),
+      sendConfirmationEmail(
+        email,
+        locale === 'en' ? 'Request received — TruckRecruit.com' : 'Demande reçue — TruckRecruit.com',
+        buildCompanyConfirmationHtml(contact_name, locale)
+      ),
     ]).then(async (results) => {
       results.forEach((r, i) => {
         if (r.status === 'rejected') console.error(`Lead integration ${i} failed:`, r.reason)

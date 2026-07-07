@@ -45,6 +45,8 @@ export default function AdminPage() {
   const [cfg, setCfg] = useState<Record<string, string>>({})
   const [cfgSaving, setCfgSaving] = useState<string | null>(null)
   const [cfgMsg, setCfgMsg] = useState<Record<string, string>>({})
+  const [testingEmail, setTestingEmail] = useState(false)
+  const [testEmailMsg, setTestEmailMsg] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
@@ -113,6 +115,22 @@ export default function AdminPage() {
   }
 
   const setCfgKey = (k: string, v: string) => setCfg(s => ({ ...s, [k]: v }))
+
+  const testEmail = async () => {
+    setTestingEmail(true)
+    setTestEmailMsg('')
+    const keys = ['smtp_host','smtp_port','smtp_user','smtp_pass','smtp_from_email','smtp_from_name','notification_email']
+    const payload: Record<string, string> = {}
+    keys.forEach(k => { payload[k] = cfg[k] ?? '' })
+    try {
+      const r = await fetch('/api/admin/test-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      const d = await r.json()
+      setTestEmailMsg(d.ok ? `✓ Test email sent to ${d.sentTo}` : `✗ ${d.error || 'Failed'}`)
+    } catch {
+      setTestEmailMsg('✗ Request failed')
+    }
+    setTestingEmail(false)
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); setLoginErr(''); setLoginLoading(true)
@@ -384,7 +402,7 @@ export default function AdminPage() {
               <div style={{ maxWidth:720 }}>
 
                 <CfgCard title="Email / SMTP" section="smtp" saving={cfgSaving} msg={cfgMsg}
-                  onSave={()=>saveCfg('smtp',['smtp_enabled','smtp_host','smtp_port','smtp_user','smtp_pass','smtp_from_email','smtp_from_name'])}>
+                  onSave={()=>saveCfg('smtp',['smtp_enabled','smtp_host','smtp_port','smtp_user','smtp_pass','smtp_from_email','smtp_from_name','notification_email','confirmation_enabled'])}>
                   <CfgToggle label="Enable email notifications" k="smtp_enabled" cfg={cfg} set={setCfgKey}/>
                   <CfgRow label="SMTP Host" k="smtp_host" cfg={cfg} set={setCfgKey} placeholder="smtp.gmail.com"/>
                   <CfgRow label="SMTP Port" k="smtp_port" cfg={cfg} set={setCfgKey} placeholder="587"/>
@@ -392,6 +410,21 @@ export default function AdminPage() {
                   <CfgRow label="Password / App Key" k="smtp_pass" cfg={cfg} set={setCfgKey} type="password"/>
                   <CfgRow label="From Email" k="smtp_from_email" cfg={cfg} set={setCfgKey} placeholder="no-reply@truckrecruit.com"/>
                   <CfgRow label="From Name" k="smtp_from_name" cfg={cfg} set={setCfgKey} placeholder="TruckRecruit"/>
+                  <CfgRow label="Notification Recipient" k="notification_email" cfg={cfg} set={setCfgKey} placeholder="leads@truckrecruit.com"/>
+                  <p style={{ fontSize:12,color:'#6b7a8d',margin:'-6px 0 14px',lineHeight:1.6 }}>
+                    Where new lead &amp; application alerts are sent. Leave blank to use the From Email.
+                  </p>
+                  <CfgToggle label="Send confirmation email to applicant" k="confirmation_enabled" cfg={cfg} set={setCfgKey}/>
+                  <div style={{ display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',marginTop:6 }}>
+                    <button type="button" onClick={testEmail} disabled={testingEmail}
+                      style={{ padding:'9px 18px',background:'transparent',color:'#b8872e',fontWeight:700,fontSize:13,borderRadius:8,border:'1.5px solid #d4a03c',cursor:'pointer' }}>
+                      {testingEmail?'Testing...':'Test Connection'}
+                    </button>
+                    {testEmailMsg&&<span style={{ fontSize:13,fontWeight:600,color:testEmailMsg.startsWith('✓')?'#22c55e':'#ef4444' }}>{testEmailMsg}</span>}
+                  </div>
+                  <p style={{ fontSize:12,color:'#6b7a8d',margin:'8px 0 0',lineHeight:1.6 }}>
+                    Sends a test email using the values above (save first isn&apos;t required) to verify your SMTP setup.
+                  </p>
                 </CfgCard>
 
                 <CfgCard title="Zoho Recruit" section="zoho" saving={cfgSaving} msg={cfgMsg}

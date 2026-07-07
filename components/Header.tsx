@@ -4,11 +4,20 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useLang, t } from '@/lib/i18n'
 
+const DriverIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="5.6" y1="18" x2="9.5" y2="13.8"/><line x1="18.4" y1="18" x2="14.5" y2="13.8"/></svg>
+)
+const CompanyIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>
+)
+
 export default function Header() {
   const barRef = useRef<HTMLElement>(null)
+  const applyRef = useRef<HTMLDivElement>(null)
   const { lang, setLang } = useLang()
   const tx = t[lang]
   const [menuOpen, setMenuOpen] = useState(false)
+  const [applyOpen, setApplyOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -27,10 +36,30 @@ export default function Header() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  const navLinks = [
-    { href: '/#apply', label: lang === 'fr' ? 'Postuler' : 'Apply' },
-    { href: '/#companies', label: lang === 'fr' ? 'Entreprises' : 'Companies' },
-  ]
+  // Close the "Apply" dropdown on outside click / Escape
+  useEffect(() => {
+    if (!applyOpen) return
+    const onClick = (e: MouseEvent) => {
+      if (applyRef.current && !applyRef.current.contains(e.target as Node)) setApplyOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setApplyOpen(false) }
+    document.addEventListener('mousedown', onClick)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('mousedown', onClick); document.removeEventListener('keydown', onKey) }
+  }, [applyOpen])
+
+  const applyOptions = {
+    driver: {
+      href: '/forms/driver-form',
+      title: lang === 'fr' ? 'Je suis chauffeur' : 'I am a driver',
+      sub: lang === 'fr' ? 'Déposer ma candidature' : 'Submit your application',
+    },
+    company: {
+      href: '/#companies',
+      title: lang === 'fr' ? 'Je suis une entreprise' : 'I am a company',
+      sub: lang === 'fr' ? 'Trouver des chauffeurs' : 'Find drivers',
+    },
+  }
 
   return (
     <>
@@ -43,19 +72,33 @@ export default function Header() {
 
           {/* Desktop actions */}
           <div className="nav-actions desktop-nav">
-            <div className="desktop-nav-links">
-              <Link href="/#apply" className="desktop-nav-link">
-                {lang === 'fr' ? 'Postuler' : 'Apply'}
-              </Link>
-              <Link href="/#companies" className="desktop-nav-link">
-                {lang === 'fr' ? 'Entreprises' : 'Companies'}
-              </Link>
-            </div>
-            <div className="desktop-nav-divider" />
             <button className="lang-btn" onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}>
               {lang === 'fr' ? 'EN' : 'FR'}
             </button>
-            <Link href="/#apply" className="btn btn-sm">{tx.cta}</Link>
+            <div className={`apply-dropdown${applyOpen ? ' open' : ''}`} ref={applyRef}>
+              <button className="btn btn-sm apply-toggle" onClick={() => setApplyOpen(o => !o)} aria-expanded={applyOpen} aria-haspopup="true">
+                {tx.cta}
+                <svg className="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              {applyOpen && (
+                <div className="apply-menu" role="menu">
+                  <Link href={applyOptions.driver.href} className="apply-menu-item" role="menuitem" onClick={() => setApplyOpen(false)}>
+                    <DriverIcon />
+                    <span className="apply-menu-text">
+                      <span className="apply-menu-title">{applyOptions.driver.title}</span>
+                      <span className="apply-menu-sub">{applyOptions.driver.sub}</span>
+                    </span>
+                  </Link>
+                  <Link href={applyOptions.company.href} className="apply-menu-item" role="menuitem" onClick={() => setApplyOpen(false)}>
+                    <CompanyIcon />
+                    <span className="apply-menu-text">
+                      <span className="apply-menu-title">{applyOptions.company.title}</span>
+                      <span className="apply-menu-sub">{applyOptions.company.sub}</span>
+                    </span>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile: lang + hamburger */}
@@ -93,17 +136,14 @@ export default function Header() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             {lang === 'fr' ? 'Accueil' : 'Home'}
           </Link>
-          {navLinks.map(l => (
-            <Link key={l.href} href={l.href} className="drawer-link" onClick={() => setMenuOpen(false)}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              {l.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="mobile-drawer-cta">
-          <Link href="/#apply" className="btn" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMenuOpen(false)}>
-            {tx.cta}
+          <div className="drawer-section-label">{lang === 'fr' ? 'POSTULER' : 'APPLY'}</div>
+          <Link href={applyOptions.driver.href} className="drawer-link" onClick={() => setMenuOpen(false)}>
+            <DriverIcon />
+            {applyOptions.driver.title}
+          </Link>
+          <Link href={applyOptions.company.href} className="drawer-link" onClick={() => setMenuOpen(false)}>
+            <CompanyIcon />
+            {applyOptions.company.title}
           </Link>
         </div>
       </nav>

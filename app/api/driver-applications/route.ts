@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { syncToZoho } from '@/lib/integrations/zoho'
 import { syncToOneDrive } from '@/lib/integrations/onedrive'
-import { sendNotificationEmail, buildDriverEmailHtml } from '@/lib/integrations/email'
+import { sendNotificationEmail, buildDriverEmailHtml, sendConfirmationEmail, buildDriverConfirmationHtml } from '@/lib/integrations/email'
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,6 +48,11 @@ export async function POST(req: NextRequest) {
       sendNotificationEmail(
         `New Driver Application — ${full_name}`,
         buildDriverEmailHtml(integrationData)
+      ),
+      sendConfirmationEmail(
+        email,
+        locale === 'en' ? 'Application received — TruckRecruit.com' : 'Candidature reçue — TruckRecruit.com',
+        buildDriverConfirmationHtml(full_name, locale)
       ),
     ]).then(async (results) => {
       results.forEach((r, i) => {

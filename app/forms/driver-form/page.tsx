@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import FormBrandBar from '@/components/FormBrandBar'
+import { useLang } from '@/lib/i18n'
 import { DRIVER_FORM_SECTIONS, DRIVER_FORM_SUBMIT_NOTE } from '@/lib/forms/driver-form-schema'
 import { localizeSections, t } from '@/lib/forms/form-utils'
-import type { FormLang } from '@/lib/forms/types'
 import type { LocalizedField } from '@/lib/forms/types'
 
 type FormData = Record<string, string | string[]>
@@ -58,7 +58,7 @@ const COPY = {
 }
 
 export default function DriverFormPage() {
-  const [lang, setLang] = useState<FormLang>('fr')
+  const { lang } = useLang()
   const [data, setData] = useState<FormData>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -223,7 +223,7 @@ export default function DriverFormPage() {
   if (status === 'ok') {
     return (
       <div className="form-page">
-        <FormBrandBar lang={lang} />
+        <FormBrandBar />
         <div className="form-hero">
           <h1>{tx.successTitle} <span className="gold">{tx.successGold}</span></h1>
           <p>{tx.successSub}</p>
@@ -237,7 +237,7 @@ export default function DriverFormPage() {
 
   return (
     <div className="form-page">
-      <FormBrandBar lang={lang} onToggleLang={() => setLang(lang === 'fr' ? 'en' : 'fr')} />
+      <FormBrandBar />
 
       <div className="progress">
         <div className="wrap">
@@ -251,16 +251,6 @@ export default function DriverFormPage() {
       <div className="form-hero">
         <h1>{tx.heroTitle} <span className="gold">{tx.heroGold}</span></h1>
         <p>{tx.heroSub}</p>
-        <p className="form-flow-note">{tx.flowNote}</p>
-        <div className="wizard-steps" aria-hidden>
-          {sections.map((s, i) => (
-            <span
-              key={s.num}
-              className={`wizard-step-dot${i === step ? ' active' : ''}${i < step ? ' done' : ''}`}
-              title={s.title}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="form-container">
@@ -271,7 +261,7 @@ export default function DriverFormPage() {
                 <div className="section-num">{section.num}</div>
                 <div>
                   <div className="section-title">{section.title}</div>
-                  <div className="section-sub">{tx.stepHint(section.title)}</div>
+                  <div className="section-sub">{section.sub}</div>
                 </div>
               </div>
               <div className="fields-grid">
@@ -284,7 +274,7 @@ export default function DriverFormPage() {
             {step > 0 ? (
               <button type="button" className="btn-wizard-back" onClick={handleBack}>{tx.prev}</button>
             ) : (
-              <span />
+              <span className="wizard-step-count">{tx.progress(step + 1, sectionCount)}</span>
             )}
             <div className="wizard-nav-spacer" />
             {!isLast ? (
