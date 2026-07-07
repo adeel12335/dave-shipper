@@ -38,11 +38,7 @@ export default function Header() {
         <div className="wrap nav">
           {/* Logo + brand */}
           <Link href="/" className="brand" onClick={() => setMenuOpen(false)}>
-            <Image src="/images/logo-removebg-preview.png" alt="CR" width={52} height={52} style={{ height: '52px', width: 'auto', flexShrink: 0 }} />
-            <div className="brand-text">
-              <span className="brand-name">CAMION<span className="brand-gold">RECRUTE</span>.COM</span>
-              <span className="brand-tag">{tx.tagline}</span>
-            </div>
+            <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} priority style={{ height: '46px', width: 'auto', flexShrink: 0 }} />
           </Link>
 
           {/* Desktop actions */}
@@ -84,10 +80,7 @@ export default function Header() {
       {/* Mobile drawer */}
       <nav className={`mobile-drawer${menuOpen ? ' open' : ''}`}>
         <div className="mobile-drawer-header">
-          <Image src="/images/logo-removebg-preview.png" alt="CR" width={44} height={44} style={{ height: '44px', width: 'auto' }} />
-          <span style={{ color: '#fff', fontWeight: 900, fontSize: 15, letterSpacing: 0.5 }}>
-            CAMION<span style={{ color: '#d4a03c' }}>RECRUTE</span>.COM
-          </span>
+          <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} style={{ height: '38px', width: 'auto' }} />
           <button className="drawer-close-btn" onClick={() => setMenuOpen(false)} aria-label="Close">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

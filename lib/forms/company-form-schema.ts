@@ -423,7 +423,7 @@ export const COMPANY_FORM_SECTIONS: FormSectionDef[] = [
       { name: 'best_time_to_reach', type: 'text', label: { fr: 'Meilleur moment pour vous joindre', en: 'Best time to reach you' }, placeholder: { fr: 'Ex: lundi au vendredi, 8h-17h', en: 'Ex: Mon-Fri, 8am-5pm' } },
       { name: 'follow_up_contact_person', type: 'text', label: { fr: 'Responsable du suivi', en: 'Follow-up contact person' }, placeholder: { fr: 'Nom et titre', en: 'Name and title' } },
       {
-        name: 'heard_about_us', type: 'select', full: true, label: { fr: 'Comment avez-vous entendu parler de CamionRecrute.com?', en: 'How did you hear about CamionRecrute.com?' },
+        name: 'heard_about_us', type: 'select', full: true, label: { fr: 'Comment avez-vous entendu parler de TruckRecruit.com?', en: 'How did you hear about TruckRecruit.com?' },
         options: [
           opt('google', 'Recherche Google', 'Google search'),
           opt('social', 'Reseaux sociaux', 'Social media'),

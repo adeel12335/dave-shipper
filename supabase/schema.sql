@@ -1,5 +1,5 @@
 -- ============================================================
--- CamionRecrute.com — Supabase schema
+-- TruckRecruit.com — Supabase schema
 -- Run this in: Supabase Dashboard → SQL Editor → New query
 -- ============================================================
 
@@ -153,7 +153,7 @@ insert into app_settings (key, value) values
   ('smtp_user',              ''),
   ('smtp_pass',              ''),
   ('smtp_from_email',        ''),
-  ('smtp_from_name',         'CamionRecrute'),
+  ('smtp_from_name',         'TruckRecruit'),
   ('zoho_client_id',         ''),
   ('zoho_client_secret',     ''),
   ('zoho_refresh_token',     ''),

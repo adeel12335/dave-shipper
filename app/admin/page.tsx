@@ -199,11 +199,11 @@ export default function AdminPage() {
   if (!user) return (
     <div className="login-page">
       <div className="login-card">
-        <Image src="/images/logo-removebg-preview.png" alt="CamionRecrute" width={56} height={56} style={{ margin: '0 auto 12px', display: 'block' }} />
+        <Image src="/images/logo-icon.png" alt="TruckRecruit" width={56} height={56} style={{ margin: '0 auto 12px', display: 'block' }} />
         <h1>Admin Panel</h1>
         <p className="subtitle">Sign in with your admin credentials</p>
         <form onSubmit={handleLogin}>
-          <div className="login-field"><label>Email</label><input type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="admin@camionrecrute.com" required /></div>
+          <div className="login-field"><label>Email</label><input type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} placeholder="admin@truckrecruit.com" required /></div>
           <div className="login-field"><label>Password</label><input type="password" value={loginPass} onChange={e => setLoginPass(e.target.value)} placeholder="Enter password" required /></div>
           <button type="submit" className="login-btn" disabled={loginLoading}>{loginLoading ? 'Signing in...' : 'Sign In'}</button>
           {loginErr && <div className="login-error show">{loginErr}</div>}
@@ -222,7 +222,7 @@ export default function AdminPage() {
       {/* SIDEBAR */}
       <aside className={`sidebar${sidebarOpen ? ' open' : ''}`}>
         <div className="sidebar-header">
-          <Image src="/images/logo-removebg-preview.png" alt="CamionRecrute" width={40} height={40} />
+          <Image src="/images/logo-icon.png" alt="TruckRecruit" width={40} height={40} />
           <span>ADMIN</span>
         </div>
         <nav className="sidebar-nav">
@@ -390,8 +390,8 @@ export default function AdminPage() {
                   <CfgRow label="SMTP Port" k="smtp_port" cfg={cfg} set={setCfgKey} placeholder="587"/>
                   <CfgRow label="Username" k="smtp_user" cfg={cfg} set={setCfgKey} placeholder="you@gmail.com"/>
                   <CfgRow label="Password / App Key" k="smtp_pass" cfg={cfg} set={setCfgKey} type="password"/>
-                  <CfgRow label="From Email" k="smtp_from_email" cfg={cfg} set={setCfgKey} placeholder="no-reply@camionrecrute.com"/>
-                  <CfgRow label="From Name" k="smtp_from_name" cfg={cfg} set={setCfgKey} placeholder="CamionRecrute"/>
+                  <CfgRow label="From Email" k="smtp_from_email" cfg={cfg} set={setCfgKey} placeholder="no-reply@truckrecruit.com"/>
+                  <CfgRow label="From Name" k="smtp_from_name" cfg={cfg} set={setCfgKey} placeholder="TruckRecruit"/>
                 </CfgCard>
 
                 <CfgCard title="Zoho Recruit" section="zoho" saving={cfgSaving} msg={cfgMsg}

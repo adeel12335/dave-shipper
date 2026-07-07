@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { FormLang } from '@/lib/forms/types'
 
 type Props = {
@@ -15,7 +16,7 @@ export default function FormBrandBar({ lang, onToggleLang }: Props) {
     <div className="form-brand-bar">
       <div className="wrap form-brand-inner">
         <Link href="/" className="form-brand-logo">
-          CAMION<span>RECRUTE</span>.COM
+          <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} style={{ height: '34px', width: 'auto' }} />
         </Link>
         <div className="form-brand-right">
           <span className="form-brand-tag">{tagline}</span>

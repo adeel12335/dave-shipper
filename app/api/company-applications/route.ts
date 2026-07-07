@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { syncCompanyToZoho } from '@/lib/integrations/zoho'
+import { sendNotificationEmail, buildCompanyApplicationEmailHtml } from '@/lib/integrations/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,6 +46,14 @@ export async function POST(request: NextRequest) {
         .update({ status: 'form_sent' })
         .eq('id', body.lead_id)
     }
+
+    // Notify the agency by email (non-blocking — don't delay the response on SMTP)
+    sendNotificationEmail(
+      `New Company Application — ${company_name}`,
+      buildCompanyApplicationEmailHtml(body),
+    ).then((r) => {
+      if (!r.ok) console.error('Company application email error:', r.error)
+    }).catch((e) => console.error('Company application email failed:', e))
 
     const zohoResult = await syncCompanyToZoho(body)
     if (!zohoResult.ok) {

@@ -85,7 +85,7 @@ export async function syncToZoho(
     Skill_Set: Array.isArray(formData.license_classes)
       ? (formData.license_classes as string[]).join(', ')
       : '',
-    Source: 'CamionRecrute.com',
+    Source: 'TruckRecruit.com',
   }
   return syncIfEnabled(candidate, 'Candidates')
 }
@@ -114,7 +114,7 @@ export async function syncCompanyToZoho(
     Contact_Number: formData.phone || '',
     Website: formData.website || '',
     Billing_City: formData.city_region || formData.region || '',
-    Source: 'CamionRecrute.com',
+    Source: 'TruckRecruit.com',
     ...(notes ? { Description: notes } : {}),
   }
 

@@ -1,5 +1,5 @@
 -- ============================================================
--- CamionRecrute — Incremental migration (Phase 1+ updates)
+-- TruckRecruit — Incremental migration (Phase 1+ updates)
 -- Run in: Supabase Dashboard → SQL Editor → New query
 --
 -- Safe to re-run: uses IF NOT EXISTS / ADD COLUMN IF NOT EXISTS.
@@ -191,7 +191,7 @@ insert into public.app_settings (key, value) values
   ('smtp_user',              ''),
   ('smtp_pass',              ''),
   ('smtp_from_email',        ''),
-  ('smtp_from_name',         'CamionRecrute'),
+  ('smtp_from_name',         'TruckRecruit'),
   ('smtp_enabled',           'false'),
   ('zoho_client_id',         ''),
   ('zoho_client_secret',     ''),

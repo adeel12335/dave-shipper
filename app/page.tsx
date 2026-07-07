@@ -50,7 +50,7 @@ export default function HomePage() {
               <span>Trouvez votre</span><br />
               <span className="gold line2">prochaine opportunite</span>
             </h1>
-            <p>CamionRecrute.com connecte les meilleurs chauffeurs professionnels aux meilleures entreprises du Quebec.</p>
+            <p>TruckRecruit.com connecte les meilleurs chauffeurs professionnels aux meilleures entreprises du Quebec.</p>
             <Link href="#apply" className="btn">
               <span>Deposer ma candidature</span>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
@@ -103,7 +103,7 @@ export default function HomePage() {
       {/* WHY */}
       <section className="dark">
         <div className="wrap">
-          <h2 className="h2 reveal">Pourquoi choisir CamionRecrute.com?</h2>
+          <h2 className="h2 reveal">Pourquoi choisir TruckRecruit.com?</h2>
           <div className="eyebrow reveal">NOTRE DIFFERENCE</div>
           <div className="underline reveal"></div>
           <div className="cards">

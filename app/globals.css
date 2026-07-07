@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
 /* ============================================================
-   CamionRecrute.com — Global Design System
+   TruckRecruit.com — Global Design System
    ============================================================ */
 :root {
   --gold: #d4a03c;
@@ -401,7 +401,7 @@ section {
       rgba(5, 8, 15, 0.55) 45%,
       rgba(5, 8, 15, 0.82) 100%
     ),
-    url("/images/hero-bg.png") center 45% / cover no-repeat;
+    url("/images/hero-bg.jpg") center 45% / cover no-repeat;
 }
 .hero-inner {
   position: relative;

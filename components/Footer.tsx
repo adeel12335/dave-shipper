@@ -7,9 +7,8 @@ export default function Footer() {
       <div className="wrap foot-grid">
         <div>
           <Link href="/" className="brand">
-            <Image src="/images/logo-removebg-preview.png" alt="CamionRecrute.com" width={60} height={60} style={{ height: '54px', width: 'auto' }} />
+            <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} style={{ height: '52px', width: 'auto' }} />
           </Link>
-          <p className="foot-tag">LES BONS CHAUFFEURS. LES BONNES OPPORTUNITÉS.</p>
         </div>
         <div>
           <div className="foot-label">CONTACT</div>
@@ -19,7 +18,7 @@ export default function Footer() {
           </div>
           <div className="foot-row">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
-            <a href="mailto:info@camionrecrute.com">info@camionrecrute.com</a>
+            <a href="mailto:info@truckrecruit.com">info@truckrecruit.com</a>
           </div>
         </div>
         <div>
@@ -34,7 +33,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="copyright">© {new Date().getFullYear()} CamionRecrute.com — Tous droits réservés.</div>
+      <div className="copyright">© {new Date().getFullYear()} TruckRecruit.com — Tous droits réservés.</div>
     </footer>
   )
 }
