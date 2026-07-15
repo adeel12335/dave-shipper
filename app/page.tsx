@@ -1,9 +1,9 @@
 'use client'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLang } from '@/lib/i18n'
-import { COMPANY_LEAD_FIELDS, COMPANY_LEAD_INTRO } from '@/lib/forms/company-lead-schema'
-import { localizeField, t } from '@/lib/forms/form-utils'
+import { COMPANY_LEAD_INTRO } from '@/lib/forms/company-lead-schema'
+import { t } from '@/lib/forms/form-utils'
 
 function useReveal() {
   useEffect(() => {
@@ -17,28 +17,9 @@ function useReveal() {
   }, [])
 }
 
-const EMPTY_LEAD = { company_name: '', contact_name: '', phone: '', email: '', message: '' }
-
 export default function HomePage() {
   useReveal()
   const { lang } = useLang()
-  const leadFields = COMPANY_LEAD_FIELDS.map((f) => localizeField(f, lang))
-  const [form, setForm] = useState(EMPTY_LEAD)
-  const [status, setStatus] = useState('idle')
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, locale: lang }) })
-      if (!res.ok) throw new Error()
-      setStatus('ok')
-      setForm(EMPTY_LEAD)
-    } catch { setStatus('err') }
-  }
 
   return (
     <>
@@ -140,41 +121,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* COMPANY LEAD FORM */}
+      {/* COMPANY CTA → dedicated company landing */}
       <section className="lead" id="companies">
         <div className="wrap">
-          <h2 className="h2 reveal">Vous etes une entreprise?</h2>
-          <div className="eyebrow reveal">TROUVEZ VOTRE PROCHAIN CHAUFFEUR</div>
+          <h2 className="h2 reveal">{lang === 'fr' ? 'Vous etes une entreprise?' : 'Are you a company?'}</h2>
+          <div className="eyebrow reveal">{lang === 'fr' ? 'TROUVEZ VOTRE PROCHAIN CHAUFFEUR' : 'FIND YOUR NEXT DRIVER'}</div>
           <div className="underline reveal"></div>
           <p className="intro reveal">{t(COMPANY_LEAD_INTRO, lang)}</p>
-          <form className="lead-form reveal" onSubmit={handleSubmit} noValidate>
-            <div className="grid2">
-              {leadFields.filter((f) => f.name !== 'message').map((f) => (
-                <div key={f.name} className="field">
-                  <label>{f.label}{f.required ? ' *' : ''}</label>
-                  <input
-                    name={f.name}
-                    type={f.type}
-                    required={f.required}
-                    placeholder={f.placeholder}
-                    value={form[f.name as keyof typeof form]}
-                    onChange={handleChange}
-                  />
-                </div>
-              ))}
-            </div>
-            {leadFields.filter((f) => f.name === 'message').map((f) => (
-              <div key={f.name} className="field">
-                <label>{f.label}</label>
-                <textarea name={f.name} placeholder={f.placeholder} value={form.message} onChange={handleChange} />
-              </div>
-            ))}
-            <button type="submit" className="btn" style={{ width: '100%' }} disabled={status === 'sending'}>
-              {status === 'sending' ? (lang === 'fr' ? 'Envoi en cours...' : 'Sending...') : (lang === 'fr' ? 'Envoyer ma demande' : 'Send my request')}
-            </button>
-            {status === 'ok' && <div className="form-msg ok" style={{ display: 'block' }}>{lang === 'fr' ? 'Merci! Nous avons bien recu votre demande et vous contacterons sous 24h.' : 'Thank you! We received your request and will contact you within 24 hours.'}</div>}
-            {status === 'err' && <div className="form-msg err" style={{ display: 'block' }}>{lang === 'fr' ? 'Une erreur est survenue. Veuillez reessayer ou nous appeler.' : 'An error occurred. Please try again or call us.'}</div>}
-          </form>
+          <Link href="/company" className="btn reveal">
+            <span>{lang === 'fr' ? 'Acceder a la page entreprises' : 'Go to company page'}</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+          </Link>
         </div>
       </section>
     </>

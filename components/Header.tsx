@@ -55,7 +55,7 @@ export default function Header() {
       sub: lang === 'fr' ? 'Déposer ma candidature' : 'Submit your application',
     },
     company: {
-      href: '/#companies',
+      href: '/company',
       title: lang === 'fr' ? 'Je suis une entreprise' : 'I am a company',
       sub: lang === 'fr' ? 'Trouver des chauffeurs' : 'Find drivers',
     },

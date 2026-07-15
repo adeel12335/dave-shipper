@@ -9,6 +9,12 @@ export default function Footer() {
           <Link href="/" className="brand">
             <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} style={{ height: '52px', width: 'auto' }} />
           </Link>
+          <div className="foot-row" style={{ marginTop: 16 }}>
+            <Link href="/company">Entreprises / Companies</Link>
+          </div>
+          <div className="foot-row">
+            <Link href="/forms/driver-form">Chauffeurs / Drivers</Link>
+          </div>
         </div>
         <div>
           <div className="foot-label">CONTACT</div>
