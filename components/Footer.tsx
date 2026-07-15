@@ -7,7 +7,13 @@ export default function Footer() {
       <div className="wrap foot-grid">
         <div>
           <Link href="/" className="brand">
-            <Image src="/images/logo-truckrecruit.png" alt="TruckRecruit.com" width={425} height={100} style={{ height: '52px', width: 'auto' }} />
+            <Image
+              src="/images/logo-truckrecruit.png"
+              alt="TruckRecruit.com"
+              width={1024}
+              height={307}
+              className="brand-logo"
+            />
           </Link>
           <div className="foot-row" style={{ marginTop: 16 }}>
             <Link href="/company">Entreprises / Companies</Link>
