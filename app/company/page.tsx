@@ -334,21 +334,21 @@ export default function CompanyLandingPage() {
             <div className="feature-grid">
               <article className="feature-card cp-reveal">
                 <div className="feature-icon">
-                  <img src="/company/feature-1.webp" alt="" />
+                  <img src="/company/feature-pricing.png" alt="" />
                 </div>
                 <h3>{tx.feat1Title}</h3>
                 <p>{tx.feat1Desc}</p>
               </article>
               <article className="feature-card cp-reveal">
                 <div className="feature-icon">
-                  <img src="/company/feature-2.webp" alt="" />
+                  <img src="/company/feature-candidates.png" alt="" />
                 </div>
                 <h3>{tx.feat2Title}</h3>
                 <p>{tx.feat2Desc}</p>
               </article>
               <article className="feature-card cp-reveal">
                 <div className="feature-icon">
-                  <img src="/company/feature-3.webp" alt="" />
+                  <img src="/company/feature-expertise.png" alt="" />
                 </div>
                 <h3>{tx.feat3Title}</h3>
                 <p>{tx.feat3Desc}</p>
