@@ -217,10 +217,11 @@ section {
   text-decoration: none;
 }
 .brand img {
-  height: 60px;
+  height: 48px;
   width: auto;
+  max-width: min(280px, 55vw);
   object-fit: contain;
-  object-position: top center;
+  object-position: left center;
 }
 .brand-text {
   display: flex;
@@ -643,6 +644,7 @@ section {
 /* ---------- company lead form ---------- */
 .lead {
   background: var(--navy-700);
+  text-align: center;
 }
 .lead .h2,
 .lead .eyebrow {
@@ -657,6 +659,9 @@ section {
   max-width: 600px;
   margin: 24px auto 0;
   font-size: 16px;
+}
+.lead > .wrap > .btn {
+  margin-top: 34px;
 }
 .lead-form {
   max-width: 720px;
@@ -1044,8 +1049,9 @@ section {
   align-items: start;
 }
 .footer .brand img {
-  height: 54px;
-  border-radius: 10px;
+  height: 52px;
+  width: auto;
+  object-fit: contain;
 }
 .foot-tag {
   font-size: 11px;
