@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { syncToZoho } from '@/lib/integrations/zoho'
 import { syncToOneDrive } from '@/lib/integrations/onedrive'
 import { sendNotificationEmail, buildDriverEmailHtml, sendConfirmationEmail, buildDriverConfirmationHtml } from '@/lib/integrations/email'
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const supabase = await createClient()
+    const supabase = await createAdminClient()
     const { data: inserted, error } = await supabase.from('driver_applications').insert({
       full_name, phone, email,
       city: city || null,
@@ -60,10 +60,9 @@ export async function POST(req: NextRequest) {
         else if (!r.value.ok) console.error(`Integration ${i} error:`, r.value.error)
       })
 
-      const admin = await createAdminClient()
       const zohoResult = results[0]
       if (zohoResult.status === 'fulfilled' && zohoResult.value.synced) {
-        const { error: updateError } = await admin
+        const { error: updateError } = await supabase
           .from('driver_applications')
           .update({ synced_zoho: true })
           .eq('id', applicationId)
@@ -72,7 +71,7 @@ export async function POST(req: NextRequest) {
 
       const onedriveResult = results[1]
       if (onedriveResult.status === 'fulfilled' && onedriveResult.value.ok) {
-        const { error: updateError } = await admin
+        const { error: updateError } = await supabase
           .from('driver_applications')
           .update({ synced_excel: true })
           .eq('id', applicationId)

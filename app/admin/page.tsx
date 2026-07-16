@@ -432,7 +432,7 @@ export default function AdminPage() {
                   <CfgToggle label="Enable Zoho Recruit sync" k="zoho_enabled" cfg={cfg} set={setCfgKey}/>
                   <p style={{ fontSize:12,color:'#6b7a8d',marginBottom:14,lineHeight:1.6 }}>
                     Zoho API Console &rarr; Self Client &rarr; Generate Refresh Token<br/>
-                    Scopes: <code>ZohoRecruit.modules.Candidates.CREATE</code>, <code>ZohoRecruit.modules.client.CREATE</code>
+                    Scopes: <code>ZohoRecruit.modules.candidate.CREATE</code>, <code>ZohoRecruit.modules.client.CREATE</code>
                   </p>
                   <CfgRow label="Client ID" k="zoho_client_id" cfg={cfg} set={setCfgKey} placeholder="1000.XXXX"/>
                   <CfgRow label="Client Secret" k="zoho_client_secret" cfg={cfg} set={setCfgKey} type="password"/>

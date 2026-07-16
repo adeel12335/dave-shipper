@@ -308,20 +308,6 @@ export default function CompanyLandingPage() {
                 <span>{tx.trust3}</span>
               </div>
             </div>
-            <div className="hero-media cp-reveal">
-              <img
-                src="/company/hero-handshake.webp"
-                alt={
-                  lang === 'fr'
-                    ? 'Un recruteur serrant la main d un chauffeur de camion'
-                    : 'A recruiter shaking hands with a truck driver'
-                }
-              />
-              <div className="hero-stat">
-                <strong>{tx.heroStatTitle}</strong>
-                <span>{tx.heroStatSub}</span>
-              </div>
-            </div>
           </div>
         </section>
 

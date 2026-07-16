@@ -72,44 +72,43 @@
 .company-landing .hero {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   background:
-    radial-gradient(circle at 4% 16%, rgba(230,165,31,.12), transparent 26%),
-    linear-gradient(180deg, #fff 0%, #f9fbfc 100%);
+    linear-gradient(
+      105deg,
+      rgba(248, 250, 252, 0.97) 0%,
+      rgba(248, 250, 252, 0.92) 38%,
+      rgba(248, 250, 252, 0.55) 58%,
+      rgba(248, 250, 252, 0.12) 78%,
+      transparent 100%
+    ),
+    url("/images/hero-truck-desktop.png") right center / cover no-repeat;
 }
-.company-landing .hero::after {
-  content: "";
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  right: -260px;
-  bottom: -260px;
-  border: 1px solid rgba(230,165,31,.22);
-  border-radius: 50%;
-  box-shadow: 0 0 0 70px rgba(230,165,31,.04), 0 0 0 140px rgba(230,165,31,.025);
-}
+.company-landing .hero::after { display: none; }
 .company-landing .hero-grid {
-  min-height: 580px;
+  position: relative;
+  z-index: 2;
+  min-height: 620px;
   display: grid;
-  grid-template-columns: .82fr 1.18fr;
-  gap: 52px;
+  grid-template-columns: minmax(0, 560px);
   align-items: center;
-  padding-block: 58px 68px;
+  padding-block: 72px 80px;
 }
-.company-landing .hero-copy { position: relative; z-index: 2; }
+.company-landing .hero-copy { position: relative; z-index: 2; max-width: 560px; }
 .company-landing .hero-copy h1 {
   max-width: 620px;
   margin: 0;
   color: var(--navy-900);
-  font-size: clamp(44px, 5vw, 76px);
+  font-size: clamp(44px, 5vw, 72px);
   line-height: .98;
   letter-spacing: -.055em;
   font-weight: 900;
 }
 .company-landing .hero-copy h1 span { color: var(--gold); }
 .company-landing .hero-copy > p {
-  max-width: 560px;
+  max-width: 520px;
   margin: 26px 0 0;
-  color: #4a5d6d;
+  color: #3d5163;
   font-size: 18px;
   line-height: 1.7;
 }
@@ -128,7 +127,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #536676;
+  color: #465a6c;
   font-size: 12px;
   font-weight: 750;
 }
@@ -143,42 +142,6 @@
   color: var(--gold-dark);
   font-size: 12px;
 }
-.company-landing .hero-media {
-  position: relative;
-  z-index: 2;
-  border-radius: 0 0 0 82px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  min-height: 430px;
-}
-.company-landing .hero-media > img {
-  width: 100%;
-  height: 100%;
-  min-height: 430px;
-  object-fit: cover;
-  object-position: 54% center;
-}
-.company-landing .hero-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: inherit;
-  pointer-events: none;
-}
-.company-landing .hero-stat {
-  position: absolute;
-  left: 24px;
-  bottom: 24px;
-  max-width: 290px;
-  padding: 16px 18px;
-  border-left: 4px solid var(--gold);
-  background: rgba(2,20,37,.88);
-  color: white;
-  backdrop-filter: blur(10px);
-}
-.company-landing .hero-stat strong { display: block; font-size: 14px; }
-.company-landing .hero-stat span { display: block; margin-top: 3px; color: #cad5df; font-size: 12px; }
 
 .company-landing .section-dark { background: var(--navy-900); color: var(--white); }
 .company-landing .difference { position: relative; padding: 64px 0 74px; overflow: hidden; }
@@ -452,13 +415,16 @@
 }
 
 @media (max-width: 980px) {
-  .company-landing .hero-grid { grid-template-columns: 1fr; gap: 40px; padding-block: 55px; }
-  .company-landing .hero-copy { text-align: center; }
+  .company-landing .hero-grid {
+    grid-template-columns: 1fr;
+    min-height: 560px;
+    padding-block: 60px 70px;
+  }
+  .company-landing .hero-copy { text-align: center; max-width: 640px; margin-inline: auto; }
   .company-landing .hero-copy h1,
   .company-landing .hero-copy > p { margin-inline: auto; }
   .company-landing .hero-actions,
   .company-landing .trust-line { justify-content: center; }
-  .company-landing .hero-media { min-height: 420px; border-radius: 36px; }
   .company-landing .feature-grid { grid-template-columns: 1fr; max-width: 680px; margin-inline: auto; }
   .company-landing .feature-card {
     min-height: auto;
@@ -480,7 +446,7 @@
 
 @media (max-width: 680px) {
   .company-landing { --shell: min(100% - 28px, 1180px); }
-  .company-landing .hero-grid { min-height: auto; padding-block: 35px 46px; gap: 30px; }
+  .company-landing .hero-grid { min-height: 520px; padding-block: 48px 56px; }
   .company-landing .hero-copy h1 { font-size: clamp(42px, 14vw, 60px); }
   .company-landing .hero-copy > p { font-size: 16px; }
   .company-landing .hero-actions { flex-direction: column; gap: 14px; }
@@ -492,9 +458,17 @@
     max-width: 220px;
     margin-inline: auto;
   }
-  .company-landing .hero-media { min-height: 300px; border-radius: 24px; }
-  .company-landing .hero-media > img { min-height: 300px; object-position: 57% center; }
-  .company-landing .hero-stat { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+  .company-landing .hero {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(248, 250, 252, 0.94) 0%,
+        rgba(248, 250, 252, 0.78) 42%,
+        rgba(248, 250, 252, 0.35) 72%,
+        transparent 100%
+      ),
+      url("/images/hero-truck-mobile.png") center 28% / cover no-repeat;
+  }
   .company-landing .difference,
   .company-landing .process,
   .company-landing .contact-section { padding-block: 54px; }

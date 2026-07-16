@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { sendNotificationEmail, buildLeadEmailHtml, sendConfirmationEmail, buildCompanyConfirmationHtml } from '@/lib/integrations/email'
 import { syncCompanyToZoho } from '@/lib/integrations/zoho'
 
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const supabase = await createClient()
+    const supabase = await createAdminClient()
     const { data: inserted, error } = await supabase.from('company_leads').insert({
       company_name, contact_name, phone, email,
       message: message || null,
@@ -46,8 +46,7 @@ export async function POST(req: NextRequest) {
         zohoResult.status === 'fulfilled' &&
         zohoResult.value.synced
       ) {
-        const admin = await createAdminClient()
-        const { error: updateError } = await admin
+        const { error: updateError } = await supabase
           .from('company_leads')
           .update({ synced_zoho: true })
           .eq('id', inserted.id)
