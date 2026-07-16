@@ -8,7 +8,7 @@ export default function FormBrandBar() {
 
   return (
     <div className="form-brand-bar">
-      <div className="wrap form-brand-inner">
+      <div className="form-brand-inner">
         <Link href="/" className="form-brand-logo" aria-label="TruckRecruit.com">
           <Image
             src="/images/logo-truckrecruit.png"

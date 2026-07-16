@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import FormBrandBar from '@/components/FormBrandBar'
 import { useSearchParams } from 'next/navigation'
 import { useLang } from '@/lib/i18n'
 import { COMPANY_FORM_SECTIONS, COMPANY_FORM_SUBMIT_NOTE } from '@/lib/forms/company-form-schema'
@@ -221,12 +220,14 @@ function CompanyFormContent() {
   if (status === 'ok') {
     return (
       <div className="form-page">
-        <FormBrandBar />
-        <div className="form-hero">
-          <h1><span className="gold">{lang === 'fr' ? 'Demande envoyee!' : 'Request submitted!'}</span></h1>
-          <p>{tx.successSub}</p>
-        </div>
-        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+        <section className="form-top">
+          <div className="wrap">
+            <h1 className="h2"><span className="gold">{lang === 'fr' ? 'Demande envoyee!' : 'Request submitted!'}</span></h1>
+            <div className="underline"></div>
+            <p className="form-hero-sub">{tx.successSub}</p>
+          </div>
+        </section>
+        <div className="form-container" style={{ textAlign: 'center' }}>
           <Link href="/" className="btn">{tx.back}</Link>
         </div>
       </div>
@@ -235,23 +236,22 @@ function CompanyFormContent() {
 
   return (
     <div className="form-page">
-      <FormBrandBar />
-
-      <div className="progress">
+      <section className="form-top">
         <div className="wrap">
+          <h1 className="h2">{tx.heroTitle} <span className="gold">{tx.heroGold}</span></h1>
+          <div className="eyebrow">{tx.progress(step + 1, sectionCount)}</div>
+          <div className="underline"></div>
+          <p className="form-hero-sub">{tx.heroSub}</p>
+        </div>
+      </section>
+
+      <div className="form-container">
+        <div className="progress">
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progressPct}%` }} />
           </div>
-          <div className="progress-text">{tx.progress(step + 1, sectionCount)}</div>
         </div>
-      </div>
 
-      <div className="form-hero">
-        <h1>{tx.heroTitle} <span className="gold">{tx.heroGold}</span></h1>
-        <p>{tx.heroSub}</p>
-      </div>
-
-      <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="section-cards">
             <div key={section.num} className="section-card reveal in">
