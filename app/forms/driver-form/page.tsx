@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useLang } from '@/lib/i18n'
+import { useToast } from '@/components/ToastProvider'
 import { DRIVER_FORM_SECTIONS, DRIVER_FORM_SUBMIT_NOTE } from '@/lib/forms/driver-form-schema'
 import { localizeSections, t } from '@/lib/forms/form-utils'
 import type { LocalizedField } from '@/lib/forms/types'
@@ -24,6 +25,8 @@ const COPY = {
     submit: 'Soumettre ma candidature',
     sending: 'Envoi en cours...',
     err: 'Une erreur est survenue. Veuillez reessayer.',
+    invalid: 'Veuillez corriger les champs requis.',
+    toastOk: 'Candidature envoyee avec succes!',
     required: 'Ce champ est requis',
     invalidEmail: 'Adresse courriel invalide',
     invalidPhone: 'Minimum 10 chiffres requis',
@@ -45,6 +48,8 @@ const COPY = {
     submit: 'Submit my application',
     sending: 'Sending...',
     err: 'An error occurred. Please try again.',
+    invalid: 'Please fix the required fields.',
+    toastOk: 'Application submitted successfully!',
     required: 'This field is required',
     invalidEmail: 'Invalid email address',
     invalidPhone: 'Minimum 10 digits required',
@@ -58,6 +63,7 @@ const COPY = {
 
 export default function DriverFormPage() {
   const { lang } = useLang()
+  const toast = useToast()
   const [data, setData] = useState<FormData>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -119,6 +125,7 @@ export default function DriverFormPage() {
 
   const handleNext = () => {
     if (!validateSection(step)) {
+      toast.error(tx.invalid)
       document.querySelector('[data-field].has-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
@@ -133,6 +140,7 @@ export default function DriverFormPage() {
     sections.forEach((s) => Object.assign(allErrors, validateFields(s.fields)))
     setErrors(allErrors)
     if (Object.keys(allErrors).length > 0) {
+      toast.error(tx.invalid)
       const firstErrName = Object.keys(allErrors)[0]
       const errStep = sections.findIndex((s) => s.fields.some((f) => f.name === firstErrName))
       if (errStep >= 0) goToStep(errStep)
@@ -146,8 +154,10 @@ export default function DriverFormPage() {
         body: JSON.stringify({ ...data, locale: lang }),
       })
       if (!res.ok) throw new Error()
+      toast.success(tx.toastOk)
       setStatus('ok')
     } catch {
+      toast.error(tx.err)
       setStatus('err')
     }
   }

@@ -1383,3 +1383,89 @@ body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+
+/* ---------- app toasts ---------- */
+.toast-stack {
+  position: fixed;
+  top: 88px;
+  right: 18px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, calc(100vw - 28px));
+  pointer-events: none;
+}
+.app-toast {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 14px 14px 16px;
+  border-radius: 12px;
+  background: rgba(12, 22, 36, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  animation: toast-in 0.28s ease;
+}
+.app-toast p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.app-toast-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.app-toast-success {
+  border-color: rgba(56, 178, 120, 0.45);
+}
+.app-toast-success .app-toast-dot {
+  background: #38b278;
+}
+.app-toast-error {
+  border-color: rgba(229, 62, 62, 0.45);
+}
+.app-toast-error .app-toast-dot {
+  background: #e53e3e;
+}
+.app-toast-info .app-toast-dot {
+  background: var(--gold);
+}
+.app-toast-close {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.app-toast-close:hover {
+  color: #fff;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .toast-stack {
+    top: auto;
+    bottom: 18px;
+    right: 14px;
+    left: 14px;
+    width: auto;
+  }
+}

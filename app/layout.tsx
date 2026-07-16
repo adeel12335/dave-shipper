@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import './mobile-drawer.css'
 import ConditionalLayout from '@/components/ConditionalLayout'
+import { ToastProvider } from '@/components/ToastProvider'
 import { LangProvider } from '@/lib/i18n'
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body suppressHydrationWarning>
         <LangProvider>
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <ToastProvider>
+            <ConditionalLayout>{children}</ConditionalLayout>
+          </ToastProvider>
         </LangProvider>
       </body>
     </html>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useLang } from '@/lib/i18n'
+import { useToast } from '@/components/ToastProvider'
 import './company.css'
 
 type FormState = {
@@ -181,6 +182,7 @@ const COPY = {
 
 export default function CompanyLandingPage() {
   const { lang } = useLang()
+  const toast = useToast()
   const tx = COPY[lang]
   const [form, setForm] = useState<FormState>(EMPTY)
   const [invalid, setInvalid] = useState<Record<string, boolean>>({})
@@ -248,6 +250,7 @@ export default function CompanyLandingPage() {
     setInvalid(nextInvalid)
     if (firstBad) {
       setStatus('invalid')
+      toast.error(tx.invalid)
       document.querySelector<HTMLElement>(`[name="${firstBad}"]`)?.focus()
       return
     }
@@ -275,9 +278,11 @@ export default function CompanyLandingPage() {
         }),
       })
       if (!res.ok) throw new Error()
+      toast.success(tx.success)
       setStatus('ok')
       setForm(EMPTY)
     } catch {
+      toast.error(tx.error)
       setStatus('err')
     }
   }
